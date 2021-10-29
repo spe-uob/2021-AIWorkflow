@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: "frontend"
+    hostname: "frontend"
+    container_name: "frontend"
+    build: ./client
+    ports:
+      - 8080:8080
+  backend:
+    image: "backend"
+    hostname: "backend"
+    container_name: "backend"
+    build: ./server
+    ports:
+      - 5001:80
