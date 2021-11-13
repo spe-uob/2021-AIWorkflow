@@ -8,6 +8,9 @@ services:
     build: ./client
     ports:
       - 8080:8080
+    labels:
+      kompose.service.type: LoadBalancer
+      kompose.image-pull-policy: "Never"
   backend:
     image: "backend"
     hostname: "backend"
@@ -15,3 +18,5 @@ services:
     build: ./server
     ports:
       - 5001:80
+    labels:
+      kompose.image-pull-policy: "Never"
