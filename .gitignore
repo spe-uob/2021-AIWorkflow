@@ -106,4 +106,4 @@ dist
 
 __pycache__
 
-database/data
+.DS_Store
