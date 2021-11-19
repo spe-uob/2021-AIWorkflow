@@ -8,21 +8,16 @@
   - [1.2. API User flow diagram](#12-api-user-flow-diagram)
   - [1.3. API Endpoints](#13-api-endpoints)
     - [1.3.1. API for Twitter](#131-api-for-twitter)
-      - [1.3.1.1. Save Tweet](#1311-save-tweet)
+      - [1.3.1.1. Save Tweets](#1311-save-tweets)
         - [1.3.1.1.1. Endpoint](#13111-endpoint)
         - [1.3.1.1.2. Accepted Methods](#13112-accepted-methods)
         - [1.3.1.1.3. Parameters](#13113-parameters)
         - [1.3.1.1.4. Results](#13114-results)
-      - [1.3.1.2. Search_tweet](#1312-search_tweet)
+      - [1.3.1.2. Search Tweets](#1312-search-tweets)
         - [1.3.1.2.1. Endpoint](#13121-endpoint)
         - [1.3.1.2.2. Accepted Methods](#13122-accepted-methods)
         - [1.3.1.2.3. Parameters](#13123-parameters)
         - [1.3.1.2.4. Results](#13124-results)
-      - [1.3.1.3. Delete_tweet](#1313-delete_tweet)
-        - [1.3.1.3.1. Endpoint](#13131-endpoint)
-        - [1.3.1.3.2. Accepted Methods](#13132-accepted-methods)
-        - [1.3.1.3.3. Parameters](#13133-parameters)
-        - [1.3.1.3.4. Results](#13134-results)
 
 ---
 
@@ -38,7 +33,7 @@
 
 API search in Twitter in Twitter API key with the input keywords
 
-#### 1.3.1.1. Save Tweet
+#### 1.3.1.1. Save Tweets
 
 Saves tweets to database
 
@@ -100,13 +95,13 @@ e.g.
 }
 ```
 
-#### 1.3.1.2. Search_tweet
+#### 1.3.1.2. Search Tweets
 
-Search_tweet search and collect information in twitter according to the key words
+Search tweet search and collect information in twitter according to the key words
 
 ##### 1.3.1.2.1. Endpoint
 
-    /twitterapi/searchtweet
+    /twitterapi/tweets
 
 ##### 1.3.1.2.2. Accepted Methods
 
@@ -116,49 +111,62 @@ Search_tweet search and collect information in twitter according to the key word
 
 ##### 1.3.1.2.3. Parameters
 
-| Parameter | Type    | Description         |
-| --------- | ------- | ------------------- |
-| user_id   | string  | Unique User ID      |
-| key_word  | string  | User input Key Word |
-| success   | boolean | request success     |
-    
+| Parameter          | Type    | Description                    |
+| -------------------| ------- | ------------------------------ |
+| user_id            | string  | Unique User ID                 |
+| key_word           | string  | User input Key Word            |
+| time_start         | string  | User input starting time range |
+| time_end           | string  | User input ending time range   |
+| tone               | string  | User-specified tone            |
+| success            | boolean | request success                |
+   
+
+
+ e.g.
+
+```json
+{
+    "user_id": "123456789",
+    "keyword": "tweet",
+    "time_start": "2021-01-01 21:00:00",
+    "time_end": "2021-11-01 21:00:00",
+    "tone": "happy",
+    "success": true
+}
+```
+
 
 ##### 1.3.1.2.4. Results
 
 
+**Success:**
+
+```json
 {  
-    "user_id": "114514",
-    "key_word": "IBM666",
+    "data": {
+      "tweets": [
+        {
+          "text": "I love IBM",
+          "url": "https:/twitter.com/id/8013879718"
+        },
+        {
+          "text": "I dislike IBM",
+          "url": "https:/twitter.com/id/231233217"
+        }
+      ],
+    },
+    "message": "searched tweet successfully",
     "success": true
 }
-
-
-#### 1.3.1.3. Delete_tweet
-
-Delete_tweet delete tweet which is expired, unreleated and invalid.
-
-
-##### 1.3.1.3.1. Endpoint
-
-    /twitterapi/deletetweet
-
-##### 1.3.1.3.2. Accepted Methods
-
-```txt
- DELETE 
 ```
 
-##### 1.3.1.3.3. Parameters
 
-| Parameter | Type   | Description         |
-| --------- | ------ | ------------------- |
-| user_id   | string | Unique User ID      |
-| key_word  | string | User input Key Word |
-    
-##### 1.3.1.3.4. Results
+**Failed:**
 
-
+```json
 {  
-    "user_id": "114514",
-    "key_word": "IBM666",
+    "data": {},
+    "message": "Cannot search tweet - error",
+    "success": false
 }
+```
