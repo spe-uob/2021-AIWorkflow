@@ -58,6 +58,7 @@ Saves tweets to database
 | ---------- | ------- | ------------------- |
 | user_id    | string  | Unique User ID      |
 | tweet_text | string  | Tweet text          |
+| keyword    | string  | user keyword        |
 | tone       | string  | Detected tone       |
 | tone_score | integer | Detected tone score |
 | success    | boolean | response success    |
@@ -69,6 +70,7 @@ e.g.
     "user_id": "123456789",
     "tweet_text": "This is a tweet",
     "tone": "Anger",
+    "keyword": "tweet",
     "tone_score": 0.5,
     "success": true
 }
@@ -76,11 +78,25 @@ e.g.
 
 ##### 1.3.1.1.4. Results
 
+**Success:**
+
 ```json
 {  
-    "user_id": "114514",
-    "key_word": "IBM666",
+    "data": {
+      "tweet_id": "123456789",
+    },
+    "message": "saved tweet successfully",
     "success": true
+}
+```
+
+**Failed:**
+
+```json
+{  
+    "data": {},
+    "message": "Cannot save tweet - error",
+    "success": false
 }
 ```
 
