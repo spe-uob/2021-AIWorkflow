@@ -1,10 +1,13 @@
 from ibm_watson import ToneAnalyzerV3
+from dotenv import load_dotenv
+import os
 import json
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator, authenticator
 
 class ToneAnalyzerSPE:
     def __init__(self) -> None:
-        self.authenticator = IAMAuthenticator('_T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR')
+        load_dotenv()
+        self.authenticator = IAMAuthenticator(os.environ['KEY'])
         self.tone_analyzer = ToneAnalyzerV3(
             version='2017-09-21',
             authenticator=self.authenticator
