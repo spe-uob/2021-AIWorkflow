@@ -5,6 +5,7 @@
 ## 1.1. Table of Contents
 - [1. AIWorkFlow API](#1-aiworkflow-api)
   - [1.1. Table of Contents](#11-table-of-contents)
+  - [API User flow diagram](#api-user-flow-diagram)
   - [1.3. AIWorkFlow API Routers](#13-aiworkflow-api-routers)
     - [1.3.1. API for Twitter](#131-api-for-twitter)
       - [1.3.1.1. Endpoint](#1311-endpoint)
@@ -18,6 +19,12 @@
       - [1.3.1.5. DELETE](#1315-delete)
         - [1.3.1.5.1. Parameters](#13151-parameters)
         - [1.3.1.5.2. 1.3.1.5.2 Results](#13152-13152-results)
+
+---
+
+## API User flow diagram
+
+![user_flow_diagram](../assets/user_flow_diagram.png)
 
 ---
 
