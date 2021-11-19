@@ -1,90 +1,104 @@
-# 1. AIWorkFlow API
+# 1. AIWorkFlow API Documentation
 
 ---
 
 ## 1.1. Table of Contents
-- [1. AIWorkFlow API](#1-aiworkflow-api)
+- [1. AIWorkFlow API Documentation](#1-aiworkflow-api-documentation)
   - [1.1. Table of Contents](#11-table-of-contents)
-  - [API User flow diagram](#api-user-flow-diagram)
-  - [1.2. AIWorkFlow API Routers](#12-aiworkflow-api-routers)
-    - [1.2.1. API for Twitter](#121-api-for-twitter)
-      - [1.2.1.1. Save_tweet](#1211-save_tweet)
-        - [1.2.1.1.1. Endpoint](#12111-endpoint)
-        - [1.2.1.1.2. Accepted Methods](#12112-accepted-methods)
-        - [1.2.1.1.3. Parameters](#12113-parameters)
-        - [1.2.1.1.4. Results](#12114-results)
-      - [1.2.1.2. Search_tweet](#1212-search_tweet)
-        - [1.2.1.2.1. Endpoint](#12121-endpoint)
-        - [1.2.1.2.2. Accepted Methods](#12122-accepted-methods)
-        - [1.2.1.2.3. Parameters](#12123-parameters)
-        - [1.2.1.2.4. Results](#12124-results)
-      - [1.2.1.3. Delete_tweet](#1213-delete_tweet)
-        - [1.2.1.3.1. Endpoint](#12131-endpoint)
-        - [1.2.1.3.2. Accepted Methods](#12132-accepted-methods)
-        - [1.2.1.3.3. Parameters](#12133-parameters)
-        - [1.2.1.3.4. Results](#12134-results)
+  - [1.2. API User flow diagram](#12-api-user-flow-diagram)
+  - [1.3. API Endpoints](#13-api-endpoints)
+    - [1.3.1. API for Twitter](#131-api-for-twitter)
+      - [1.3.1.1. Save Tweet](#1311-save-tweet)
+        - [1.3.1.1.1. Endpoint](#13111-endpoint)
+        - [1.3.1.1.2. Accepted Methods](#13112-accepted-methods)
+        - [1.3.1.1.3. Parameters](#13113-parameters)
+        - [1.3.1.1.4. Results](#13114-results)
+      - [1.3.1.2. Search_tweet](#1312-search_tweet)
+        - [1.3.1.2.1. Endpoint](#13121-endpoint)
+        - [1.3.1.2.2. Accepted Methods](#13122-accepted-methods)
+        - [1.3.1.2.3. Parameters](#13123-parameters)
+        - [1.3.1.2.4. Results](#13124-results)
+      - [1.3.1.3. Delete_tweet](#1313-delete_tweet)
+        - [1.3.1.3.1. Endpoint](#13131-endpoint)
+        - [1.3.1.3.2. Accepted Methods](#13132-accepted-methods)
+        - [1.3.1.3.3. Parameters](#13133-parameters)
+        - [1.3.1.3.4. Results](#13134-results)
 
 ---
 
-## API User flow diagram
+## 1.2. API User flow diagram
 
-![user_flow_diagram](../assets/user_flow_diagram.png)
+![user_flow_diagram](../readme_assets/user_flow_diagram.png)
 
 ---
 
-## 1.2. AIWorkFlow API Routers
+## 1.3. API Endpoints
 
-### 1.2.1. API for Twitter
+### 1.3.1. API for Twitter
 
 API search in Twitter in Twitter API key with the input keywords
 
-#### 1.2.1.1. Save_tweet
+#### 1.3.1.1. Save Tweet
 
-Save_tweet save tweets to database
+Saves tweets to database
 
-##### 1.2.1.1.1. Endpoint
+##### 1.3.1.1.1. Endpoint
 
-    /twitterapi/savetweet
+    /twitterapi/tweets
 
-##### 1.2.1.1.2. Accepted Methods
+##### 1.3.1.1.2. Accepted Methods
 
 ```txt
  POST 
 ```
 
-##### 1.2.1.1.3. Parameters
+##### 1.3.1.1.3. Parameters
 
-| Parameter | Type    | Description         |
-| --------- | ------- | ------------------- |
-| user_id   | string  | Unique User ID      |
-| key_word  | string  | User input Key Word |
-| success   | boolean | response success     |
-    
+| Parameter  | Type    | Description         |
+| ---------- | ------- | ------------------- |
+| user_id    | string  | Unique User ID      |
+| tweet_text | string  | Tweet text          |
+| tone       | string  | Detected tone       |
+| tone_score | integer | Detected tone score |
+| success    | boolean | response success    |
 
-##### 1.2.1.1.4. Results
+e.g. 
 
+```json
+{
+    "user_id": "123456789",
+    "tweet_text": "This is a tweet",
+    "tone": "Anger",
+    "tone_score": 0.5,
+    "success": true
+}
+```
 
+##### 1.3.1.1.4. Results
+
+```json
 {  
     "user_id": "114514",
     "key_word": "IBM666",
     "success": true
 }
+```
 
-#### 1.2.1.2. Search_tweet
+#### 1.3.1.2. Search_tweet
 
 Search_tweet search and collect information in twitter according to the key words
 
-##### 1.2.1.2.1. Endpoint
+##### 1.3.1.2.1. Endpoint
 
     /twitterapi/searchtweet
 
-##### 1.2.1.2.2. Accepted Methods
+##### 1.3.1.2.2. Accepted Methods
 
 ```txt
  GET 
 ```
 
-##### 1.2.1.2.3. Parameters
+##### 1.3.1.2.3. Parameters
 
 | Parameter | Type    | Description         |
 | --------- | ------- | ------------------- |
@@ -93,7 +107,7 @@ Search_tweet search and collect information in twitter according to the key word
 | success   | boolean | request success     |
     
 
-##### 1.2.1.2.4. Results
+##### 1.3.1.2.4. Results
 
 
 {  
@@ -103,29 +117,29 @@ Search_tweet search and collect information in twitter according to the key word
 }
 
 
-#### 1.2.1.3. Delete_tweet
+#### 1.3.1.3. Delete_tweet
 
 Delete_tweet delete tweet which is expired, unreleated and invalid.
 
 
-##### 1.2.1.3.1. Endpoint
+##### 1.3.1.3.1. Endpoint
 
     /twitterapi/deletetweet
 
-##### 1.2.1.3.2. Accepted Methods
+##### 1.3.1.3.2. Accepted Methods
 
 ```txt
  DELETE 
 ```
 
-##### 1.2.1.3.3. Parameters
+##### 1.3.1.3.3. Parameters
 
-| Parameter | Type    | Description         |
-| --------- | ------- | ------------------- |
-| user_id   | string  | Unique User ID      |
-| key_word  | string  | User input Key Word |
+| Parameter | Type   | Description         |
+| --------- | ------ | ------------------- |
+| user_id   | string | Unique User ID      |
+| key_word  | string | User input Key Word |
     
-##### 1.2.1.3.4. Results
+##### 1.3.1.3.4. Results
 
 
 {  
