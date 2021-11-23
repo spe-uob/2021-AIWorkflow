@@ -2,6 +2,7 @@ from ibm_watson import ToneAnalyzerV3
 from dotenv import load_dotenv
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from loguru import logger
+import unittest
 import os
 
 class IBMToneAnalyzer:
@@ -25,6 +26,13 @@ class IBMToneAnalyzer:
         logger.debug(f"Analysis: {analysis}")
         return analysis
 
+class Tests(unittest.TestCase):
+
+    def test_get_analysis(self):
+        tone_analyzer_instance = IBMToneAnalyzer()
+        analysis = tone_analyzer_instance.get_analysis("I'm so happy today!")
+        tones = [x['tone_id'] for x in analysis['document_tone']['tones']]
+        self.assertTrue('joy' in tones)
+
 if __name__ == '__main__':
-    ibm_ta_instance = IBMToneAnalyzer()
-    ibm_ta_instance.get_analysis("I am very angry")
+    unittest.main()

@@ -1,8 +1,9 @@
-import tweepy as tw
 from tweepy.errors import *
 from typing import List, Dict, Optional
 from dotenv import load_dotenv
 from loguru import logger
+import tweepy as tw
+import unittest
 import os
 
 class TwitterAPI:
@@ -26,7 +27,13 @@ class TwitterAPI:
         finally:
             return tweets
 
+class Tests(unittest.TestCase):
+
+    def test_search_tweets(self):
+        api = TwitterAPI()
+        tweets = api.search_tweets(["#trump"], start_date="2020-01-01", end_date="2020-01-02")
+        self.assertTrue(len(tweets) > 0)
+
 
 if __name__ == '__main__':
-    twitterapi_istance = TwitterAPI()
-    logger.debug(twitterapi_istance.search_tweets(["awesome"]))
+    unittest.main()
