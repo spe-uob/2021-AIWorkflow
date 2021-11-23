@@ -3,3 +3,4 @@ uvicorn
 loguru
 python-dotenv
 ibm-watson
+tweepy
