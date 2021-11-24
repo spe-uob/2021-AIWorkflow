@@ -17,7 +17,7 @@ app.add_middleware(
 	allow_headers=["*"],
 )
 
-app.include_router(tweets)
+app.include_router(tweets.router)
 
 @app.get("/hello_world")
 def root():
