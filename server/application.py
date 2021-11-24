@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from loguru import logger
+from schemas.tweets import SearchTweetsRequest, SearchTweetsReponse
 import uvicorn
 
 app = FastAPI()
@@ -16,8 +17,8 @@ app.add_middleware(
 	allow_headers=["*"],
 )
 
-@app.get("/hello_world")
-def root():
+@app.get("/hello_world", reponse_model=SearchTweetsReponse)
+def root(r: SearchTweetsRequest):
     return JSONResponse({"message": "app is running", "success": True}, 200)
 
 if __name__ == "__main__":
