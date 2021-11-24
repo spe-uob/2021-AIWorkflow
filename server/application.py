@@ -17,7 +17,7 @@ app.add_middleware(
 	allow_headers=["*"],
 )
 
-@app.get("/hello_world", reponse_model=SearchTweetsReponse)
+@app.get("/hello_world", response_model=SearchTweetsReponse)
 def root(r: SearchTweetsRequest):
     return JSONResponse({"message": "app is running", "success": True}, 200)
 
