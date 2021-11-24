@@ -1,7 +1,5 @@
-from os import set_inheritable
-from typing import Optional, List, Dict
+from typing import Optional, List
 from pydantic import BaseModel
-from pydantic.errors import DataclassTypeError
 
 class TweetModel(BaseModel):
     text: str
@@ -9,7 +7,6 @@ class TweetModel(BaseModel):
 
 class TweetResponse(BaseModel):
     tweets: List[TweetModel]
-
 
 class SearchTweetsRequest(BaseModel):
     user_id: str
@@ -19,7 +16,7 @@ class SearchTweetsRequest(BaseModel):
     tone: str
     succees: bool
 
-class SearchTweetsReponse(BaseModel):
+class SearchTweetsResponse(BaseModel):
     data: TweetResponse
     message: str
     success: bool
