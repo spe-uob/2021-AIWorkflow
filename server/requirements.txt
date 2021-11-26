@@ -4,3 +4,6 @@ loguru
 python-dotenv
 ibm-watson
 tweepy
+google-api-python-client
+google-atuh-httplib2
+google-auth-oauth2
