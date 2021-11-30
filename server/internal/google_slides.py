@@ -1,59 +1,105 @@
 from __future__ import print_function
-import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
+from google_drive import GoogleDrive
+from typing import List, Dict
+from loguru import logger
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/presentations.readonly']
-
-# The ID of a sample presentation.
-PRESENTATION_ID = '1EAYk18WDjIG-zp_0vLm3CsfQh_i8eXc67Jo2O9C6Vuc'
-
-
-
-class GoogleSlides:
-    
-    def __init__(self, token_filename: str) -> None:
-        self.creds = Credentials.from_authorized_user_file(token_filename)
+SCOPES = [
+    "https://www.googleapis.com/auth/presentations",
+    "https://www.googleapis.com/auth/drive",
+]
 
 
-def main():
-    """Shows basic usage of the Slides API.
-    Prints the number of slides and elments in a sample presentation.
-    """
-    creds = None
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    tokenfile = "gs_token.json"
-    if os.path.exists(tokenfile):
-        creds = Credentials.from_authorized_user_file(tokenfile, SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open(tokenfile, 'w') as token:
-            token.write(creds.to_json())
+class GoogleSlides(GoogleDrive):
+    def create_presentation(self, body) -> str:
+        presentation = self.slides_service.presentations().create(body=body).execute()
+        return presentation.get("presentationId")
 
-    service = build('slides', 'v1', credentials=creds)
+    def create_tweet_slide(self, presentation_id: str, text: str, date_posted: str):
+        presentation = (
+            self.slides_service.presentations()
+            .get(presentationId=presentation_id)
+            .execute()
+        )
+        num_of_slides = len(presentation.get("slides"))
+        pt350 = {"magnitude": 350, "unit": "PT"}
+        new_slide_request = [
+            {
+                "createSlide": {
+                    "insertionIndex": f"{num_of_slides}",
+                    "slideLayoutReference": {"predefinedLayout": "BLANK"},
+                }
+            }
+        ]
+        body = {"requests": new_slide_request}
+        response = (
+            self.slides_service.presentations()
+            .batchUpdate(presentationId=presentation_id, body=body)
+            .execute()
+        )
+        create_slide_response = response.get("replies")[0].get("createSlide")
+        page_id = create_slide_response.get("objectId")
+        element_id = f"{page_id}_tweetbox"
+        new_tweetbox_request = [
+            {
+                "createShape": {
+                    "objectId": element_id,
+                    "shapeType": "TEXT_BOX",
+                    "elementProperties": {
+                        "pageObjectId": page_id,
+                        "size": {"height": pt350, "width": pt350},
+                        "transform": {
+                            "scaleX": 1,
+                            "scaleY": 1,
+                            "translateX": 150,
+                            "translateY": 150,
+                            "unit": "PT",
+                        },
+                    },
+                }
+            },
+            {
+                "insertText": {
+                    "objectId": element_id,
+                    "insertionIndex": 0,
+                    "text": f"Text: {text}\n\nDate posted: {date_posted}",
+                }
+            },
+        ]
+        body = {"requests": new_tweetbox_request}
+        response = (
+            self.slides_service.presentations()
+            .batchUpdate(presentationId=presentation_id, body=body)
+            .execute()
+        )
+        create_shape_response = response.get("replies")[0].get("createShape")
+        print(
+            "Created textbox with ID: {0}".format(create_shape_response.get("objectId"))
+        )
 
-    # Call the Slides API
-    presentation = service.presentations().get(
-        presentationId=PRESENTATION_ID).execute()
-    slides = presentation.get('slides')
+    def add_tweets_to_slide(
+        self,
+        tweets: List[Dict[str, str]],
+        date: str,
+        tone: str,
+        presentation_id: str = None,
+    ):
+        if presentation_id is None:
+            body = {"title": f"tweets - {tone} - {date}"}
+            presentation_id = self.create_presentation(body)
+        logger.debug(f"presentation_id: {presentation_id}")
+        for tweet in tweets:
+            self.create_tweet_slide(presentation_id, tweet["text"], tweet["date"])
 
-    print('The presentation contains {} slides:'.format(len(slides)))
-    for i, slide in enumerate(slides):
-        print('- Slide #{} contains {} elements.'.format(
-            i + 1, len(slide.get('pageElements'))))
 
-
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    gsinstance = GoogleSlides()
+    gsinstance.add_tweets_to_slide(
+        [
+            {"text": "IBM Cloud is so great!", "date": "2021-11-20"},
+            {"text": "IBM Cloud is amazing - great customer service!", "date": "2021-11-3"},
+            {"text": "I fucking love coffee - great way to start the morning!", "date": "2021-11-5"}
+        ],
+        "2021-11-29",
+        "joy"
+    )
