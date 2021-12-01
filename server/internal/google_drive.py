@@ -9,7 +9,11 @@ import os.path
 
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/presentations', 'https://www.googleapis.com/auth/drive']
+SCOPES = [
+    'https://www.googleapis.com/auth/presentations',
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://www.googleapis.com/auth/drive',
+]
 
 class GoogleDrive:
 
@@ -17,6 +21,7 @@ class GoogleDrive:
         creds = self.get_credentials()
         self.drive_service = build('drive', 'v3', credentials=creds)
         self.slides_service = build('slides', 'v1', credentials=creds)
+        self.sheets_service = build('sheets', 'v4', credentials=creds)
 
     def get_credentials(self) -> Credentials:
         creds = None
@@ -47,6 +52,9 @@ class GoogleDrive:
     def get_all_presentations(self) -> list:
         return self.get_all_files('application/vnd.google-apps.presentation')
 
+    def get_all_spreadsheets(self) -> list:
+        return self.get_all_files('application/vnd.google-apps.spreadsheet')
+
 if __name__ == '__main__':
     gdinstance = GoogleDrive()
-    logger.info(gdinstance.get_all_presentations())
+    logger.info(gdinstance.get_all_spreadsheets())
