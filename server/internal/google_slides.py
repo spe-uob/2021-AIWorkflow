@@ -3,12 +3,6 @@ from google_drive import GoogleDrive
 from typing import List, Dict
 from loguru import logger
 
-# If modifying these scopes, delete the file token.json.
-SCOPES = [
-    "https://www.googleapis.com/auth/presentations",
-    "https://www.googleapis.com/auth/drive",
-]
-
 
 class GoogleSlides(GoogleDrive):
     def create_presentation(self, body) -> str:
@@ -62,7 +56,7 @@ class GoogleSlides(GoogleDrive):
                 "insertText": {
                     "objectId": element_id,
                     "insertionIndex": 0,
-                    "text": f"Text: {text}\n\nDate posted: {date_posted}",
+                    "text": f"\"{text}\"\n\nDate posted: {date_posted}",
                 }
             },
         ]
@@ -93,12 +87,13 @@ class GoogleSlides(GoogleDrive):
 
 
 if __name__ == "__main__":
-    gsinstance = GoogleSlides()
-    gsinstance.add_tweets_to_slide(
+    gslidesinstance = GoogleSlides()
+    gslidesinstance.add_tweets_to_slide(
         [
-            {"text": "IBM Cloud is so great!", "date": "2021-11-20"},
-            {"text": "IBM Cloud is amazing - great customer service!", "date": "2021-11-3"},
-            {"text": "I fucking love coffee - great way to start the morning!", "date": "2021-11-5"}
+            {"text": "This is awesome!", "date": "2021-11-20"},
+            {"text": "IBM Cloud is amazing", "date": "2021-11-20"},
+            {"text": "Love the new IBM VPC servers.", "date": "2021-11-20"},
+            {"text": "awesome text", "date": "2021-11-20"},
         ],
         "2021-11-29",
         "joy"
