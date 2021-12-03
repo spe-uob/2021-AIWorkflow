@@ -9,25 +9,25 @@ html
       | 
       form
         | Text: 
-        input(type='text' name='firstname')
+        input(type='text', name='firstname')
         br
       // Search tweets: http://backend/twitterapi/tweets
-      form(method='get' action='/Tests/Post')
+      form(method='get', action='/Tests/Post')
         legend Select a tone
         |   
-        input(type='checkbox' name='tone' value='Happy' )
+        input(type='checkbox', name='tone', value='Happy' )
         | Happy
         br
-        input(type='checkbox' name='tone' value='Sad' )
+        input(type='checkbox', name='tone', value='Sad' )
         | Sad
         br
         | Start searching from:
-        input(type='datetime-local' name='time_start' value='2021-12-01T00:00')
+        input(type='datetime-local', name='time_start', value='2021-12-01T00:00')
         br
         | Until:
-        input(type='datetime-local' name='time_end' value='2021-12-01T00:00')
+        input(type='datetime-local', name='time_end', value='2021-12-01T00:00')
         br
-        input(type='submit' value='Search')
+        input(type='submit', value='Search')
         br
       form
     
