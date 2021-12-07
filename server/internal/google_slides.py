@@ -79,7 +79,7 @@ class GoogleSlides(GoogleDrive):
         presentation_id: str = None,
     ):
         if presentation_id is None:
-            body = {"title": f"tweets - {tone} - {date}"}
+            body = {"title": f"Tweets - {tone} - {date}"}
             presentation_id = self.create_presentation(body)
         logger.debug(f"presentation_id: {presentation_id}")
         for tweet in tweets:
