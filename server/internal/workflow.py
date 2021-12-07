@@ -1,10 +1,9 @@
-from re import T
 from google_slides import GoogleSlides
 from google_sheets import GoogleSheets
-from server.internal.google_slides import main
 from tone_analyzer import IBMToneAnalyzer
 from twitter_api import TwitterAPI
 from typing import List, Dict, Optional
+from loguru import logger
 from datetime import datetime
 
 
@@ -19,7 +18,7 @@ class Workflow:
     def main(self, user_id: str, keywords: List[str], tones: List[str], start_date: Optional[str] = None, end_date: Optional[str] = None):
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
-        tweets = self.twitterapi.search_tweets(user_id, keywords, tones, start_date, end_date)
+        tweets = self.twitterapi.search_tweets(keywords, start_date, end_date)
         """
         tweets = [
             {
@@ -33,17 +32,19 @@ class Workflow:
         #TODO add into google sheets e.g. self.googlesheets.add_tweets_to_sheet(...)
 
         
-        self.googlesheets.add_tweets_to_spreadsheet(tweets, date, tones)
+        
 
         for tweet in tweets:
             tweettone = self.toneanalyzer.get_analysis(text = tweet["text"])
             tweet.update({"tone": tweettone})
+        
+        logger.debug(tweets)
 
         """
         tweets = [
             {
                 "text": "ibm",
-                "time": "",
+                "date": "",
                 "hashed_username": "",
                 "tone": ""
             }
@@ -63,9 +64,9 @@ class Workflow:
         #TODO sort tweets into positive and negative tones
         temp = {}
         for tweet in tweets:
-            temp.update({tweets["tone"]: []})
+            temp.update({tweet["tone"]: []})
         for tweet in tweets:
-            temp[tweets["tone"]].append(tweet)
+            temp[tweet["tone"]].append(tweet)
             
 
         """
@@ -85,11 +86,15 @@ class Workflow:
         }
         """
 
+        logger.debug(temp)
 
         #TODO add into google slides e.g. self.googleslides.add_tweets_to_slides(...)
-        for tone, tweets_with_tone in enumerate(temp):
+        for tone, tweets_with_tone in temp.items():
             self.googleslides.add_tweets_to_slide(tweets_with_tone, date, tone)
+            self.googlesheets.add_tweets_to_spreadsheet(tweets_with_tone, date, tone)
+            
 
 
 if __name__ == '__main__':
     wf = Workflow()
+    wf.main("ibm", ["ibm"], ["happy", "sad"])
