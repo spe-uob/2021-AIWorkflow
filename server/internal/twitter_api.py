@@ -15,7 +15,19 @@ class TwitterAPI:
 
     def search_tweets(self, keywords: List[str], start_date: Optional[str] = None, end_date: Optional[str] = None) -> List[Dict[str, str]]:
         logger.debug(f"Searching tweets for keywords: {keywords}")
-        tweets = []
+        tweets = [
+            {
+                "text": "IBM's services are terrible... I am sad.",
+                "date": "2021-11-26 11:11:11",
+                "hashed_usernme": "nsljhsdjlfalskf"
+            },
+            {
+                "text": "IBM's services are great, I am so happy!",
+                "date": "2021-11-26 11:11:11",
+                "hashed_usernme": "nsljhsdjlfalskf"
+            }
+        ]
+        """
         try:
             tweets = self.twitter_api.search_all_tweets(
                 query = ", ".join(keywords),
@@ -26,6 +38,8 @@ class TwitterAPI:
             logger.error(f"Error searching tweets: Forbidden")
         finally:
             return tweets
+        """
+        return tweets
 
 class Tests(unittest.TestCase):
 

@@ -44,7 +44,7 @@ class GoogleSheets(GoogleDrive):
     ):
         if sheet_id is None:
             body = {
-                'properties': {"title": f"Tweets - {date}"}
+                'properties': {"title": f"Tweets - {tone} - {date}"}
             }
             sheet_id = self.create_spreadsheet(body, TWITTER_HEADERS, TWITTER_RANGE, "RAW")
         logger.debug(f"presentation_id: {sheet_id}")
