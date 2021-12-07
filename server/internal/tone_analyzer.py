@@ -17,6 +17,7 @@ class IBMToneAnalyzer:
         self.tone_analyzer.set_service_url('https://api.eu-gb.tone-analyzer.watson.cloud.ibm.com/instances/cacd7ebe-969c-4c32-a8e3-fb03cdedb442')
 
     def get_analysis(self, text: str) -> dict:
+        #TODO RETURN MORE THAN ONE TONE ANALYSIS
         logger.info(f"IBMToneAnalyzer.get_analysis(text: {text})")
         analysis = self.tone_analyzer.tone(
             {'text':text},
@@ -24,7 +25,7 @@ class IBMToneAnalyzer:
             sentences=False
         ).get_result()
         logger.debug(f"Analysis: {analysis}")
-        return analysis
+        return analysis["document_tone"]["tones"][0]["tone_id"]
 
 class Tests(unittest.TestCase):
 

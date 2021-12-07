@@ -1,8 +1,21 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@media (prefers-color-scheme: light) {
+  body {
+      color: #000000;
+      background-color: #FFFFFF;
+  }
+  
 }
 
-a {
-  color: #00B7FF;
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+      color: #FFFFFF;
+      background-color: #000000;
+  }
 }
+
+body {
+  padding: 10%;
+  font: 14px "Helvetica", Helvetica, Arial, sans-serif;
+}
+

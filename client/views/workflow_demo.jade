@@ -3,31 +3,28 @@ html
   head
     meta(charset='utf-8')
     title= workflow_demo
-  body
-    | 
-    fieldset 
-      | 
-      form
-        | Text: 
-        input(type='text' name='firstname')
-        br
-      // Search tweets: http://backend/twitterapi/tweets
-      form(method='get' action='/Tests/Post')
-        legend Select a tone
-        |   
-        input(type='checkbox' name='tone' value='Happy' )
-        | Happy
-        br
-        input(type='checkbox' name='tone' value='Sad' )
-        | Sad
-        br
-        | Start searching from:
-        input(type='datetime-local' name='time_start' value='2021-12-01T00:00')
-        br
-        | Until:
-        input(type='datetime-local' name='time_end' value='2021-12-01T00:00')
-        br
-        input(type='submit' value='Search')
-        br
-      form
     
+  body
+    // Search tweets: http://backend/twitterapi/tweets
+    <script src="http://code.jquery.com/jquery-git2.js"></script>
+    <script src="/javascripts/workflow_demo.js"></script>
+    form(method='get')
+      | Keywords (separate by comma e.g. happy, sad): 
+      input(type='text', name='keywords')
+      br
+      legend Select a tone
+      |   
+      input(type='checkbox', name='tone', value='positive')
+      | Positive
+      br
+      input(type='checkbox', name='tone', value='negative')
+      | Negative
+      br
+      | Start searching from:
+      input(type='datetime-local', name='time_start', value='2021-12-01T00:00')
+      br
+      | Until:
+      input(type='datetime-local', name='time_end', value='2021-12-01T00:00')
+      br
+      input(type='button', value='Search' , onclick="runWorkflowDemo()")
+      br

@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
+from ..internal.workflow import Workflow
 from .tweets_schemas import SaveTweetsRequest, SaveTweetsResponse, SearchTweetsResponse, SearchTweetsRequest
 
 router = APIRouter(
