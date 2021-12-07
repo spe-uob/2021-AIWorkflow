@@ -3,8 +3,6 @@ from pydantic import BaseModel, Field, constr, ValidationError
 from datetime import datetime
 import tone as tone
 
-print(tone.PrimaryTone.POSITIVE)
-
 class TweetSchema(BaseModel):
     user_id: str = Field(None)
     content: str = Field(...)
