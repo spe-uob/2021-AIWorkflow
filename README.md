@@ -4,7 +4,7 @@
 
 - [1. AI Workflow Integration](#1-ai-workflow-integration)
   - [1.1. Project Brief](#11-project-brief)
-  - [1.2. User Stroies](#12-user-stroies)
+  - [1.2. User Stories](#12-user-stories)
     - [1.2.1. End user 1: John McNamara](#121-end-user-1-john-mcnamara)
     - [1.2.2. End user 2: IBM Marketing Team](#122-end-user-2-ibm-marketing-team)
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
@@ -20,7 +20,7 @@
 
 ---
 
-## 1.2. User Stroies
+## 1.2. User Stories
 
 In this section we document the 3 main users of such an application.
 
