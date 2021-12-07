@@ -21,8 +21,8 @@ app.add_middleware(
 def root(r: SearchTweetsRequest):
     return JSONResponse({"message": "app is running", "success": True}, 200)
 
-@app.get("/twitterapi/tweets", response_model=SearchTweetsReponse)
-def root(r: SearchTweetsRequest):
+@app.post("/twitterapi/tweets", response_model=SearchTweetsReponse)
+def test():
     return JSONResponse({"message": "searching...", "success": True}, 200)
 
 if __name__ == "__main__":

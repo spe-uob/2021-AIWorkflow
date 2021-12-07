@@ -3,9 +3,12 @@ html
   head
     meta(charset='utf-8')
     title= workflow_demo
+    
   body
     // Search tweets: http://backend/twitterapi/tweets
-    form(method='get', action='/Tests/Post')
+    <script src="http://code.jquery.com/jquery-git2.js"></script>
+    <script src="/javascripts/workflow_demo.js"></script>
+    form(method='get')
       | Keywords (separate by comma e.g. happy, sad): 
       input(type='text', name='keywords')
       br
@@ -23,7 +26,5 @@ html
       | Until:
       input(type='datetime-local', name='time_end', value='2021-12-01T00:00')
       br
-      input(type='button', value='Search' , onclick="userAction()")
-      br
-      <script src="/javascripts/myScript.js"></script>
+      input(type='button', value='Search' , onclick="runWorkflowDemo()")
       br
