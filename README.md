@@ -62,6 +62,12 @@ cd server && pip3 install -r requirements.txt
 cd ..
 ```
 
+You might also have to generate an OAUTH key in your `server/routers/internal/data/` directory by running the python script `google_drive.py` like so:
+
+```py
+python3 google_drive.py
+```
+
 #### 1.3.1.2. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
