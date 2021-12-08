@@ -1,5 +1,5 @@
 from __future__ import print_function
-from google_drive import GoogleDrive
+from .google_drive import GoogleDrive
 from typing import List, Dict
 from loguru import logger
 
