@@ -17,14 +17,24 @@ class TwitterAPI:
         logger.debug(f"Searching tweets for keywords: {keywords}")
         tweets = [
             {
-                "text": "IBM's services are terrible... I am sad.",
+                "text": "IBM's VPCs services are terrible... I am sad.",
                 "date": "2021-11-26 11:11:11",
                 "hashed_usernme": "nsljhsdjlfalskf"
             },
             {
-                "text": "IBM's services are great, I am so happy!",
+                "text": "I am so excited to celebrate the joyous occasion that my application is now running on IBM Watson!",
                 "date": "2021-11-26 11:11:11",
-                "hashed_usernme": "nsljhsdjlfalskf"
+                "hashed_usernme": "13890bjkdsv"
+            },
+            {
+                "text": "I am so frustrated IBM... I am angry!",
+                "date": "2021-11-26 11:11:11",
+                "hashed_usernme": " ;gklhfsg"
+            },
+            {
+                "text": "text",
+                "date": "2021-11-26 11:11:11",
+                "hashed_usernme": " ;gklhfsg"
             }
         ]
         """

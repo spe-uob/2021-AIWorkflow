@@ -49,14 +49,14 @@ Saves tweets to database
 
 ##### 1.3.1.1.3. Parameters
 
-| Parameter            |  Type   | Description           | Optional  |
-| -------------------- | ------- | --------------------- | --------- |
-| user_id              | string  | Unique User ID        | No        |
-| tweet_text           | string  | Tweet text            | No        |
-| keyword              | string  | user keyword          | No        |
-| overall_tone         | string  | Detected overall tone | No        |
-| specified_tone       | string  | Detected tone         | Yes       |
-| tone_score           | integer | Detected tone score   | Yes       |
+| Parameter      | Type    | Description           | Optional |
+| -------------- | ------- | --------------------- | -------- |
+| user_id        | string  | Unique User ID        | No       |
+| tweet_text     | string  | Tweet text            | No       |
+| keyword        | string  | user keyword          | No       |
+| overall_tone   | string  | Detected overall tone | No       |
+| specified_tone | string  | Detected tone         | Yes      |
+| tone_score     | integer | Detected tone score   | Yes      |
 
 e.g. 
 
@@ -111,27 +111,22 @@ Search tweet search and collect information in twitter according to the key word
 
 ##### 1.3.1.2.3. Parameters
 
-| Parameter          | Type    | Description                    | Optional    |
-| -------------------| ------- | ------------------------------ | ----------- |
-| user_id            | string  | Unique User ID                 | No          |
-| key_word           | string  | User input Key Word            | No          |
-| time_start         | string  | User input starting time range | Yes         |
-| time_end           | string  | User input ending time range   | Yes         |
-| tone               | string  | User-specified tone            | Yes         |
+**Query Params:**
+
+| Parameter  | Type   | Description                    | Optional |
+| ---------- | ------ | ------------------------------ | -------- |
+| user_id    | string | Unique User ID                 | No       |
+| keywords   | string | User input Key Word            | No       |
+| tones      | string | User-specified tone            | No       |
+| time_start | string | User input starting time range | Yes      |
+| time_end   | string | User input ending time range   | Yes      |
 
 
 
  e.g.
 
-```json
-{
-    "user_id": "123456789",
-    "keyword": "tweet",
-    "time_start": "2021-01-01 21:00:00",
-    "time_end": "2021-11-01 21:00:00",
-    "tone": ["happy","sad","angry"]
-
-}
+```txt
+GET http://hostname.domain/twitterapi/tweets?user_id=123&keywords=tweet,ibm&tones=happy,sad&time_start=2019-01-01&time_end=2019-01-02
 ```
 
 
