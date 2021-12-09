@@ -5,6 +5,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from loguru import logger
+import json
 import os.path
 
 
@@ -17,27 +18,31 @@ SCOPES = [
 
 class GoogleDrive:
 
-    def __init__(self) -> None:
+    def __init__(self, creds: dict = None) -> None:
         creds = self.get_credentials()
         self.drive_service = build('drive', 'v3', credentials=creds)
         self.slides_service = build('slides', 'v1', credentials=creds)
         self.sheets_service = build('sheets', 'v4', credentials=creds)
 
     def get_credentials(self) -> Credentials:
+
         creds = None
         try:
-            if os.path.exists('token.json'):
-                creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+            #TODO REMOVE
+            token_file = "./routers/internal/data/token.json"
+            creds_file = "./routers/internal/data/credentials.json"
+            if os.path.exists(token_file):
+                creds = Credentials.from_authorized_user_file(token_file, SCOPES)
             # If there are no (valid) credentials available, let the user log in.
             if not creds or not creds.valid:
                 if creds and creds.expired and creds.refresh_token:
                     creds.refresh(Request())
                 else:
                     flow = InstalledAppFlow.from_client_secrets_file(
-                        'credentials.json', SCOPES)
+                        creds_file, SCOPES)
                     creds = flow.run_local_server()
                 # Save the credentials for the next run
-                with open('token.json', 'w') as token:
+                with open(token_file, 'w') as token:
                     token.write(creds.to_json())
         except Exception as e:
             logger.error(e)

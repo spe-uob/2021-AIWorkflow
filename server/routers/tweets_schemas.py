@@ -9,15 +9,6 @@ class TweetModel(BaseModel):
 class TweetResponse(BaseModel):
     tweets: List[TweetModel]
 
-
-class SearchTweetsRequest(BaseModel):
-    user_id: str
-    key_word: str
-    time_start: Optional[str] = None
-    time_end: Optional[str] = None
-    tones: List[str]
-
-
 class SearchTweetsResponse(BaseModel):
     data: TweetResponse
     message: str

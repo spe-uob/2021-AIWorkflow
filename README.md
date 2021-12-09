@@ -10,7 +10,9 @@
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
   - [1.3. Deployment Instructions](#13-deployment-instructions)
     - [1.3.1. Requirements](#131-requirements)
-    - [1.3.2. Deployment](#132-deployment)
+      - [1.3.1.1. Development](#1311-development)
+      - [1.3.1.2. Deployment](#1312-deployment)
+    - [1.3.2. To Deploy](#132-to-deploy)
 
 ---
 
@@ -42,12 +44,14 @@ As a software developer, the team would like to create a bot that replies to use
 
 ### 1.3.1. Requirements
 
+#### 1.3.1.1. Development
+
 If you are developing this project, you will need to install the following: 
 
-- Node.js [link][1]
-- Python 3.8 or above [link][2]
-- Docker [link][3]
-- Docker Compose [link][4]
+- Node.js [link][1] and React [link][2]
+- Python 3.8 or above [link][3]
+- Docker [link][4]
+- Docker Compose [link][5]
 
 Ensure that you have the dependencies installed as well once you have cloned and entered the repository:
 
@@ -58,22 +62,38 @@ cd server && pip3 install -r requirements.txt
 cd ..
 ```
 
+You might also have to generate an OAUTH key in your `server/routers/internal/data/` directory by running the python script `google_drive.py` like so:
+
+```py
+python3 google_drive.py
+```
+
+#### 1.3.1.2. Deployment
+
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
 
-### 1.3.2. Deployment 
+### 1.3.2. To Deploy
 
 Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
-![hello_world_app](readme_assets/hello_world.png)
+![mvp_app](readme_assets/mvp_website.png)
 
-The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a Node.js express website that will use IBM's NODE-RED library (as requested by the client) in the future. For now it simply requests the backend for a message and displays it. (the message should read `app is running` at this time)
+The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a Node.js express website that will use IBM's NODE-RED library (as requested by the client) in the future. 
 
-The `backend` container is a python [FastAPI][5] REST application that will be used to interact with a database and act as a portal to other services e.g. the tone analyser and other 3rd party APIs.
+For the MVP it displays a website that is created using React, built on [IBM's Carbon Design System][6]. The forms allows you to run a default workflow.
+
+The `backend` container is a python [FastAPI][7] REST application that will be used to interact with a database and act as a portal to other services e.g. the tone analyser and other 3rd party APIs.
+
+There is also a `dongo` container that is the mongoDB database used to store user data. The reason it is called dongo is due to Mitch was thinking docker and mongo together, therefore misspeaking and said the word 'dongo' instead of 'mongo'.
+
+For documentation regarding the `frontend` and `backend`, please consult the [`docs`][8] folder.
 
 ---
 
 [1]:https://nodejs.org/en/
-[2]:https://www.python.org
-[3]:https://docs.docker.com/get-docker/
-[4]:https://docs.docker.com/compose/install/
-[5]:https://fastapi.tiangolo.com
+[3]:https://www.python.org
+[4]:https://docs.docker.com/get-docker/
+[5]:https://docs.docker.com/compose/install/
+[6]:https://github.com/carbon-design-system/carbon
+[7]:https://fastapi.tiangolo.com
+[8]:https://github.com/spe-uob/2021-AIWorkflow/docs
