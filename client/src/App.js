@@ -5,6 +5,7 @@ import AIWorkflowHeader from './components/Header';
 import { Route, Routes } from 'react-router-dom';
 import LandingPage from './content/LandingPage';
 import WorkflowDemoPage from './content/WorkflowDemoPage';
+import LoginPage from './content/LoginPage';
 
 class App extends Component {
   render() {
