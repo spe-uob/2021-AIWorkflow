@@ -26,6 +26,8 @@ function runWorkflow() {
   const queryString = new URLSearchParams(formData).toString();
   console.log(queryString);
   var url = new URL("http://localhost:5001/twitterapi/tweets?"+queryString);
+  var googleObj = JSON.parse(sessionStorage.userGoogleTokenId);
+  console.log(googleObj);
   var formResult;
   fetch(url, {
   method: 'GET',
