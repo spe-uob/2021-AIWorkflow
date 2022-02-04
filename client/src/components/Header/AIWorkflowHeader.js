@@ -53,7 +53,7 @@ const AIWorkflowHeader = () => (
           <HeaderGlobalAction aria-label="Notifications">
             <Notification20 />
           </HeaderGlobalAction>
-          <HeaderGlobalAction aria-label="User Avatar">
+          <HeaderGlobalAction aria-label="User Avatar" element={Link} onClick="{window.location('/login/')}">
             <UserAvatar20 />
           </HeaderGlobalAction>
         </HeaderGlobalBar>
