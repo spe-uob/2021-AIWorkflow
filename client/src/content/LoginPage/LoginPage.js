@@ -4,8 +4,15 @@ import Logout from '../../components/Logout/Logout';
 
 const LoginPage = () => {
   return <div>
-    <h3>You are logged out.</h3>
-    <Login/><Logout/>
+    <div>    
+      <h3>You are logged out.</h3>
+    </div>
+    <div>
+      <Login/>
+    </div>
+    <div >
+      <Logout/>
+    </div>
   </div>;
 };
 
