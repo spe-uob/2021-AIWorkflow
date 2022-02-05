@@ -4,8 +4,9 @@ import Logout from '../../components/Logout/Logout';
 
 const LoginPage = () => {
   return <div className="App">
+    <br/>
     <div>    
-      <h3>You are logged out.</h3>
+      <h2>You are logged out.</h2>
     </div>
     <br/>
     <div>
