@@ -6,7 +6,7 @@ const LoginPage = () => {
   return <div className="App">
     <br/>
     <div>    
-      <h2>You are logged out.</h2>
+      <h1>You are logged out.</h1>
     </div>
     <br/>
     <div>
