@@ -21,6 +21,7 @@ function Login() {
                 onSuccess={onSuccess}
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}
+                scope="profile email drive spreadsheets presentations"
                 style={{marginTop: '100px'}}
                 isSignedIn={true}
             />
