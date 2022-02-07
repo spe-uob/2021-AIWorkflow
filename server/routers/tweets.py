@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Header
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
 from .tweets_schemas import SaveTweetsRequest, SaveTweetsResponse, SearchTweetsResponse
@@ -6,8 +6,6 @@ from .tweets_schemas import SaveTweetsRequest, SaveTweetsResponse, SearchTweetsR
 router = APIRouter(
     prefix="/twitterapi"
 )
-
-workflow_demo = Workflow()
 
 @router.post("/tweets", response_model = SaveTweetsResponse)
 async def save_tweet_request(request: SaveTweetsRequest):
@@ -21,9 +19,12 @@ async def save_tweet_request(request: SaveTweetsRequest):
     return JSONResponse(response, status_code = 200)
  
 @router.get("/tweets", response_model = SearchTweetsResponse)
-async def search_tweet_request(user_id: str, keywords: str, tones: str, time_start: str = None, time_end: str = None):
+async def search_tweet_request(user_id: str, keywords: str, tones: str, time_start: str = None, time_end: str = None, token : str = Header(None)):
     keywords = [kw.rstrip() for kw in keywords.split(",")]
     tones = [kw.rstrip() for kw in tones.split(",")]
+    if token is None:
+        return JSONResponse({"message": "token is required"}, status_code = 401)
+    workflow_demo = Workflow(token)
     workflow_demo.main(user_id, keywords, tones, time_start, time_end)
     response = {
         "data": {},
