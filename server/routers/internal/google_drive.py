@@ -6,6 +6,9 @@ from loguru import logger
 class GoogleDrive:
 
     def __init__(self, token: str = None) -> None:
+        #! BUG: google.auth.exceptions.RefreshError: 
+        #! The credentials do not contain the necessary fields need to refresh the access token. 
+        #! You must specify refresh_token, token_uri, client_id, and client_secret.
         if token is None: raise ValueError("Token is required")
         creds = Credentials(token)
         self.drive_service = build('drive', 'v3', credentials=creds)
