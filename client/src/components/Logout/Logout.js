@@ -7,6 +7,7 @@ function LogoutHooks() {
   const onLogoutSuccess = (res) => {
     console.log('Logged out Success');
     sessionStorage.removeItem('sessionObj');
+    window.location.reload();
   };
 
   const onFailure = () => {

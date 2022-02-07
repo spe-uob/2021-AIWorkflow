@@ -7,6 +7,7 @@ function Login() {
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res.profileObj);
     sessionStorage.setItem('sessionObj', JSON.stringify(res));
+    window.location.reload();
   };
 
   const onFailure = (res) => {
