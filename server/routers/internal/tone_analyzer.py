@@ -30,7 +30,6 @@ class IBMToneAnalyzer:
         logger.debug(f"Analysis: {analysis}")
         found_tones = analysis['document_tone']["tones"]
         if found_tones:
-            #TODO REMOVE HARDCODED PRIMARY TONE
             tones = [x["tone_id"] for x in found_tones]
             primary_tone = found_tones[0]["tone_id"]
             if primary_tone in self.POSITIVE_TONES:
