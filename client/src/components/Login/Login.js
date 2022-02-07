@@ -3,7 +3,6 @@ import { useGoogleLogin } from 'react-google-login';
 
 const clientId = '516108771432-8r055agb6k336emqdqh242s4c73lduf7.apps.googleusercontent.com';
 
-
 function Login() {
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res.profileObj);
@@ -25,6 +24,7 @@ function Login() {
     onFailure,
     clientId,
     isSignedIn: true,
+    scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations"
   });
 
   return (
