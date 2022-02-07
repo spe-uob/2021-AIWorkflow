@@ -6,6 +6,7 @@ const clientId = '516108771432-8r055agb6k336emqdqh242s4c73lduf7.apps.googleuserc
 function LogoutHooks() {
   const onLogoutSuccess = (res) => {
     console.log('Logged out Success');
+    sessionStorage.removeItem('sessionObj');
     alert('Logged out Successfully.');
   };
 
