@@ -10,6 +10,7 @@ function Login() {
     alert(
       `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
     );
+    sessionStorage.setItem('sessionObj', JSON.stringify(res));
   };
 
   const onFailure = (res) => {
@@ -24,7 +25,6 @@ function Login() {
     onFailure,
     clientId,
     isSignedIn: true,
-    accessType: 'offline',
   });
 
   return (
