@@ -3,12 +3,14 @@ import Login from '../../components/Login/Login';
 import Logout from '../../components/Logout/Logout';
 
 const LoginPage = () => {
+  var stri;
+  var obj;
   if (sessionStorage.getItem("sessionObj") == null) {
-    var stri = "You are logged out."
-    var obj = <Login/>
+    stri = "You are logged out."
+    obj = <Login/>
   } else {
-    var stri = "You are logged in as " + JSON.parse(sessionStorage.sessionObj).profileObj.name
-    var obj = <Logout/>
+    stri = "You are logged in as " + JSON.parse(sessionStorage.sessionObj).profileObj.name
+    obj = <Logout/>
   }
 
   return <div className="App">
