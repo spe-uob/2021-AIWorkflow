@@ -5,7 +5,7 @@ import Logout from '../../components/Logout/Logout';
 if (sessionStorage.getItem("sessionObj") == null) {
   var stri = "You are logged out."
 } else {
-  var stri = "You are logged in as " + sessionStorage.sessionObj
+  var stri = "You are logged in as " + JSON.parse(sessionStorage.sessionObj).profileObj.name
 }
 
 const LoginPage = () => {
