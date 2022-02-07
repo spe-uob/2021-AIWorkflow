@@ -5,7 +5,7 @@ const clientId = '516108771432-8r055agb6k336emqdqh242s4c73lduf7.apps.googleuserc
 
 function Login() {
     const onSuccess = (res) => {
-        console.log('[Login Success] currentUser:', res.tokenId);
+        console.log('[Login Success] currentUser:', res);
         sessionStorage.setItem('userGoogleTokenId', JSON.stringify(res.tokenId));
     };
 
@@ -21,7 +21,7 @@ function Login() {
                 onSuccess={onSuccess}
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}
-                scope="profile email drive spreadsheets presentations"
+                scope={['email', 'profile', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/presentations'].join(" ")}
                 style={{marginTop: '100px'}}
                 isSignedIn={true}
             />
