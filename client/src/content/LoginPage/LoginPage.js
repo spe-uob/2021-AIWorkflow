@@ -9,7 +9,7 @@ const LoginPage = () => {
     stri = "You are logged out."
     obj = <Login/>
   } else {
-    stri = "You are logged in as " + JSON.parse(sessionStorage.sessionObj).profileObj.name
+    stri = "You are logged in."
     obj = <Logout/>
   }
 
