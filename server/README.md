@@ -64,7 +64,7 @@ e.g.
 {
     "user_id": "123456789",
     "tweet_text": "This is a tweet",
-    "overall_tone": "Negivate",
+    "overall_tone": "Negative",
     "specified_tone":["Anger", "sad"],
     "keyword": "tweet",
     "tone_score": 0.5
