@@ -19,7 +19,9 @@ function Login() {
     onFailure,
     clientId,
     isSignedIn: true,
-    scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations"
+    scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations",
+    responseType: "code",
+    accessType: "offline",
   });
 
   return (
