@@ -1,17 +1,22 @@
 import React from 'react';
 import {Button} from 'carbon-components-react';
-import bgvideo from './bg-video.mp4'
+// import bgvideo from './bg-video1.mp4'
 import './LandingPage.css';
+import bgpicture from "./background.jpeg"
 
 
 const LandingPage = () => {
   return (
-    <div className="video-container">
-     <video autoPlay loop muted>
+    <div className="background-container">
+     {/* <video autoPlay loop muted>
       <source src={bgvideo} type="video/mp4"/>
-     </video>
+     </video> */}
+     <img src={bgpicture} alt="logo" />
      <div className="caption">
-        <h1>AI WORKFLOW INTEGRATION</h1>
+        <h1 style={{fontWeight: "bold",fontSize:"50px"}}>
+          AI WORKFLOW INTEGRATION
+        </h1>
+        <br/>
         <Button>
           GET STARTED
         </Button>

@@ -1,21 +1,28 @@
-.video-container{
+.background-container{
     height: 100%;
     width: 100%;
     position: relative;
 }
 
-.video-container video{
+/* .background-container video{
     width:100%;
-    height: 600%;
-    position: absolute;
-    object-fit: cover;
+    height: 100%;
+    position: fixed;
     z-index: 0;
+    object-fit: cover; 
+} */
+.background-container img{
+    width:100%;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+    object-fit: cover; 
 }
 
-.video-container .caption {
+.background-container .caption {
     z-index: 1;
     position: relative;
     text-align: left;
-    padding: 150px;
-    color: #fff;
+    padding: 100px;
+    color: rgb(0, 0, 0);;
 }
