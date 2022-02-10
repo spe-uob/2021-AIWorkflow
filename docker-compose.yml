@@ -7,7 +7,14 @@ services:
     container_name: "frontend"
     build: ./client
     ports:
+<<<<<<< HEAD
       - 8080:3000
+=======
+      - 8080:8080
+    labels:
+      kompose.service.type: LoadBalancer
+      kompose.image-pull-policy: "Never"
+>>>>>>> 62cf1464c232b3162183f74587ffeca968afb34f
   backend:
     image: "backend"
     hostname: "backend"
@@ -15,6 +22,7 @@ services:
     build: ./server
     ports:
       - 5001:80
+<<<<<<< HEAD
   database:
     image: mongo
     container_name: "dongo"
@@ -26,3 +34,7 @@ services:
     volumes:
       - "./database:/data/db"
     restart: unless-stopped
+=======
+    labels:
+      kompose.image-pull-policy: "Never"
+>>>>>>> 62cf1464c232b3162183f74587ffeca968afb34f

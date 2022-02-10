@@ -3,7 +3,13 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert
+<<<<<<< HEAD
     kompose.version: 1.24.0 (4a2a0458)
+=======
+    kompose.image-pull-policy: Never
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.25.0 (HEAD)
+>>>>>>> 62cf1464c232b3162183f74587ffeca968afb34f
   creationTimestamp: null
   labels:
     io.kompose.service: frontend
@@ -18,16 +24,29 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert
+<<<<<<< HEAD
         kompose.version: 1.24.0 (4a2a0458)
+=======
+        kompose.image-pull-policy: Never
+        kompose.service.type: LoadBalancer
+        kompose.version: 1.25.0 (HEAD)
+>>>>>>> 62cf1464c232b3162183f74587ffeca968afb34f
       creationTimestamp: null
       labels:
         io.kompose.service: frontend
     spec:
       containers:
         - image: frontend
+<<<<<<< HEAD
           name: frontend
           ports:
             - containerPort: 3000
+=======
+          imagePullPolicy: Never
+          name: frontend
+          ports:
+            - containerPort: 8080
+>>>>>>> 62cf1464c232b3162183f74587ffeca968afb34f
           resources: {}
       hostname: frontend
       restartPolicy: Always
