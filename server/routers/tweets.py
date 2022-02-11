@@ -25,13 +25,13 @@ async def save_tweet_request(request: SaveTweetsRequest):
     return JSONResponse(response, status_code = 200)
  
 @router.get("/tweets", response_model = SearchTweetsResponse)
-async def search_tweet_request(user_id: str, keywords: str, tones: str, time_start: str = None, time_end: str = None, auth_code : str = Header(None)):
+async def search_tweet_request(user_id: str, keywords: str, tones: str, time_start: str = None, time_end: str = None, code : str = Header(None)):
     keywords = [kw.rstrip() for kw in keywords.split(",")]
     tones = [kw.rstrip() for kw in tones.split(",")]
-    if auth_code is None:
+    if code is None:
         return JSONResponse({"message": "token is required"}, status_code = 401)
     
-    WORKFLOW_DEMO.main("./routers/internal/credentials.json", auth_code, user_id, keywords, tones, time_start, time_end)
+    WORKFLOW_DEMO.main("./routers/internal/credentials.json", code, user_id, keywords, tones, time_start, time_end)
     response = {
         "data": {},
         "message": "Data is generated, you can see the results on your Google account now.",
