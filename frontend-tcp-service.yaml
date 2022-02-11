@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.image-pull-policy: Never
     kompose.service.type: LoadBalancer
-    kompose.version: 1.25.0 (HEAD)
+    kompose.version: 1.24.0 (4a2a0458)
   creationTimestamp: null
   labels:
     io.kompose.service: frontend-tcp
@@ -14,7 +14,7 @@ spec:
   ports:
     - name: "8080"
       port: 8080
-      targetPort: 8080
+      targetPort: 3000
   selector:
     io.kompose.service: frontend
   type: LoadBalancer

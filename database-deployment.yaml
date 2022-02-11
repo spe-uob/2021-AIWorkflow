@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert
+    kompose.image-pull-policy: Never
     kompose.version: 1.24.0 (4a2a0458)
   creationTimestamp: null
   labels:
@@ -19,6 +20,7 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert
+        kompose.image-pull-policy: Never
         kompose.version: 1.24.0 (4a2a0458)
       creationTimestamp: null
       labels:
@@ -31,6 +33,7 @@ spec:
             - name: PUID
               value: "1000"
           image: mongo
+          imagePullPolicy: Never
           name: dongo
           ports:
             - containerPort: 27017
