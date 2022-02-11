@@ -15,7 +15,7 @@ function LogoutHooks() {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: {'Hashed-Email': sjcl.hash.sha256.hash(res.googleId)}
+      body: {'Hashed-Email': res.googleId}
     })
   };
 
