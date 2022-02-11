@@ -5,7 +5,7 @@ const clientId = '516108771432-8r055agb6k336emqdqh242s4c73lduf7.apps.googleuserc
 
 function Login() {
   const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
+    console.log('Login Success: currentUser:', res);
     sessionStorage.setItem('sessionObj', JSON.stringify(res));
     window.location.replace("./");
   };
@@ -19,7 +19,9 @@ function Login() {
     onFailure,
     clientId,
     isSignedIn: true,
-    scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations"
+    scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations",
+    responseType: "code",
+    accessType: "offline",
   });
 
   return (

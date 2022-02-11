@@ -1,12 +1,19 @@
 from __future__ import print_function
 from .google_drive import GoogleDrive
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 from typing import List, Dict
 from loguru import logger
+
 
 TWITTER_HEADERS = ["Text", "POST DATE"]
 TWITTER_RANGE = "A1:B1"
 
 class GoogleSheets(GoogleDrive):
+
+    def __init__(self, creds: Credentials) -> None:
+        super().__init__(creds)
+        self.sheets_service = build("sheets", "v4", credentials=creds)
 
     def create_spreadsheet(self, body: str, headers: List[str], range: str, value_input_option: str):
         spreadsheet = self.sheets_service.spreadsheets().create(body=body, fields='spreadsheetId').execute()

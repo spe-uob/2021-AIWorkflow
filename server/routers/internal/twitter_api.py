@@ -2,6 +2,7 @@ from loguru import logger
 from pprint import pprint
 from hashlib import sha256
 from snscrape.modules.twitter import TwitterSearchScraper
+from typing import Optional, List, Dict
 import unittest
 import os
 
@@ -10,6 +11,7 @@ class TwitterAPI:
     def __init__(self) -> None:
         pass
 
+    """
     def search_tweets(self, query_text, start_date, end_date): 
         result = []
         for text in query_text:
@@ -21,9 +23,9 @@ class TwitterAPI:
 
         print(result)
         return result
-
     """
-    def search_tweets_with_tweepy(self, keywords: List[str], start_date: Optional[str] = None, end_date: Optional[str] = None) -> List[Dict[str, str]]:
+    
+    def search_tweets(self, keywords: List[str], start_date: Optional[str] = None, end_date: Optional[str] = None) -> List[Dict[str, str]]:
         logger.debug(f"Searching tweets for keywords: {keywords}")
         tweets = [
             {
@@ -47,18 +49,9 @@ class TwitterAPI:
                 "hashed_usernme": " ;gklhfsg"
             }
         ]
-        try:
-            tweets = self.twitter_api.search_all_tweets(
-                query = ", ".join(keywords),
-                start_time = start_date,
-                end_time = end_date
-            )
-        except Forbidden:
-            logger.error(f"Error searching tweets: Forbidden")
-        finally:
-            return tweets
         return tweets
-    """
+    
+
 class Tests(unittest.TestCase):
 
     def test_search_tweets(self):

@@ -64,7 +64,7 @@ e.g.
 {
     "user_id": "123456789",
     "tweet_text": "This is a tweet",
-    "overall_tone": "Negivate",
+    "overall_tone": "Negative",
     "specified_tone":["Anger", "sad"],
     "keyword": "tweet",
     "tone_score": 0.5
@@ -110,6 +110,12 @@ Search tweet search and collect information in twitter according to the key word
 ```
 
 ##### 1.3.1.2.3. Parameters
+
+**Headers:**
+
+| Header    | Type   | Description         | Optional |
+| --------- | ------ | ------------------- | -------- |
+| auth_code | string | auth_code from user | No       |
 
 **Query Params:**
 
