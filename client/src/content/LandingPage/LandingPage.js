@@ -2,6 +2,7 @@ import React from 'react';
 import {Button} from 'carbon-components-react';
  import bgvideo from './bg-video1.mp4'
 import './LandingPage.css';
+
 // import bgpicture from "./background.jpeg"
 
 
@@ -17,9 +18,11 @@ const LandingPage = () => {
           AI WORKFLOW INTEGRATION
         </h1>
         <br/>
-        <Button>
+        
+        <Button  onClick={()=>{window.location.href="./#/profile/"}}>
           GET STARTED
         </Button>
+       
       </div>
     </div>
   );
