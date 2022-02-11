@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: Never
           name: backend
           ports:
-            - containerPort: 80
+            - containerPort: 3001
           resources: {}
       hostname: backend
       restartPolicy: Always
