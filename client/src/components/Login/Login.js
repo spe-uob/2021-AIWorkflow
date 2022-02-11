@@ -1,13 +1,23 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
 
-const clientId = '516108771432-8r055agb6k336emqdqh242s4c73lduf7.apps.googleusercontent.com';
+const clientId = '516108771432-k0ifm1hkdanslpbd44tojjqehni63bj5.apps.googleusercontent.com';
 
 function Login() {
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res);
     sessionStorage.setItem('sessionObj', JSON.stringify(res));
     window.location.replace("./");
+    /*
+    fetch('localhost:5001', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(res)
+    })
+    */
   };
 
   const onFailure = (res) => {
@@ -20,6 +30,7 @@ function Login() {
     clientId,
     isSignedIn: true,
     scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations",
+    prompt: "consent",
     responseType: "code",
     accessType: "offline",
   });

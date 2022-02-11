@@ -33,7 +33,7 @@ function runWorkflow() {
   method: 'GET',
   headers: {
     'Content-type': 'application/json;charset=UTF-8',
-    'Authorization': googleObj.code
+    'code': googleObj.code
   },
   })
     .then(response => response.json())
