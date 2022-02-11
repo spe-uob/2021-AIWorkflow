@@ -8,6 +8,14 @@ function Login() {
     console.log('Login Success: currentUser:', res);
     sessionStorage.setItem('sessionObj', JSON.stringify(res));
     window.location.replace("./");
+    fetch('localhost:5001', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(res)
+    })
   };
 
   const onFailure = (res) => {
