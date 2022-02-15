@@ -14,7 +14,7 @@ spec:
   ports:
     - name: "5001"
       port: 5001
-      targetPort: 3001
+      targetPort: 80
   selector:
     io.kompose.service: backend
   type: LoadBalancer
