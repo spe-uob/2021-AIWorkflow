@@ -1,17 +1,14 @@
 from ibm_watson import ToneAnalyzerV3
-from dotenv import load_dotenv
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from loguru import logger
 import unittest
-import os
-
 
 
 class IBMToneAnalyzer:
-    def __init__(self) -> None:
-        logger.info("IBMToneAnalyzer __init__()")
-        load_dotenv()
-        self.authenticator = IAMAuthenticator(os.getenv('IBM_TONE_ANALZER_KEY'))
+    def __init__(self, key: str) -> None:
+        logger.info(f"IBMToneAnalyzer __init__({key})")
+        
+        self.authenticator = IAMAuthenticator(key)
         self.tone_analyzer = ToneAnalyzerV3(
             version='2017-09-21',
             authenticator=self.authenticator
@@ -30,7 +27,6 @@ class IBMToneAnalyzer:
         logger.debug(f"Analysis: {analysis}")
         found_tones = analysis['document_tone']["tones"]
         if found_tones:
-            #TODO REMOVE HARDCODED PRIMARY TONE
             tones = [x["tone_id"] for x in found_tones]
             primary_tone = found_tones[0]["tone_id"]
             if primary_tone in self.POSITIVE_TONES:

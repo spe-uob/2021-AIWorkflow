@@ -16,7 +16,7 @@ class App extends Component {
           <Routes>
             <Route exact path="/" element={<LandingPage/ >} />
             <Route path="/workflow_demo" element={<WorkflowDemoPage/>} />
-            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/profile" element={<LoginPage/>}/>
           </Routes>
         </Content>
       </div>

@@ -26,12 +26,15 @@ function runWorkflow() {
   const queryString = new URLSearchParams(formData).toString();
   console.log(queryString);
   var url = new URL("http://localhost:5001/twitterapi/tweets?"+queryString);
-  var googleObj = JSON.parse(sessionStorage.userGoogleTokenId);
+  var googleObj = JSON.parse(sessionStorage.getItem("sessionObj"));
   console.log(googleObj);
   var formResult;
   fetch(url, {
   method: 'GET',
-  headers: {'Content-type': 'application/json;charset=UTF-8'}
+  headers: {
+    'Content-type': 'application/json;charset=UTF-8',
+    'code': googleObj.code
+  },
   })
     .then(response => response.json())
     .then(data => formResult = data)

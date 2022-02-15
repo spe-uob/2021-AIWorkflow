@@ -20,7 +20,7 @@ import {
 import { Link } from 'react-router-dom';
 
 function goToLogin(){
-  window.location.replace("./#/login");
+  window.location.replace("./#/profile");
 }
 
 const AIWorkflowHeader = () => (
