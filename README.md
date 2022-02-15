@@ -13,6 +13,8 @@
       - [1.3.1.1. Development](#1311-development)
       - [1.3.1.2. Deployment](#1312-deployment)
     - [1.3.2. To Deploy](#132-to-deploy)
+      - [1.3.2.1. With Kubernetes (Recommended)](#1321-with-kubernetes-recommended)
+      - [1.3.2.2. With Docker Compose](#1322-with-docker-compose)
 
 ---
 
@@ -48,10 +50,11 @@ As a software developer, the team would like to create a bot that replies to use
 
 If you are developing this project, you will need to install the following: 
 
-- Node.js [link][1] and React [link][2]
+- React [link][2]
 - Python 3.8 or above [link][3]
 - Docker [link][4]
 - Docker Compose [link][5]
+- kubectl [link][6]
 
 Ensure that you have the dependencies installed as well once you have cloned and entered the repository:
 
@@ -74,26 +77,34 @@ If you simply want to run the application, you can just download Docker Desktop 
 
 ### 1.3.2. To Deploy
 
-Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
+![beta_app](readme_assets/beta_website.png)
 
-![mvp_app](readme_assets/mvp_website.png)
+The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a React website that will use IBM's NODE-RED library (as requested by the client) in the future. 
 
-The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a Node.js express website that will use IBM's NODE-RED library (as requested by the client) in the future. 
+For the Beta it displays a website that is created using React, built on [IBM's Carbon Design System][7]. The forms allows you to run a default workflow.
 
-For the MVP it displays a website that is created using React, built on [IBM's Carbon Design System][6]. The forms allows you to run a default workflow.
-
-The `backend` container is a python [FastAPI][7] REST application that will be used to interact with a database and act as a portal to other services e.g. the tone analyser and other 3rd party APIs.
+The `backend` container is a python [FastAPI][8] REST application that will be used to interact with a database and act as a portal to other services e.g. the tone analyser and other 3rd party APIs.
 
 There is also a `dongo` container that is the mongoDB database used to store user data. The reason it is called dongo is due to Mitch was thinking docker and mongo together, therefore misspeaking and said the word 'dongo' instead of 'mongo'.
 
-For documentation regarding the `frontend` and `backend`, please consult the [`docs`][8] folder.
+For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
+
+#### 1.3.2.1. With Kubernetes (Recommended)
+
+Simply run `./make_kubernetes.sh` in a bash shell and go to http://localhost:8080, the application should run.
+
+#### 1.3.2.2. With Docker Compose
+
+Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
+
 
 ---
 
-[1]:https://nodejs.org/en/
+[2]:https://reactjs.org
 [3]:https://www.python.org
 [4]:https://docs.docker.com/get-docker/
 [5]:https://docs.docker.com/compose/install/
-[6]:https://github.com/carbon-design-system/carbon
-[7]:https://fastapi.tiangolo.com
-[8]:https://github.com/spe-uob/2021-AIWorkflow/docs
+[6]:https://kubernetes.io/docs/tasks/tools/
+[7]:https://github.com/carbon-design-system/carbon
+[8]:https://fastapi.tiangolo.com
+[9]:https://github.com/spe-uob/2021-AIWorkflow/docs
