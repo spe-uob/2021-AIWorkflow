@@ -103,4 +103,4 @@ Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, t
 [6]:https://kubernetes.io/docs/tasks/tools/
 [7]:https://github.com/carbon-design-system/carbon
 [8]:https://fastapi.tiangolo.com
-[9]:https://github.com/spe-uob/2021-AIWorkflow/docs
+[9]:https://github.com/spe-uob/2021-AIWorkflow/tree/main/docs
