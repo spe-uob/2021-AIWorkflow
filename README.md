@@ -38,7 +38,7 @@ As a part of the IBM marketing team, they'd want to analyse the success of our m
 
 ### 1.2.3. End user 3: IBM Software Developers
 
-As a software developer, the team would like to create a bot that replies to user Tweets. Using the application, the developer can use the data collected by the application and stored in the database to train a machine learning model and create an AI chatbot that can reply to tweets, e.g. if a user praised an IBM service, the developer’s bot will be able to reply to the user saying thank you.
+As a software developer, the team would like to create a bot that replies to user Tweets. Using the application, the developer can use the data collected by the application and stored in the database to train a machine learning model and create an AI chatbot that can reply to tweets, e.g. if a user praised an IBM service, the developer's bot will be able to reply to the user saying thank you.
 
 ---
 
@@ -65,12 +65,6 @@ cd server && pip3 install -r requirements.txt
 cd ..
 ```
 
-You might also have to generate an OAUTH key in your `server/routers/internal/data/` directory by running the python script `google_drive.py` like so:
-
-```py
-python3 google_drive.py
-```
-
 #### 1.3.1.2. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
@@ -91,7 +85,9 @@ For documentation regarding the `frontend` and `backend`, please consult the [`d
 
 #### 1.3.2.1. With Kubernetes (Recommended)
 
-Simply run `./make_kubernetes.sh` in a bash shell and go to http://localhost:8080, the application should run.
+Simply run `./make_kubernetes.sh <context>` in a bash shell and go to http://localhost:8080, the application should run.
+
+You can see what `context`s are available by using `kubectl config get-contexts` and choose one `kubectl config set-context <context>` (We recommend using docker-desktop for development).
 
 #### 1.3.2.2. With Docker Compose
 
