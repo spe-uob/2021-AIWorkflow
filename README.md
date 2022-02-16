@@ -112,6 +112,8 @@ Detailed instructions can found in [the actual action file](/.github/workflows/i
 
 The action builds three images and containers (one for each service detailed above) and pushes it to IBM's IKS where our client can access the platform.
 
+To test locally, use [act][10]
+
 ---
 
 [2]:https://reactjs.org
@@ -122,3 +124,4 @@ The action builds three images and containers (one for each service detailed abo
 [7]:https://github.com/carbon-design-system/carbon
 [8]:https://fastapi.tiangolo.com
 [9]:https://github.com/spe-uob/2021-AIWorkflow/tree/main/docs
+[10]:https://github.com/nektos/act
