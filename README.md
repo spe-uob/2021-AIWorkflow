@@ -87,7 +87,13 @@ For documentation regarding the `frontend` and `backend`, please consult the [`d
 
 Simply run `./make_kubernetes.sh <context>` in a bash shell and go to http://localhost:8080, the application should run.
 
-You can see what `context`s are available by using `kubectl config get-contexts` and choose one `kubectl config set-context <context>` (We recommend using docker-desktop for development).
+You can see what `context`s are available by using `kubectl config get-contexts` and choose one `kubectl config use-context <context>` (We recommend using docker-desktop for development).
+
+If you are in Windows and the shell is not working correctly. You can manually run in terminal with `kubectl config use-context <context>` in order to switch your kubernetes context to
+
+docker desktop. And you can run the `kubectl apply -f <.yaml>` in order to apply the backend and frontend service. Finally run `kubectl get pods` in order to check the backend and frontend 
+
+is running correctly. Finally go to http://localhost:8080, the application should run.
 
 #### 1.3.2.2. With Docker Compose
 
