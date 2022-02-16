@@ -1,4 +1,3 @@
-#!/bin/bash
 if [ $# -eq 0 ]
   then
     echo "No arguments supplied -- check what kubectl contexts you have (kubectl config get-contexts) and use that (kubectl config set-context <context>)"
