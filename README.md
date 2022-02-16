@@ -112,7 +112,11 @@ Detailed instructions can found in [the actual action file](/.github/workflows/i
 
 The action builds three images and containers (one for each service detailed above) and pushes it to IBM's IKS where our client can access the platform.
 
-To test locally, use [act][10]
+To test locally, use [act][10]:
+
+```sh
+act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
+```
 
 ---
 
