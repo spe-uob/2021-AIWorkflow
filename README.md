@@ -15,6 +15,7 @@
     - [1.3.2. To Deploy](#132-to-deploy)
       - [1.3.2.1. With Kubernetes (Recommended)](#1321-with-kubernetes-recommended)
       - [1.3.2.2. With Docker Compose](#1322-with-docker-compose)
+    - [Continuous Integration](#continuous-integration)
 
 ---
 
@@ -99,6 +100,17 @@ is running correctly. Finally go to http://localhost:8080, the application shoul
 
 Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
+### Continuous Integration
+
+We decided to use a GitHub action that triggers whenever we push to main. 
+
+The repository should have two secrets:
+1. ICR_NAMESPACE (The namespace of your cluster)
+2. IBM_CLOUD_API_KEY (An API key to access IBM Cloud)
+
+Detailed instructions can found in [the actual action file](/.github/workflows/ibm.yml)
+
+The action builds three images and containers (one for each service detailed above) and pushes it to IBM's IKS where our client can access the platform.
 
 ---
 
