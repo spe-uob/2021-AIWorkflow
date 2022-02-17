@@ -8,6 +8,9 @@ services:
     build: ./client
     ports:
       - 8080:3000
+    labels:
+      kompose.service.type: LoadBalancer
+      kompose.image-pull-policy: "Never"
   backend:
     image: "backend"
     hostname: "backend"
@@ -26,3 +29,5 @@ services:
     volumes:
       - "./database:/data/db"
     restart: unless-stopped
+    labels:
+      kompose.image-pull-policy: "Never"
