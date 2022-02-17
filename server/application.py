@@ -1,9 +1,9 @@
-from typing import Optional
-from fastapi import FastAPI, Header
+"""This module contains the code required to run the backend application."""
+import uvicorn
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from routers import tweets
-import uvicorn
 
 app = FastAPI()
 
@@ -20,8 +20,9 @@ app.add_middleware(
 app.include_router(tweets.router)
 
 
-@app.get("/hello_world")
+@app.get("/")
 def root():
+    """Root endpoint to check that the application is running."""
     return JSONResponse({"message": "app is running", "success": True}, 200)
 
 
