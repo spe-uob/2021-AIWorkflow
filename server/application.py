@@ -22,6 +22,10 @@ app.include_router(tweets.router)
 @app.get("/hello_world")
 def root():
     return JSONResponse({"message": "app is running", "success": True}, 200)
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> c66b1e07eb02733d186fb6a286f9aee81b2bdacc
 if __name__ == "__main__":
     uvicorn.run("application:app", host="0.0.0.0", port=80, reload=True)
