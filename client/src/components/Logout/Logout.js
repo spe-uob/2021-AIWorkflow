@@ -7,7 +7,6 @@ function LogoutHooks() {
   const onLogoutSuccess = (res) => {
     console.log('Logged out Success');
     sessionStorage.removeItem('sessionObj');
-    window.location.replace("./");
     fetch('localhost:5001', {
       method: 'POST',
       headers: {
@@ -16,6 +15,7 @@ function LogoutHooks() {
       },
       body: {'Hashed-Email': res.googleId}
     })
+    window.location.replace("./");
   };
 
   const onFailure = () => {

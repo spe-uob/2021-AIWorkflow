@@ -7,7 +7,6 @@ function Login() {
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res);
     sessionStorage.setItem('sessionObj', JSON.stringify(res));
-    window.location.replace("./");
     fetch('localhost:5001', {
       method: 'POST',
       headers: {
@@ -16,6 +15,7 @@ function Login() {
       },
       body: JSON.stringify(res)
     })
+    window.location.replace("./");
   };
 
   const onFailure = (res) => {
