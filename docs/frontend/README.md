@@ -53,7 +53,7 @@ For the Beta, we have added a dynamic landing page, which looks as follows:
 
 ![mvp_app](../../readme_assets/beta_website.png)
 
-
+We have also added a decicated login page, which components from `react-google-login`. The "Get Started" button on the landing page redirects to the login page, and the Workflow demo can only be accessed by logging in.
 
 ---
 [1]:https://github.com/carbon-design-system/carbon
