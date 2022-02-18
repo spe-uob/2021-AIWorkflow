@@ -1,5 +1,14 @@
 # 1. AI Workflow Integration
 
+![Backend Tests](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/backend_ci_test.yml/badge.svg)
+![Frontend Tests](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/frontend_ci_test.yml/badge.svg)
+![Python Formatting](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/black.yml/badge.svg)
+![Deployment to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm.yml/badge.svg)
+
+
+![beta_app](readme_assets/beta_website.png)
+
+
 ---
 
 - [1. AI Workflow Integration](#1-ai-workflow-integration)
@@ -8,6 +17,7 @@
     - [1.2.1. End user 1: John McNamara](#121-end-user-1-john-mcnamara)
     - [1.2.2. End user 2: IBM Marketing Team](#122-end-user-2-ibm-marketing-team)
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
+    - [Tech Stack](#tech-stack)
   - [1.3. Deployment Instructions](#13-deployment-instructions)
     - [1.3.1. Requirements](#131-requirements)
       - [1.3.1.1. Development](#1311-development)
@@ -43,6 +53,16 @@ As a software developer, the team would like to create a bot that replies to use
 
 ---
 
+### Tech Stack
+
+The following tech stack was used to build the application:
+
+- Frontend: React, using [IBM's Carbon Design System][7]
+- Backend: Python, using [FastAPI][8]
+- Database: [mongoDB][11]
+
+---
+
 ## 1.3. Deployment Instructions
 
 ### 1.3.1. Requirements
@@ -71,8 +91,6 @@ cd ..
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
 
 ### 1.3.2. To Deploy
-
-![beta_app](readme_assets/beta_website.png)
 
 The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a React website that will use IBM's NODE-RED library (as requested by the client) in the future. 
 
@@ -129,3 +147,4 @@ act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMES
 [8]:https://fastapi.tiangolo.com
 [9]:https://github.com/spe-uob/2021-AIWorkflow/tree/main/docs
 [10]:https://github.com/nektos/act
+[11]:https://www.mongodb.com
