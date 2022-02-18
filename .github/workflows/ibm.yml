@@ -1,0 +1,92 @@
+# This workflow will build a docker container, publish it to IBM Container Registry, and deploy it to IKS when there is a push to the main branch.
+#
+# To configure this workflow:
+#
+# 1. Ensure that your repository contains a Dockerfile
+# 2. Setup secrets in your repository by going to settings: Create ICR_NAMESPACE and IBM_CLOUD_API_KEY
+# 3. Change the values for the IBM_CLOUD_REGION, REGISTRY_HOSTNAME, IMAGE_NAME, IKS_CLUSTER, DEPLOYMENT_NAME, and PORT
+
+name: Build and Deploy to IKS (Main Branch)
+
+on:
+  push:
+    branches:
+      - main
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  IBM_CLOUD_API_KEY: ${{ secrets.IBM_CLOUD_API_KEY }}
+  IBM_CLOUD_REGION: eu-gb
+  ICR_NAMESPACE: ${{ secrets.ICR_NAMESPACE }}
+  REGISTRY_HOSTNAME: uk.icr.io
+  FRONTEND_IMAGE_NAME: ai-workflow-frontend
+  BACKEND_IMAGE_NAME: ai-workflow-backend
+  DATABASE_IMAGE_NAME: ai-workflow-dongo
+  IKS_CLUSTER: c5bgom2l03ccbklmcdig
+  DEPLOYMENT_NAME: ai-workflow
+  FRONTEND_PORT: 8080
+  BACKEND_PORT: 5001
+  DATABASE_PORT: 27017
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Download and Install IBM Cloud CLI
+    - name: Install IBM Cloud CLI
+      run: |
+        curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+        ibmcloud --version
+        ibmcloud config --check-version=false
+        ibmcloud plugin install -f kubernetes-service
+        ibmcloud plugin install -f container-registry
+
+
+    # Download and Install Kubectl
+    - name: Install Kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        kubectl version --client
+
+
+    # Authenticate with IBM Cloud CLI
+    - name: Authenticate with IBM Cloud CLI
+      run: |
+        ibmcloud login --apikey "${IBM_CLOUD_API_KEY}" -r "${IBM_CLOUD_REGION}" -g classroom
+        ibmcloud cr region-set "${IBM_CLOUD_REGION}"
+        ibmcloud cr login
+
+    # Build the Docker images
+    - name: Build Docker Images
+      run: |
+        docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$FRONTEND_IMAGE_NAME":"$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" ./client
+        docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$BACKEND_IMAGE_NAME":"$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" ./server
+
+    # Push the image to IBM Container Registry
+    - name: Push the images to ICR
+      run: |
+        docker push $REGISTRY_HOSTNAME/$ICR_NAMESPACE/$FRONTEND_IMAGE_NAME:$GITHUB_SHA
+        docker push $REGISTRY_HOSTNAME/$ICR_NAMESPACE/$BACKEND_IMAGE_NAME:$GITHUB_SHA
+
+    # Deploy the Docker image to the IKS cluster
+    - name: Deploy to IKS
+      run: |
+        ibmcloud ks cluster config --cluster $IKS_CLUSTER
+        kubectl config current-context
+        kubectl apply -f backend-service.yaml,backend-deployment.yaml,frontend-tcp-service.yaml,frontend-deployment.yaml
+        kubectl create service frontendloadbalancer $DEPLOYMENT_NAME --tcp=8080:$FRONTEND-PORT --dry-run -o yaml > frontend_service.yaml
+        kubectl create service backendloadbalancer $DEPLOYMENT_NAME --tcp=5001:$BACKEND-PORT --dry-run -o yaml > backend_service.yaml
+        kubectl apply -f frontend_service.yaml,backend_service.yaml
+        kubectl get services -o wide

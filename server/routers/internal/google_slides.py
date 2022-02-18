@@ -1,10 +1,19 @@
 from __future__ import print_function
 from .google_drive import GoogleDrive
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 from typing import List, Dict
 from loguru import logger
 
 
 class GoogleSlides(GoogleDrive):
+    def __init__(self, creds: Credentials) -> None:
+        super().__init__(creds)
+        self.slides_service = build("slides", "v1", credentials=creds)
+
+    def get_all_presentations(self) -> list:
+        return self.get_all_files("application/vnd.google-apps.presentation")
+
     def create_presentation(self, body) -> str:
         presentation = self.slides_service.presentations().create(body=body).execute()
         return presentation.get("presentationId")
@@ -56,7 +65,7 @@ class GoogleSlides(GoogleDrive):
                 "insertText": {
                     "objectId": element_id,
                     "insertionIndex": 0,
-                    "text": f"\"{text}\"\n\nDate posted: {date_posted}",
+                    "text": f'"{text}"\n\nDate posted: {date_posted}',
                 }
             },
         ]
@@ -96,5 +105,5 @@ if __name__ == "__main__":
             {"text": "awesome text", "date": "2021-11-20"},
         ],
         "2021-11-29",
-        "joy"
+        "joy",
     )

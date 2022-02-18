@@ -13,6 +13,9 @@
       - [1.3.1.1. Development](#1311-development)
       - [1.3.1.2. Deployment](#1312-deployment)
     - [1.3.2. To Deploy](#132-to-deploy)
+      - [1.3.2.1. With Kubernetes (Recommended)](#1321-with-kubernetes-recommended)
+      - [1.3.2.2. With Docker Compose](#1322-with-docker-compose)
+    - [Continuous Integration](#continuous-integration)
 
 ---
 
@@ -36,7 +39,7 @@ As a part of the IBM marketing team, they'd want to analyse the success of our m
 
 ### 1.2.3. End user 3: IBM Software Developers
 
-As a software developer, the team would like to create a bot that replies to user Tweets. Using the application, the developer can use the data collected by the application and stored in the database to train a machine learning model and create an AI chatbot that can reply to tweets, e.g. if a user praised an IBM service, the developer’s bot will be able to reply to the user saying thank you.
+As a software developer, the team would like to create a bot that replies to user Tweets. Using the application, the developer can use the data collected by the application and stored in the database to train a machine learning model and create an AI chatbot that can reply to tweets, e.g. if a user praised an IBM service, the developer's bot will be able to reply to the user saying thank you.
 
 ---
 
@@ -48,10 +51,11 @@ As a software developer, the team would like to create a bot that replies to use
 
 If you are developing this project, you will need to install the following: 
 
-- Node.js [link][1] and React [link][2]
+- React [link][2]
 - Python 3.8 or above [link][3]
 - Docker [link][4]
 - Docker Compose [link][5]
+- kubectl [link][6]
 
 Ensure that you have the dependencies installed as well once you have cloned and entered the repository:
 
@@ -62,38 +66,66 @@ cd server && pip3 install -r requirements.txt
 cd ..
 ```
 
-You might also have to generate an OAUTH key in your `server/routers/internal/data/` directory by running the python script `google_drive.py` like so:
-
-```py
-python3 google_drive.py
-```
-
 #### 1.3.1.2. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
 
 ### 1.3.2. To Deploy
 
-Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
+![beta_app](readme_assets/beta_website.png)
 
-![mvp_app](readme_assets/mvp_website.png)
+The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a React website that will use IBM's NODE-RED library (as requested by the client) in the future. 
 
-The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a Node.js express website that will use IBM's NODE-RED library (as requested by the client) in the future. 
+For the Beta it displays a website that is created using React, built on [IBM's Carbon Design System][7]. The forms allows you to run a default workflow.
 
-For the MVP it displays a website that is created using React, built on [IBM's Carbon Design System][6]. The forms allows you to run a default workflow.
-
-The `backend` container is a python [FastAPI][7] REST application that will be used to interact with a database and act as a portal to other services e.g. the tone analyser and other 3rd party APIs.
+The `backend` container is a python [FastAPI][8] REST application that will be used to interact with a database and act as a portal to other services e.g. the tone analyser and other 3rd party APIs.
 
 There is also a `dongo` container that is the mongoDB database used to store user data. The reason it is called dongo is due to Mitch was thinking docker and mongo together, therefore misspeaking and said the word 'dongo' instead of 'mongo'.
 
-For documentation regarding the `frontend` and `backend`, please consult the [`docs`][8] folder.
+For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
+
+#### 1.3.2.1. With Kubernetes (Recommended)
+
+Simply run `./make_kubernetes.sh <context>` in a bash shell and go to http://localhost:8080, the application should run.
+
+You can see what `context`s are available by using `kubectl config get-contexts` and choose one `kubectl config use-context <context>` (We recommend using docker-desktop for development).
+
+If you are in Windows and the shell is not working correctly. You can manually run in terminal with `kubectl config use-context <context>` in order to switch your kubernetes context to
+
+docker desktop. And you can run the `kubectl apply -f <.yaml>` in order to apply the backend and frontend service. Finally run `kubectl get pods` in order to check the backend and frontend 
+
+is running correctly. Finally go to http://localhost:8080, the application should run.
+
+#### 1.3.2.2. With Docker Compose
+
+Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
+
+### Continuous Integration
+
+We decided to use a GitHub action that triggers whenever we push to main. 
+
+The repository should have two secrets:
+1. ICR_NAMESPACE (The namespace of your cluster)
+2. IBM_CLOUD_API_KEY (An API key to access IBM Cloud)
+
+Detailed instructions can found in [the actual action file](/.github/workflows/ibm.yml)
+
+The action builds three images and containers (one for each service detailed above) and pushes it to IBM's IKS where our client can access the platform.
+
+To test locally, use [act][10]:
+
+```sh
+act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
+```
 
 ---
 
-[1]:https://nodejs.org/en/
+[2]:https://reactjs.org
 [3]:https://www.python.org
 [4]:https://docs.docker.com/get-docker/
 [5]:https://docs.docker.com/compose/install/
-[6]:https://github.com/carbon-design-system/carbon
-[7]:https://fastapi.tiangolo.com
-[8]:https://github.com/spe-uob/2021-AIWorkflow/docs
+[6]:https://kubernetes.io/docs/tasks/tools/
+[7]:https://github.com/carbon-design-system/carbon
+[8]:https://fastapi.tiangolo.com
+[9]:https://github.com/spe-uob/2021-AIWorkflow/tree/main/docs
+[10]:https://github.com/nektos/act

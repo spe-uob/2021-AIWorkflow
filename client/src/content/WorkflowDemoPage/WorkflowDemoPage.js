@@ -24,6 +24,11 @@ const keywordBoxProps = {
   className: "demo-workflow-class",
 }
 
+const datePickerBoxProps = {
+  className: "demo-workflow-class",
+  legendText: "Date Range"
+}
+
 
 const WorkflowDemoPage = () => {
   return (
@@ -45,7 +50,7 @@ const WorkflowDemoPage = () => {
         <Checkbox labelText="Positive" id="tones" value="positive"/>
         <Checkbox labelText="Negative" id="tones1" value="negative" />
       </FormGroup>
-      <FormGroup>
+      <FormGroup {...datePickerBoxProps}>
         <DatePicker datePickerType="range">
           <DatePickerInput
             id="date_start"
