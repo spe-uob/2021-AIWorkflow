@@ -49,11 +49,13 @@ It is a rather simplistic design -- one that simply achieves the sample flow giv
 
 ### Beta
 
-For the Beta, we have added a dynamic landing page, which looks as follows:
+For the Beta, a dynamic landing page has been added, which looks as follows:
 
 ![mvp_app](../../readme_assets/beta_website.png)
 
-We have also added a decicated login page, which components from `react-google-login`. The "Get Started" button on the landing page redirects to the login page, and the Workflow demo can only be accessed by logging in.
+A decicated login page has also been added, which uses components from `react-google-login`. The "Get Started" button on the landing page redirects to the login page, and the Workflow demo can only be accessed by logging in.
+
+The UX of the worflow demo page has been improved with a loading screen, to notify the user that a process is running in the backend.
 
 ---
 [1]:https://github.com/carbon-design-system/carbon
