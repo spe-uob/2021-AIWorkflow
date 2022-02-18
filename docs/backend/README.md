@@ -112,6 +112,14 @@ Search tweet search and collect information in twitter according to the key word
 
 ##### 1.3.1.2.3. Parameters
 
+**Headers:**
+
+| Header | Description      | Optional |
+| ------ | ---------------- | -------- |
+| code   | Google auth code | No       |
+
+
+
 **Query Params:**
 
 | Parameter  | Type   | Description                    | Optional |
