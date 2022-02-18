@@ -3,7 +3,7 @@ name: Black
 on: [push]
 
 jobs:
-  pylint:
+  black-format:
     runs-on: ubuntu-latest
     defaults:
       run:
