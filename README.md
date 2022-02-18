@@ -17,15 +17,15 @@
     - [1.2.1. End user 1: John McNamara](#121-end-user-1-john-mcnamara)
     - [1.2.2. End user 2: IBM Marketing Team](#122-end-user-2-ibm-marketing-team)
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
-    - [Tech Stack](#tech-stack)
-  - [1.3. Deployment Instructions](#13-deployment-instructions)
-    - [1.3.1. Requirements](#131-requirements)
-      - [1.3.1.1. Development](#1311-development)
-      - [1.3.1.2. Deployment](#1312-deployment)
-    - [1.3.2. To Deploy](#132-to-deploy)
-      - [1.3.2.1. With Kubernetes (Recommended)](#1321-with-kubernetes-recommended)
-      - [1.3.2.2. With Docker Compose](#1322-with-docker-compose)
-    - [Continuous Integration](#continuous-integration)
+  - [1.3. Tech Stack](#13-tech-stack)
+  - [1.4. Deployment Instructions](#14-deployment-instructions)
+    - [1.4.1. Requirements](#141-requirements)
+      - [1.4.1.1. Development](#1411-development)
+      - [1.4.1.2. Deployment](#1412-deployment)
+    - [1.4.2. To Deploy](#142-to-deploy)
+      - [1.4.2.1. With Kubernetes (Recommended)](#1421-with-kubernetes-recommended)
+      - [1.4.2.2. With Docker Compose](#1422-with-docker-compose)
+    - [1.4.3. Continuous Integration](#143-continuous-integration)
 
 ---
 
@@ -53,7 +53,7 @@ As a software developer, the team would like to create a bot that replies to use
 
 ---
 
-### Tech Stack
+## 1.3. Tech Stack
 
 The following tech stack was used to build the application:
 
@@ -63,11 +63,11 @@ The following tech stack was used to build the application:
 
 ---
 
-## 1.3. Deployment Instructions
+## 1.4. Deployment Instructions
 
-### 1.3.1. Requirements
+### 1.4.1. Requirements
 
-#### 1.3.1.1. Development
+#### 1.4.1.1. Development
 
 If you are developing this project, you will need to install the following: 
 
@@ -86,11 +86,11 @@ cd server && pip3 install -r requirements.txt
 cd ..
 ```
 
-#### 1.3.1.2. Deployment
+#### 1.4.1.2. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
 
-### 1.3.2. To Deploy
+### 1.4.2. To Deploy
 
 The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a React website that will use IBM's NODE-RED library (as requested by the client) in the future. 
 
@@ -102,7 +102,7 @@ There is also a `dongo` container that is the mongoDB database used to store use
 
 For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
 
-#### 1.3.2.1. With Kubernetes (Recommended)
+#### 1.4.2.1. With Kubernetes (Recommended)
 
 Simply run `./make_kubernetes.sh <context>` in a bash shell and go to http://localhost:8080, the application should run.
 
@@ -112,11 +112,11 @@ If you are in Windows and the shell is not working correctly. You can manually r
 
 Finally go to http://localhost:8080, the application should run.
 
-#### 1.3.2.2. With Docker Compose
+#### 1.4.2.2. With Docker Compose
 
 Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
-### Continuous Integration
+### 1.4.3. Continuous Integration
 
 We decided to use a GitHub action that triggers whenever we push to main. 
 
