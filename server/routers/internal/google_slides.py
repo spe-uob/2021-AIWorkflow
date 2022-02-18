@@ -5,8 +5,8 @@ from googleapiclient.discovery import build
 from typing import List, Dict
 from loguru import logger
 
-class GoogleSlides(GoogleDrive):
 
+class GoogleSlides(GoogleDrive):
     def __init__(self, creds: Credentials) -> None:
         super().__init__(creds)
         self.slides_service = build("slides", "v1", credentials=creds)
@@ -65,7 +65,7 @@ class GoogleSlides(GoogleDrive):
                 "insertText": {
                     "objectId": element_id,
                     "insertionIndex": 0,
-                    "text": f"\"{text}\"\n\nDate posted: {date_posted}",
+                    "text": f'"{text}"\n\nDate posted: {date_posted}',
                 }
             },
         ]
@@ -105,5 +105,5 @@ if __name__ == "__main__":
             {"text": "awesome text", "date": "2021-11-20"},
         ],
         "2021-11-29",
-        "joy"
+        "joy",
     )

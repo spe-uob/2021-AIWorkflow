@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, constr, ValidationError
 from datetime import datetime
 import tone as tone
 
+
 class TweetSchema(BaseModel):
     user_id: str = Field(None)
     content: str = Field(...)
@@ -20,7 +21,8 @@ class TweetSchema(BaseModel):
                 "time": datetime(2020, 5, 17),
             }
         }
-    
+
+
 class UpdateTweetModel(BaseModel):
     user_id: Optional[str]
     content: str
@@ -39,14 +41,14 @@ class UpdateTweetModel(BaseModel):
             }
         }
 
+
 def ResponseModel(data, message):
     return {
-        "data":[data],
-        "code":200,
+        "data": [data],
+        "code": 200,
         "message": message,
     }
 
+
 def ErrorResponseModel(error, code, message):
     return {"error": error, "code": code, "message": message}
-
-
