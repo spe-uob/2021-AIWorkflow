@@ -1,7 +1,7 @@
 from typing import Optional, List
-from pydantic import BaseModel, Field, constr, ValidationError
+from pydantic import BaseModel, Field
 from datetime import datetime
-import tone as tone
+import tone
 
 
 class TweetSchema(BaseModel):

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Header
+from fastapi import APIRouter
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
