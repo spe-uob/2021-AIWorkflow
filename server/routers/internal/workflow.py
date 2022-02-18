@@ -7,6 +7,7 @@ from typing import List, Optional
 from loguru import logger
 from datetime import datetime
 
+
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
         self.twitterapi = TwitterAPI()
@@ -22,7 +23,7 @@ class Workflow:
         tones: List[str],
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
-    ):
+    ) -> None:
         # TODO UPDATE DOCS
         logger.warning(self.clients.get(user_id))
         if self.clients.get(user_id) is None:

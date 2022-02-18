@@ -1,4 +1,5 @@
 """This module contains the code required to run the backend application."""
+from sqlalchemy import JSON
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,7 +22,7 @@ app.include_router(tweets.router)
 
 
 @app.get("/")
-def root():
+def root() -> JSONResponse:
     """Root endpoint to check that the application is running."""
     return JSONResponse({"message": "app is running", "success": True}, 200)
 

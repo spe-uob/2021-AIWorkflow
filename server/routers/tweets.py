@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Header
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
+from sqlalchemy import JSON
 from .internal.workflow import Workflow
 from .tweets_schemas import SaveTweetsRequest, SaveTweetsResponse, SearchTweetsResponse
 from loguru import logger
@@ -14,7 +15,7 @@ WORKFLOW_DEMO = Workflow(os.getenv("IBM_TONE_ANALYZER_KEY"))
 
 
 @router.post("/tweets", response_model=SaveTweetsResponse)
-async def save_tweet_request(request: SaveTweetsRequest):
+async def save_tweet_request(request: SaveTweetsRequest) -> JSONResponse:
     response = {
         "data": {
             "tweet_id": "123456789",
@@ -33,7 +34,7 @@ async def search_tweet_request(
     time_start: str = None,
     time_end: str = None,
     code: str = Header(None),
-):
+) -> JSONResponse:
     try:
         keywords = [kw.rstrip() for kw in keywords.split(",")]
         tones = [kw.rstrip() for kw in tones.split(",")]

@@ -17,7 +17,7 @@ def tweet_helper(tweet) -> dict:
     }
 
 
-async def retrieve_all_tweets():
+async def retrieve_all_tweets() -> dict:
     tweets = []
     async for tweet in tweet_collection.find():
         tweets.append(tweet_helper(tweet))

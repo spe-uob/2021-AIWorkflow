@@ -17,7 +17,7 @@ class GoogleSheets(GoogleDrive):
 
     def create_spreadsheet(
         self, body: str, headers: List[str], range: str, value_input_option: str
-    ):
+    ) -> int:
         spreadsheet = (
             self.sheets_service.spreadsheets()
             .create(body=body, fields="spreadsheetId")
@@ -39,7 +39,7 @@ class GoogleSheets(GoogleDrive):
         tweets: List[Dict[str, str]],
         range: str,
         value_input_option: str,
-    ):
+    ) -> None:
         insert_data_option = "INSERT_ROWS"  # TODO: Update placeholder value.
         value_range_body = {"values": []}
         for tweet in tweets:
@@ -58,7 +58,7 @@ class GoogleSheets(GoogleDrive):
         date: str,
         tone: str = None,
         sheet_id: str = None,
-    ):
+    ) -> None:
         if tone is None:
             tone = "General"
         if sheet_id is None:
