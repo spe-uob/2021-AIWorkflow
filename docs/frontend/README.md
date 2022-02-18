@@ -33,6 +33,8 @@ This section contains the initial wireframes for the frontend of the AI Workflow
 
 The wireframes started out as a rough draft of the frontend design. It was more or less the 'end design', what we wanted to achieve.
 
+### MVP
+
 For the Minimum Viable Product this was proven to be too difficult, so we ended with a more realistic design.
 
 We also decided to find a framework for the frontend, which we will use for the rest of the project. It was paramount that we had a good framework such that our designs are coherent and we can provide a consistent user experience.
@@ -41,9 +43,17 @@ In the end we found [IBM Carbon Design][1], which is THE framework that IBM uses
 
 In our main README we now see the current design:
 
-![mvp_app](mvp_website.png)
+![mvp_app](../../readme_assets/mvp_website.png)
 
 It is a rather simplistic design -- one that simply achieves the sample flow given by the client, but as you may now have realised, the design is consistent with IBM Design Principles and we can use that structure to continue building our website.
+
+### Beta
+
+For the Beta, we have added a dynamic landing page, which looks as follows:
+
+![mvp_app](../../readme_assets/beta_website.png)
+
+
 
 ---
 [1]:https://github.com/carbon-design-system/carbon
