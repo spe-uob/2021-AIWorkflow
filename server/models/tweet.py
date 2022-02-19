@@ -1,7 +1,8 @@
-from typing import Optional, List
-from pydantic import BaseModel, Field, constr, ValidationError
+from typing import Optional, List, Dict
+from pydantic import BaseModel, Field
 from datetime import datetime
-import tone as tone
+import tone
+
 
 class TweetSchema(BaseModel):
     user_id: str = Field(None)
@@ -20,7 +21,8 @@ class TweetSchema(BaseModel):
                 "time": datetime(2020, 5, 17),
             }
         }
-    
+
+
 class UpdateTweetModel(BaseModel):
     user_id: Optional[str]
     content: str
@@ -39,14 +41,14 @@ class UpdateTweetModel(BaseModel):
             }
         }
 
-def ResponseModel(data, message):
+
+def ResponseModel(data, message) -> Dict[str, str]:
     return {
-        "data":[data],
-        "code":200,
+        "data": [data],
+        "code": 200,
         "message": message,
     }
 
-def ErrorResponseModel(error, code, message):
+
+def ErrorResponseModel(error, code, message) -> Dict[str, str]:
     return {"error": error, "code": code, "message": message}
-
-

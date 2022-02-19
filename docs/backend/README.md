@@ -1,9 +1,9 @@
-# 1. AI WorkFlow API Documentation
+# 1. AI WorkFlow Backend API Documentation
 
 ---
 
 ## 1.1. Table of Contents
-- [1. AI WorkFlow API Documentation](#1-ai-workflow-api-documentation)
+- [1. AI WorkFlow Backend API Documentation](#1-ai-workflow-backend-api-documentation)
   - [1.1. Table of Contents](#11-table-of-contents)
   - [1.2. API User flow diagram](#12-api-user-flow-diagram)
   - [1.3. API Endpoints](#13-api-endpoints)
@@ -118,8 +118,6 @@ Search tweet search and collect information in twitter according to the key word
 | ------ | ---------------- | -------- |
 | code   | Google auth code | No       |
 
-
-
 **Query Params:**
 
 | Parameter  | Type   | Description                    | Optional |
@@ -129,8 +127,6 @@ Search tweet search and collect information in twitter according to the key word
 | tones      | string | User-specified tone            | No       |
 | time_start | string | User input starting time range | Yes      |
 | time_end   | string | User input ending time range   | Yes      |
-
-
 
  e.g.
 

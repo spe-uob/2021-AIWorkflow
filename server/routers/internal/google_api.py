@@ -1,8 +1,8 @@
 from google_auth_oauthlib.flow import Flow
 from google.oauth2.credentials import Credentials
 
-class GoogleAPI:
 
+class GoogleAPI:
     def __init__(self, file_path: str, auth_code: str) -> None:
         flow = Flow.from_client_secrets_file(
             file_path,
