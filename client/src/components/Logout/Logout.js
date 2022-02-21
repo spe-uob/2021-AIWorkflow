@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGoogleLogout } from 'react-google-login';
+import CLIENT_ID from '../../settings';
 
 function LogoutHooks() {
   const onLogoutSuccess = (res) => {
@@ -13,7 +14,7 @@ function LogoutHooks() {
   };
 
   const { signOut } = useGoogleLogout({
-    clientId,
+    CLIENT_ID,
     onLogoutSuccess,
     onFailure,
   });

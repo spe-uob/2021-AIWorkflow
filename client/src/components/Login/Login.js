@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
+import CLIENT_ID from '../../settings'
 
 function Login() {
   const onSuccess = (res) => {
@@ -25,7 +26,7 @@ function Login() {
   const { signIn } = useGoogleLogin({
     onSuccess,
     onFailure,
-    clientId,
+    CLIENT_ID,
     isSignedIn: true,
     scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations",
     prompt: "consent",
