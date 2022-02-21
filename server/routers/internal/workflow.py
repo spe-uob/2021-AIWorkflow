@@ -3,11 +3,9 @@ from .google_sheets import GoogleSheets
 from .tone_analyzer import IBMToneAnalyzer
 from .twitter_api import TwitterAPI
 from .google_api import GoogleAPI
-from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional
 from loguru import logger
 from datetime import datetime
-import os
 
 
 class Workflow:
@@ -25,7 +23,7 @@ class Workflow:
         tones: List[str],
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
-    ):
+    ) -> None:
         # TODO UPDATE DOCS
         logger.warning(self.clients.get(user_id))
         if self.clients.get(user_id) is None:

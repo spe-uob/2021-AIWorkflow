@@ -41,7 +41,7 @@ class IBMToneAnalyzer:
 
 
 class Tests(unittest.TestCase):
-    def test_get_analysis(self):
+    def test_get_analysis(self) -> None:
         tone_analyzer_instance = IBMToneAnalyzer()
         analysis = tone_analyzer_instance.get_analysis("I'm so happy today!")
         logger.debug(f"analysis: {analysis}")

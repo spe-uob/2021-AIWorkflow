@@ -1,7 +1,8 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
+import Constants from '../../settings'
 
-const clientId = '516108771432-k0ifm1hkdanslpbd44tojjqehni63bj5.apps.googleusercontent.com';
+const clientId = Constants.CLIENT_ID
 
 function Login() {
   const onSuccess = (res) => {

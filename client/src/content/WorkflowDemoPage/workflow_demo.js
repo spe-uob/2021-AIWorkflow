@@ -26,20 +26,27 @@ function runWorkflow() {
   const queryString = new URLSearchParams(formData).toString();
   console.log(queryString);
   var url = new URL("http://localhost:5001/twitterapi/tweets?"+queryString);
-  var googleObj = JSON.parse(sessionStorage.getItem("sessionObj"));
-  console.log(googleObj);
-  var formResult;
-  fetch(url, {
-  method: 'GET',
-  headers: {
-    'Content-type': 'application/json;charset=UTF-8',
-    'code': googleObj.code
-  },
-  })
-    .then(response => response.json())
-    .then(data => formResult = data)
-    .then(() => alert(formResult.message))
-    .catch(error => alert(error));
+  if (sessionStorage.getItem('sessionObj') == null) {
+    alert("You have not signed in yet -- redirecting you to the login page");
+    window.location.replace("./");
+  } else {
+    var googleObj = JSON.parse(sessionStorage.getItem("sessionObj"));
+    console.log(googleObj);
+    var formResult;
+    fetch(url, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+      'Content-type': 'application/json;charset=UTF-8',
+      'code': googleObj.code
+    },
+    })
+      .then(response => response.json())
+      .then(data => formResult = data)
+      .then(() => alert(formResult.message))
+      .catch(error => alert(error));
+  }
 }
 
 export function runWorkflowDemo(){

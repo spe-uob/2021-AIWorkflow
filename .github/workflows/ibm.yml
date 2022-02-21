@@ -23,8 +23,9 @@ env:
   FRONTEND_IMAGE_NAME: ai-workflow-frontend
   BACKEND_IMAGE_NAME: ai-workflow-backend
   DATABASE_IMAGE_NAME: ai-workflow-dongo
-  IKS_CLUSTER: c5bgom2l03ccbklmcdig
-  DEPLOYMENT_NAME: ai-workflow
+  IKS_CLUSTER: classroom-eu-gb-1-bx2.4x16
+  FRONTEND_DEPLOYMENT_NAME: frontend
+  BACKEND_DEPLOYMENT_NAME: backend
   FRONTEND_PORT: 8080
   BACKEND_PORT: 5001
   DATABASE_PORT: 27017
@@ -53,7 +54,7 @@ jobs:
     - name: Install Kubectl
       run: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
         kubectl version --client
 
 
@@ -84,9 +85,10 @@ jobs:
     - name: Deploy to IKS
       run: |
         ibmcloud ks cluster config --cluster $IKS_CLUSTER
-        kubectl config current-context
+        kubectl config current-context 
+        kubectl config set-context --current --namespace=$ICR_NAMESPACE
+        kubectl config view --minify | grep namespace:
         kubectl apply -f backend-service.yaml,backend-deployment.yaml,frontend-tcp-service.yaml,frontend-deployment.yaml
-        kubectl create service frontendloadbalancer $DEPLOYMENT_NAME --tcp=8080:$FRONTEND-PORT --dry-run -o yaml > frontend_service.yaml
-        kubectl create service backendloadbalancer $DEPLOYMENT_NAME --tcp=5001:$BACKEND-PORT --dry-run -o yaml > backend_service.yaml
-        kubectl apply -f frontend_service.yaml,backend_service.yaml
         kubectl get services -o wide
+        kubectl describe service $FRONTEND_DEPLOYMENT_NAME
+        kubectl describe service $BACKEND_DEPLOYMENT_NAME
