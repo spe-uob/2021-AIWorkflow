@@ -29,7 +29,7 @@ function Login() {
     onSuccess,
     onFailure,
     clientId,
-    isSignedIn: true,
+    isSignedIn: false,
     scope: "email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/presentations",
     prompt: "consent",
     responseType: "code",
