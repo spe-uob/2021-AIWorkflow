@@ -6,28 +6,20 @@ from .google_api import GoogleAPI
 from typing import List, Optional
 from loguru import logger
 from datetime import datetime
-
+from traceback import format_exc
 
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
         self.twitterapi = TwitterAPI()
         self.toneanalyzer = IBMToneAnalyzer(ibm_ta_key)
         self.clients = {}
-
-    def main(
-        self,
-        creds_file: str,
-        google_api_auth_code: str,
-        user_id: str,
-        keywords: List[str],
-        tones: List[str],
-        start_date: Optional[str] = None,
-        end_date: Optional[str] = None,
-    ) -> None:
-        # TODO UPDATE DOCS
-        logger.warning(self.clients.get(user_id))
-        if self.clients.get(user_id) is None:
-            google_creds = GoogleAPI(creds_file, google_api_auth_code).credentials
+    
+    def authenticate_user(self, creds_file: str, code: str) -> None:
+        try:
+            google_api = GoogleAPI(creds_file, code)
+            google_creds = google_api.credentials
+            user_profile = google_api.load_profile()
+            user_id = user_profile["id"]
             googleslides = GoogleSlides(google_creds)
             googlesheets = GoogleSheets(google_creds)
             self.clients.update(
@@ -38,7 +30,23 @@ class Workflow:
                     }
                 }
             )
+            return user_profile
+        except Exception as e:
+            logger.error(e)
+            logger.error(format_exc())
 
+    def main(
+        self,
+        user_id: str,
+        keywords: List[str],
+        tones: List[str],
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+    ) -> None:
+        # TODO UPDATE DOCS
+        logger.warning(self.clients.get(user_id))
+        if self.clients.get(user_id) is None:
+            raise ValueError("User has not logged in yet.")
         else:
             googleslides = self.clients[user_id]["googleslides"]
             googlesheets = self.clients[user_id]["googlesheets"]
@@ -76,5 +84,6 @@ class Workflow:
 
 
 if __name__ == "__main__":
-    wf = Workflow()
-    wf.main("ibm", ["ibm"], ["happy", "sad"])
+    wf = Workflow("T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
+    #wf.main("ibm", ["ibm"], ["happy", "sad"])
+    wf.authenticate_user("./credentials.json", "4/0AX4XfWjOZFSsCSOYjfa5Dv4I4kIJjfBu6GhRd4KBwiPE4MiBZFKUzEggTHi6rmcTv-ExaQ\\")
