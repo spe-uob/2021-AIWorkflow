@@ -6,7 +6,6 @@
     "@carbon/icons-react": "^10.44.0",
     "@carbon/themes": "^10.47.0",
     "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "carbon-components": "^10.49.0",
     "carbon-components-react": "^7.49.1",
@@ -44,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^12.1.4"
   }
 }
