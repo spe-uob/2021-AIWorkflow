@@ -1,5 +1,4 @@
 """This module contains the code required to run the backend application."""
-from sqlalchemy import JSON
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,6 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(tweets.router)
+app.include_router(tweets.user_router)
 
 
 @app.get("/")
