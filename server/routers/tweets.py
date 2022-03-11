@@ -70,10 +70,10 @@ user_router = APIRouter(prefix="/user")
 async def user_login(request: UserLogInRequest):
     logger.debug(request.code)
     user_profile = WORKFLOW_DEMO.authenticate_user("./routers/internal/credentials.json", request.code)
-    return JSONResponse({"data": {"google_object": user_profile}, "message": "login successfully"}, status_code=200)
+    return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful"}, status_code=200)
 
 
-@user_router.get("/logout", response_model=UserLogOutResponse)
+@user_router.post("/logout", response_model=UserLogOutResponse)
 async def user_logout(request: UserLogOutRequest):
     logger.debug(request.user_id)
-    return JSONResponse({"data": {}, "message": "logout successfully"}, status_code=200)
+    return JSONResponse({"data": {}, "message": "logout successful"}, status_code=200)
