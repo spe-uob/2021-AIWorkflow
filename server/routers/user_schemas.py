@@ -12,7 +12,7 @@ class UserLogInResponse(BaseModel):
 
 
 class UserLogOutRequest(BaseModel):
-    hashed_username: str
+    user_id: str
 
 
 class UserLogOutResponse(BaseModel):

@@ -19,7 +19,8 @@
     "react-google-login": "^5.2.2",
     "react-router-dom": "^6.2.1",
     "react-scripts": "4.0.3",
-    "sass": "^1.44.0"
+    "sass": "^1.44.0",
+    "sjcl": "^1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
