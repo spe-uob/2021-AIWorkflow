@@ -26,12 +26,10 @@ function runWorkflow() {
   const queryString = new URLSearchParams(formData).toString();
   console.log(queryString);
   var url = new URL("http://localhost:5001/twitterapi/tweets?"+queryString);
-  if (sessionStorage.getItem('sessionObj') == null) {
+  if (sessionStorage.getItem('sessionObj') == null || sessionStorage.getItem('googleObj') == null) {
     alert("You have not signed in yet -- redirecting you to the login page");
-    window.location.replace("./");
+    window.location.replace("./profile");
   } else {
-    var googleObj = JSON.parse(sessionStorage.getItem("sessionObj"));
-    console.log(googleObj);
     var formResult;
     fetch(url, {
     method: 'GET',
@@ -39,7 +37,6 @@ function runWorkflow() {
     headers: {
       'Access-Control-Allow-Origin':'*',
       'Content-type': 'application/json;charset=UTF-8',
-      'code': googleObj.code
     },
     })
       .then(response => response.json())
