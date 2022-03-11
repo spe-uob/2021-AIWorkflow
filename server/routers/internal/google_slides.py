@@ -5,8 +5,8 @@ from googleapiclient.discovery import build
 from typing import List, Dict
 from loguru import logger
 
-class GoogleSlides(GoogleDrive):
 
+class GoogleSlides(GoogleDrive):
     def __init__(self, creds: Credentials) -> None:
         super().__init__(creds)
         self.slides_service = build("slides", "v1", credentials=creds)
@@ -18,7 +18,9 @@ class GoogleSlides(GoogleDrive):
         presentation = self.slides_service.presentations().create(body=body).execute()
         return presentation.get("presentationId")
 
-    def create_tweet_slide(self, presentation_id: str, text: str, date_posted: str):
+    def create_tweet_slide(
+        self, presentation_id: str, text: str, date_posted: str
+    ) -> None:
         presentation = (
             self.slides_service.presentations()
             .get(presentationId=presentation_id)
@@ -65,7 +67,7 @@ class GoogleSlides(GoogleDrive):
                 "insertText": {
                     "objectId": element_id,
                     "insertionIndex": 0,
-                    "text": f"\"{text}\"\n\nDate posted: {date_posted}",
+                    "text": f'"{text}"\n\nDate posted: {date_posted}',
                 }
             },
         ]
@@ -76,8 +78,8 @@ class GoogleSlides(GoogleDrive):
             .execute()
         )
         create_shape_response = response.get("replies")[0].get("createShape")
-        print(
-            "Created textbox with ID: {0}".format(create_shape_response.get("objectId"))
+        logger.info(
+            f"Created textbox with ID: {format(create_shape_response.get('objectId'))}"
         )
 
     def add_tweets_to_slide(
@@ -86,7 +88,7 @@ class GoogleSlides(GoogleDrive):
         date: str,
         tone: str,
         presentation_id: str = None,
-    ):
+    ) -> None:
         if presentation_id is None:
             body = {"title": f"Tweets - {tone} - {date}"}
             presentation_id = self.create_presentation(body)
@@ -105,5 +107,5 @@ if __name__ == "__main__":
             {"text": "awesome text", "date": "2021-11-20"},
         ],
         "2021-11-29",
-        "joy"
+        "joy",
     )

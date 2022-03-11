@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   Form,
@@ -6,7 +6,8 @@ import {
   Search,
   Checkbox,
   DatePicker,
-  DatePickerInput
+  DatePickerInput,
+  InlineLoading
 } from 'carbon-components-react';
 import {runWorkflowDemo} from './workflow_demo.js';
 
@@ -24,8 +25,43 @@ const keywordBoxProps = {
   className: "demo-workflow-class",
 }
 
+const datePickerBoxProps = {
+  className: "demo-workflow-class",
+  legendText: "Date Range"
+}
+
 
 const WorkflowDemoPage = () => {
+  function FormSubmission({children}) {
+      const [isSubmitting, setIsSubmitting] = useState(false);
+      const [success, setSuccess] = useState(false);
+      const [description, setDescription] = useState('Submitting...');
+      const [ariaLive, setAriaLive] = useState('off');
+      const handleSubmit = () => {
+        setIsSubmitting(true);
+        setSuccess(false);
+        setAriaLive('assertive');
+  
+
+        setDescription('Running Workflow...');
+        runWorkflowDemo();
+        setAriaLive('off');
+
+
+        setSuccess(true);
+        setDescription('Workflow Complete!');
+      };
+    
+      return children({
+        handleSubmit,
+        isSubmitting,
+        success,
+        description,
+        ariaLive,
+      });
+    }
+
+
   return (
   <div className="bx--grid bx--grid--full-width">
     <br />
@@ -39,13 +75,13 @@ const WorkflowDemoPage = () => {
     <br />
     <Form id="demo_workflow_form">
       <FormGroup {...fieldsetKeywordBoxProps}>
-        <Search {...keywordBoxProps} id="keywords" labelText="" placeholder="IBM Cloud, VPC, Watson" />
+        <Search {...keywordBoxProps} required id="keywords" labelText="" placeholder="IBM Cloud, VPC, Watson" />
       </FormGroup>
       <FormGroup {...fieldsetCheckboxProps}>
         <Checkbox labelText="Positive" id="tones" value="positive"/>
         <Checkbox labelText="Negative" id="tones1" value="negative" />
       </FormGroup>
-      <FormGroup>
+      <FormGroup {...datePickerBoxProps}>
         <DatePicker datePickerType="range">
           <DatePickerInput
             id="date_start"
@@ -59,7 +95,22 @@ const WorkflowDemoPage = () => {
           />
         </DatePicker>
       </FormGroup>
-      <Button onClick={runWorkflowDemo} type="submit">Run Demo Workflow</Button>
+      <FormSubmission>
+      {({ handleSubmit, isSubmitting, success, description, ariaLive }) => (
+        <div style={{ display: 'flex', width: '300px' }}>
+          {isSubmitting || success ? (
+            <InlineLoading
+              style={{ marginLeft: '1rem' }}
+              description={description}
+              status={success ? 'finished' : 'active'}
+              aria-live={ariaLive}
+            />
+          ) : (
+            <Button className="form-submit-button" onClick={handleSubmit} type="submit">Run Demo Workflow</Button>
+          )}
+        </div>
+      )}
+      </FormSubmission>
     </Form>
     <script src="/workflow_demo.js"></script>
   </div>
