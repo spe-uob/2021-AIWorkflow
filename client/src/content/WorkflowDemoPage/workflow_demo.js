@@ -3,7 +3,7 @@ import $ from 'jquery';
 function runWorkflow() {
   console.log('Running workflow demo...');
   var formData = new FormData();
-  formData.append('user_id', JSON.parse(sessionStorage.getItem('googleObj')).user_id);
+  formData.append('user_id', "demo");
   var keywords = $('#keywords').val();
   formData.append('keywords', keywords);
   var tones = [];
