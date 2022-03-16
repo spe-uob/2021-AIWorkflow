@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from routers import tweets
+from fastapi.testclient import TestClient
 
 app = FastAPI()
 
@@ -28,3 +29,9 @@ def root():
 
 if __name__ == "__main__":
     uvicorn.run("application:app", host="0.0.0.0", port=80, reload=True)
+
+client = TestClient(app)
+def test_root():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "app is running", "success": True}
