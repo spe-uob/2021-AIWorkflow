@@ -1,6 +1,6 @@
 from email.mime import application
 import pytest
-from ..application import app
+from .application import app
 from fastapi.testclient import TestClient
 
 
