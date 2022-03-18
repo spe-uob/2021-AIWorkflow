@@ -13,3 +13,7 @@ def test_root():
 def test_login():
     response = client.get("/user/login")
     assert response.status_code == 200
+
+def test_logout():
+    response = client.get("/user/logout")
+    assert response.status_code == 200
