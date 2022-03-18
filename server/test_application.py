@@ -1,8 +1,10 @@
 from itsdangerous import json
 import pytest
-from server import application
+from .application import app
+from fastapi.testclient import TestClient
 
-json = application.JSONResponse
-
-def test_api():
-    assert json == {"message": "app is running", "success": True}
+client = TestClient(app)
+def test_root():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "app is running", "success": True}
