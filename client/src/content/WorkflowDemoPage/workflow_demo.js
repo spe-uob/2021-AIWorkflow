@@ -4,7 +4,7 @@ import Constants from '../../settings';
 function runWorkflow() {
   console.log('Running workflow demo...');
   var formData = new FormData();
-  formData.append('user_id', JSON.parse(sessionStorage.getItem('googleObj')).user_id);
+  formData.append('user_id', JSON.parse(sessionStorage.getItem('googleObj')).id);
   var keywords = $('#keywords').val();
   formData.append('keywords', keywords);
   var tones = [];
@@ -34,7 +34,7 @@ function runWorkflow() {
     var formResult;
     fetch(url, {
     method: 'GET',
-    mode: 'cors',
+    mode: Constants.CORS,
     headers: {
       'Access-Control-Allow-Origin':'*',
       'Content-type': 'application/json;charset=UTF-8',

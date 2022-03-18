@@ -11,11 +11,12 @@ function LogoutHooks() {
       sessionStorage.removeItem('sessionObj');
       fetch(Constants.API_DOMAIN+'/user/logout', {
         method: 'POST',
+        mode: Constants.CORS,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'user_id': JSON.parse(sessionStorage.getItem('googleObj')).user_id})
+        body: JSON.stringify({'user_id': JSON.parse(sessionStorage.getItem('googleObj')).id})
       })
       sessionStorage.removeItem("googleObj")
     } catch (error){
