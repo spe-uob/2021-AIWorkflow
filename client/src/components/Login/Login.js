@@ -1,24 +1,35 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
-import Constants from '../../settings'
+import Constants from '../../settings';
 
 const clientId = Constants.CLIENT_ID
 
 function Login() {
   const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res);
-    sessionStorage.setItem('sessionObj', JSON.stringify(res));
+    try {
+      console.log('Login Success: currentUser:', res);
+      sessionStorage.setItem('sessionObj', JSON.stringify(res));
+      console.log(sessionStorage.getItem("sessionObj"));
+      var googleObj = null;
+      var sanitisedCode = String.raw`${res.code}`.replace("\\", "\\\\");
+      console.log(sanitisedCode);
+      fetch('http://localhost:5001/user/login', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'code': sanitisedCode})
+      }).then(response => response.json())
+      .then(data => googleObj = data)
+      .then(() => console.log(googleObj))
+      .then(() => sessionStorage.setItem("googleObj", JSON.stringify(googleObj.data.google_object)));
+    } catch (error) {
+      console.log(error);
+    }
     window.location.replace("./");
-    /*
-    fetch('localhost:5001', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(res)
-    })
-    */
+
   };
 
   const onFailure = (res) => {

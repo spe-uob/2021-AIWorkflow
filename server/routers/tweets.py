@@ -1,9 +1,14 @@
 from fastapi import APIRouter, Header
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
-from sqlalchemy import JSON
 from .internal.workflow import Workflow
 from .tweets_schemas import SaveTweetsRequest, SaveTweetsResponse, SearchTweetsResponse
+from .user_schemas import (
+    UserLogInRequest,
+    UserLogInResponse,
+    UserLogOutRequest,
+    UserLogOutResponse,
+)
 from loguru import logger
 from traceback import format_exc
 import os
@@ -33,17 +38,14 @@ async def search_tweet_request(
     tones: str,
     time_start: str = None,
     time_end: str = None,
-    code: str = Header(None),
 ) -> JSONResponse:
     try:
         keywords = [kw.rstrip() for kw in keywords.split(",")]
         tones = [kw.rstrip() for kw in tones.split(",")]
-        if code is None:
-            return JSONResponse({"message": "token is required"}, status_code=401)
+        if WORKFLOW_DEMO.clients.get(user_id) is None:
+            return JSONResponse({"message": "User has not logged in"}, status_code=403)
 
         WORKFLOW_DEMO.main(
-            "./routers/internal/credentials.json",
-            code,
             user_id,
             keywords,
             tones,
@@ -60,3 +62,18 @@ async def search_tweet_request(
         logger.error(e)
         logger.error(format_exc())
         return JSONResponse({"message": "something went wrong"}, status_code=500)
+
+
+user_router = APIRouter(prefix="/user")
+
+@user_router.post("/login", response_model=UserLogInResponse)
+async def user_login(request: UserLogInRequest):
+    logger.debug(request.code)
+    user_profile = WORKFLOW_DEMO.authenticate_user("./routers/internal/credentials.json", request.code)
+    return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful"}, status_code=200)
+
+
+@user_router.post("/logout", response_model=UserLogOutResponse)
+async def user_logout(request: UserLogOutRequest):
+    logger.debug(request.user_id)
+    return JSONResponse({"data": {}, "message": "logout successful"}, status_code=200)
