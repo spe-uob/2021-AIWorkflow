@@ -1,9 +1,9 @@
-# 1. AI WorkFlow API Documentation
+# 1. AI WorkFlow Backend API Documentation
 
 ---
 
 ## 1.1. Table of Contents
-- [1. AI WorkFlow API Documentation](#1-ai-workflow-api-documentation)
+- [1. AI WorkFlow Backend API Documentation](#1-ai-workflow-backend-api-documentation)
   - [1.1. Table of Contents](#11-table-of-contents)
   - [1.2. API User flow diagram](#12-api-user-flow-diagram)
   - [1.3. API Endpoints](#13-api-endpoints)
@@ -18,6 +18,17 @@
         - [1.3.1.2.2. Accepted Methods](#13122-accepted-methods)
         - [1.3.1.2.3. Parameters](#13123-parameters)
         - [1.3.1.2.4. Results](#13124-results)
+    - [1.3.2. API for Users](#132-api-for-users)
+      - [1.3.2.1. User Login](#1321-user-login)
+        - [1.3.2.1.1. Endpoint](#13211-endpoint)
+        - [1.3.2.1.2. Accepted Methods](#13212-accepted-methods)
+        - [1.3.2.1.3. Parameters](#13213-parameters)
+        - [1.3.2.1.4. Results](#13214-results)
+      - [1.3.2.2. User Logout](#1322-user-logout)
+        - [1.3.2.2.1. Endpoint](#13221-endpoint)
+        - [1.3.2.2.2. Accepted Methods](#13222-accepted-methods)
+        - [1.3.2.2.3. Parameters](#13223-parameters)
+        - [1.3.2.2.4. Results](#13224-results)
 
 ---
 
@@ -122,8 +133,6 @@ Search tweet search and collect information in twitter according to the key word
 | time_start | string | User input starting time range | Yes      |
 | time_end   | string | User input ending time range   | Yes      |
 
-
-
  e.g.
 
 ```txt
@@ -163,5 +172,86 @@ GET http://hostname.domain/twitterapi/tweets?user_id=123&keywords=tweet,ibm&tone
     "data": {},
     "message": "Cannot search tweet - error",
     "success": false
+}
+```
+
+
+### 1.3.2. API for Users
+
+#### 1.3.2.1. User Login
+
+Lets user login to the system
+
+##### 1.3.2.1.1. Endpoint
+
+    /user/login
+
+##### 1.3.2.1.2. Accepted Methods
+
+```txt
+ POST 
+```
+
+##### 1.3.2.1.3. Parameters
+
+| Parameter | Type   | Description      | Optional |
+| --------- | ------ | ---------------- | -------- |
+| code      | string | Unique auth code | No       |
+
+e.g. 
+
+```json
+{
+    "code": "123456789",
+}
+```
+
+##### 1.3.2.1.4. Results
+
+```json
+{  
+    "data": {
+      "google_object":{
+
+      }
+    },
+    "message": "login successful",
+    "success": true
+}
+```
+
+#### 1.3.2.2. User Logout
+
+##### 1.3.2.2.1. Endpoint
+
+    /user/logout
+
+##### 1.3.2.2.2. Accepted Methods
+
+```txt
+POST
+```
+
+##### 1.3.2.2.3. Parameters
+
+| Parameter | Type   | Description    | Optional |
+| --------- | ------ | -------------- | -------- |
+| user_id   | string | Unique user id | No       |
+
+e.g. 
+
+```json
+{
+    "user_id": "123456789",
+}
+```
+
+##### 1.3.2.2.4. Results
+
+```json
+{  
+    "data": {},
+    "message": "logout successful",
+    "success": true
 }
 ```

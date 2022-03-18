@@ -1,13 +1,28 @@
 import React from 'react';
 import { useGoogleLogout } from 'react-google-login';
+import Constants from '../../settings';
 
-const clientId = '516108771432-k0ifm1hkdanslpbd44tojjqehni63bj5.apps.googleusercontent.com';
+const clientId = Constants.CLIENT_ID
 
 function LogoutHooks() {
   const onLogoutSuccess = (res) => {
-    console.log('Logged out Success');
-    sessionStorage.removeItem('sessionObj');
+    try{
+      console.log('Logged out Success');
+      sessionStorage.removeItem('sessionObj');
+      fetch('http://localhost:5001/user/logout', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'user_id': JSON.parse(sessionStorage.getItem('googleObj')).user_id})
+      })
+      sessionStorage.removeItem("googleObj")
+    } catch (error){
+      console.log(error);
+    }
     window.location.replace("./");
+
   };
 
   const onFailure = () => {

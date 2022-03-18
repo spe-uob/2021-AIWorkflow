@@ -1,6 +1,4 @@
 from loguru import logger
-from pprint import pprint
-from hashlib import sha256
 from snscrape.modules.twitter import TwitterSearchScraper
 from typing import Optional, List, Dict
 import unittest

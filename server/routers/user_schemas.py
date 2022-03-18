@@ -1,4 +1,3 @@
-from typing import Optional, List
 from pydantic import BaseModel
 
 
@@ -13,7 +12,7 @@ class UserLogInResponse(BaseModel):
 
 
 class UserLogOutRequest(BaseModel):
-    hashed_username: str
+    user_id: str
 
 
 class UserLogOutResponse(BaseModel):
