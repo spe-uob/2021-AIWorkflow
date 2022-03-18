@@ -15,9 +15,4 @@ describe('Pages load properly', () => {
   it('renders landing page without crashing', () => {
     shallow(<WorkflowDemoPage />);
   });
-
-  // const wrapper = shallow(<RepoPage />);
-  // it('contains a RepoTable', () => {
-  //   expect(wrapper.find('RepoTable').length).toBe(1);
-  // });
 });
