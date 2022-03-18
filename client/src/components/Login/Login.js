@@ -13,7 +13,7 @@ function Login() {
       var googleObj = null;
       var sanitisedCode = String.raw`${res.code}`.replace("\\", "\\\\");
       console.log(sanitisedCode);
-      fetch('http://localhost:5001/user/login', {
+      fetch(Constants.API_DOMAIN+'/user/login', {
         method: 'POST',
         mode: 'cors',
         headers: {

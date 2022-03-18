@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Constants from '../../settings';
 
 function runWorkflow() {
   console.log('Running workflow demo...');
@@ -25,7 +26,7 @@ function runWorkflow() {
   }
   const queryString = new URLSearchParams(formData).toString();
   console.log(queryString);
-  var url = new URL("http://localhost:5001/twitterapi/tweets?"+queryString);
+  var url = new URL(Constants.API_DOMAIN+"/twitterapi/tweets?"+queryString);
   if (sessionStorage.getItem('sessionObj') == null || sessionStorage.getItem('googleObj') == null) {
     alert("You have not signed in yet -- redirecting you to the login page");
     window.location.replace("./profile");

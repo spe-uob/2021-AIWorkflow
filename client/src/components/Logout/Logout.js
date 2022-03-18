@@ -9,7 +9,7 @@ function LogoutHooks() {
     try{
       console.log('Logged out Success');
       sessionStorage.removeItem('sessionObj');
-      fetch('http://localhost:5001/user/logout', {
+      fetch(Constants.API_DOMAIN+'/user/logout', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
