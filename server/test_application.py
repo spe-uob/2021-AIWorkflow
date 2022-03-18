@@ -1,6 +1,8 @@
 from email.mime import application
 import pytest
-from .application import app
+import server.routers.internal
+import server.routers.tweets
+from .application import app 
 from fastapi.testclient import TestClient
 
 
