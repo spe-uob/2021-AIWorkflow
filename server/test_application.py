@@ -15,9 +15,9 @@ def test_root():
     assert response.json() == {"message": "app is running", "success": True}
 
 def test_login():
-    response = client1.get("/user/login")
+    response = client1.get("/login")
     assert response.status_code == 200
 
 def test_logout():
-    response = client1.get("/user/logout")
+    response = client1.get("/logout")
     assert response.status_code == 200
