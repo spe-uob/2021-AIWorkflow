@@ -1,3 +1,4 @@
+from urllib import response
 from fastapi import APIRouter, Header
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
@@ -70,8 +71,9 @@ user_router = APIRouter(prefix="/user")
 async def user_login(request: UserLogInRequest):
     logger.debug(request.code)
     user_profile = WORKFLOW_DEMO.authenticate_user("./routers/internal/credentials.json", request.code)
+    print(response.status_code)
     return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful"}, status_code=200)
-
+    
 
 @user_router.post("/logout", response_model=UserLogOutResponse)
 async def user_logout(request: UserLogOutRequest):
