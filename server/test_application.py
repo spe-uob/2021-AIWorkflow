@@ -1,8 +1,10 @@
 from .application import app 
+from .routers import tweets
 from .routers.tweets import user_router
 from fastapi.testclient import TestClient
 
 app.include_router(user_router)
+app.include_router(tweets.router)
 
 client = TestClient(app)
 def test_root():
