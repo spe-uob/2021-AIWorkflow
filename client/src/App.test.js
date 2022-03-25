@@ -1,14 +1,18 @@
 import React from 'react';
-import RepoPage from './content/RepoPage';
 import { shallow } from 'enzyme';
+import LandingPage from './content/LandingPage';
+import LoginPage from './content/LoginPage';
+import WorkflowDemoPage from './content/WorkflowDemoPage';
 
-describe('React Step 2 Tests', () => {
-  it('renders without crashing', () => {
-    shallow(<RepoPage />);
+
+describe('Pages load properly', () => {
+  it('renders landing page without crashing', () => {
+    shallow(<LandingPage />);
   });
-
-  const wrapper = shallow(<RepoPage />);
-  it('contains a RepoTable', () => {
-    expect(wrapper.find('RepoTable').length).toBe(1);
+  it('renders login page without crashing', () => {
+    shallow(<LoginPage />);
+  });
+  it('renders workflowDemo page without crashing', () => {
+    shallow(<WorkflowDemoPage />);
   });
 });
