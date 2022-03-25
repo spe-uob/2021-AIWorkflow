@@ -1,7 +1,11 @@
+from json import load
 from ibm_watson import ToneAnalyzerV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from loguru import logger
+from os import getenv
+from dotenv import load_dotenv
 import unittest
+
 
 
 class IBMToneAnalyzer:
@@ -42,7 +46,8 @@ class IBMToneAnalyzer:
 
 class Tests(unittest.TestCase):
     def test_get_analysis(self) -> None:
-        tone_analyzer_instance = IBMToneAnalyzer()
+        load_dotenv(verbose=True)
+        tone_analyzer_instance = IBMToneAnalyzer(getenv("IBM_TONE_ANALYZER_KEY"))
         analysis = tone_analyzer_instance.get_analysis("I'm so happy today!")
         logger.debug(f"analysis: {analysis}")
 

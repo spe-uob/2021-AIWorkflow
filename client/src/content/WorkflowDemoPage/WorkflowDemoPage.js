@@ -37,14 +37,14 @@ const WorkflowDemoPage = () => {
       const [success, setSuccess] = useState(false);
       const [description, setDescription] = useState('Submitting...');
       const [ariaLive, setAriaLive] = useState('off');
-      const handleSubmit = () => {
+      const handleSubmit = async () => {
         setIsSubmitting(true);
         setSuccess(false);
         setAriaLive('assertive');
   
 
         setDescription('Running Workflow...');
-        runWorkflowDemo();
+        await runWorkflowDemo();
         setAriaLive('off');
 
 

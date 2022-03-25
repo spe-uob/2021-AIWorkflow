@@ -9,19 +9,20 @@ function LogoutHooks() {
     try{
       console.log('Logged out Success');
       sessionStorage.removeItem('sessionObj');
-      fetch('http://localhost:5001/user/logout', {
+      fetch(Constants.API_DOMAIN+'/user/logout', {
         method: 'POST',
+        mode: Constants.CORS,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'user_id': JSON.parse(sessionStorage.getItem('googleObj')).user_id})
+        body: JSON.stringify({'user_id': JSON.parse(sessionStorage.getItem('googleObj')).id})
       })
       sessionStorage.removeItem("googleObj")
     } catch (error){
       console.log(error);
     }
-    window.location.replace("./");
+    window.location.replace("./#");
 
   };
 

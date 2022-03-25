@@ -2,7 +2,7 @@ import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
 import Constants from '../../settings';
 
-const clientId = Constants.CLIENT_ID
+const clientId = Constants.CLIENT_ID;
 
 function Login() {
   const onSuccess = (res) => {
@@ -10,26 +10,25 @@ function Login() {
       console.log('Login Success: currentUser:', res);
       sessionStorage.setItem('sessionObj', JSON.stringify(res));
       console.log(sessionStorage.getItem("sessionObj"));
-      var googleObj = null;
       var sanitisedCode = String.raw`${res.code}`.replace("\\", "\\\\");
-      console.log(sanitisedCode);
-      fetch('http://localhost:5001/user/login', {
+      var googleObj;
+      fetch(Constants.API_DOMAIN+'/user/login', {
         method: 'POST',
-        mode: 'cors',
+        mode: Constants.CORS,
         headers: {
+          'Access-Control-Allow-Origin':'*',
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
         },
         body: JSON.stringify({'code': sanitisedCode})
       }).then(response => response.json())
-      .then(data => googleObj = data)
-      .then(() => console.log(googleObj))
-      .then(() => sessionStorage.setItem("googleObj", JSON.stringify(googleObj.data.google_object)));
+      .then(data => googleObj = data.data.google_object)
+      .then(() => sessionStorage.setItem('googleObj', JSON.stringify(googleObj)))
+      .then(() => console.log(JSON.parse(sessionStorage.getItem('googleObj'))));
+      window.location.assign("./#/workflow_demo");
     } catch (error) {
       console.log(error);
     }
-    window.location.replace("./");
-
   };
 
   const onFailure = (res) => {
