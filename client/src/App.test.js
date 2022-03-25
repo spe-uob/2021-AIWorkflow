@@ -9,10 +9,10 @@ describe('Pages load properly', () => {
   it('renders landing page without crashing', () => {
     shallow(<LandingPage />);
   });
-  it('renders landing page without crashing', () => {
+  it('renders login page without crashing', () => {
     shallow(<LoginPage />);
   });
-  it('renders landing page without crashing', () => {
+  it('renders workflowDemo page without crashing', () => {
     shallow(<WorkflowDemoPage />);
   });
 });
