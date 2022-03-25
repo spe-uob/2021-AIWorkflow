@@ -25,7 +25,7 @@ function Login() {
       .then(data => googleObj = data.data.google_object)
       .then(() => sessionStorage.setItem('googleObj', JSON.stringify(googleObj)))
       .then(() => console.log(JSON.parse(sessionStorage.getItem('googleObj'))));
-      //window.location.replace("./");
+      window.location.assign("./#/workflow_demo");
     } catch (error) {
       console.log(error);
     }
