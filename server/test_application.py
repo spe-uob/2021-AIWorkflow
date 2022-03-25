@@ -16,3 +16,7 @@ def test_root():
 def test_tweets():
     response = client.post("/twitterapi/tweets", json = {"user_id": "string", "tweet_text": "string", "keyword": "string", "overall_tone":"string", "specified_tone":["string"], "tone_score":0})
     assert response.status_code == 200
+
+def test_users():
+    response = client.get("/user/")
+    assert response.status_code == 200
