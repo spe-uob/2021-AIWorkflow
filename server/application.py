@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from routers import tweets
+from .routers import tweets
 
 app = FastAPI()
 
@@ -18,11 +18,10 @@ app.add_middleware(
 )
 
 app.include_router(tweets.router)
-app.include_router(tweets.user_router)
 
 
 @app.get("/")
-def root() -> JSONResponse:
+def root():
     """Root endpoint to check that the application is running."""
     return JSONResponse({"message": "app is running", "success": True}, 200)
 
