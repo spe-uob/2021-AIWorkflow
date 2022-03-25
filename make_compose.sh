@@ -12,6 +12,6 @@ VER=`date -u +'%Y%m%d'`
 VER="${VER}_${COMMIT_ID}"
 TAG=${PWD##*/}
 DIR=$2
-sudo docker-compose up -d --build
+sudo docker-compose up -d --build --force-recreate
 echo "BUILD FROM $FILE COMPLETE"
 exit 0

@@ -62,7 +62,7 @@ async def search_tweet_request(
     except Exception as e:
         logger.error(e)
         logger.error(format_exc())
-        return JSONResponse({"message": "something went wrong"}, status_code=500)
+        return JSONResponse({"data": {},"message": "something went wrong", "success": False}, status_code=500)
 
 
 user_router = APIRouter(prefix="/user")
@@ -71,10 +71,14 @@ user_router = APIRouter(prefix="/user")
 async def user_login(request: UserLogInRequest):
     logger.debug(request.code)
     user_profile = WORKFLOW_DEMO.authenticate_user("./routers/internal/credentials.json", request.code)
-    return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful"}, 200)
-    
+    return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful", "success": True}, status_code=200)
+
+@user_router.get("/")
+async def get_users():
+    return JSONResponse({"data": {"users": list(WORKFLOW_DEMO.clients.keys())}, "message": "get users successful", "success": True}, status_code=200)
+
 
 @user_router.post("/logout", response_model=UserLogOutResponse)
 async def user_logout(request: UserLogOutRequest):
     logger.debug(request.user_id)
-    return JSONResponse({"data": {}, "message": "logout successful"}, 200)
+    return JSONResponse({"data": {}, "message": "logout successful", "success": True}, status_code=200)
