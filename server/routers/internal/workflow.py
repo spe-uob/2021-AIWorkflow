@@ -13,6 +13,12 @@ class Workflow:
         self.twitterapi = TwitterAPI()
         self.toneanalyzer = IBMToneAnalyzer(ibm_ta_key)
         self.clients = {}
+
+    def user_signout(self, user_id: int):
+        try:
+            self.clients.pop(user_id)
+        except Exception:
+            pass
     
     def authenticate_user(self, creds_file: str, code: str) -> None:
         try:

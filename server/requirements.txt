@@ -3,7 +3,7 @@ uvicorn
 loguru
 python-dotenv
 motor
-ibm-watson
+ibm-watson==5.3.0
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
