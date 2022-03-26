@@ -84,6 +84,10 @@ async def user_logout(request: UserLogOutRequest):
 
 workflow_router = APIRouter(prefix="/workflow")
 
+@workflow_router.get("/")
+async def workflow_default():
+    return JSONResponse({"data": {}, "message": "get workflow successful", "success": True}, status_code=200)
+
 @workflow_router.post("/run")
 async def run_workflow():
     return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
