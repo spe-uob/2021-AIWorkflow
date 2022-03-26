@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from .google_slides import GoogleSlides
 from .google_sheets import GoogleSheets
 from .tone_analyzer import IBMToneAnalyzer
@@ -23,10 +24,18 @@ class WorkflowNew:
         try:
             return self.users.register_user(self.creds_file, auth_code)
         except Exception as e:
+            logger.error(e)
             logger.error(format_exc())
 
     def run(self, user_id: str, workflow_request: Dict[str ,str]) -> None:
-        pass
+        user_profile = self.users.get_user(user_id)
+        if user_profile is None:
+            raise ValueError("User not found")
+        else:
+            for req in workflow_request:
+                pass
+
+
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
         self.twitterapi = TwitterAPI()
