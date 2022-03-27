@@ -9,6 +9,7 @@ import {
 import LandingPage from './content/LandingPage';
 import WorkflowDemoPage from './content/WorkflowDemoPage';
 import LoginPage from './content/LoginPage';
+import WorkflowPage from './content/WorkflowPage';
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
             <Route exact path="/" element={<LandingPage/ >} />
             <Route path="/workflow_demo" element={<WorkflowDemoPage/>} />
             <Route path="/profile" element={<LoginPage/>}/>
+            <Route path="/workflow" element={<WorkflowPage/>}/>
           </Routes>
         </Content>
       </div>
