@@ -22,6 +22,7 @@ class App extends Component {
             <Route path="/workflow_demo" element={<WorkflowDemoPage/>} />
             <Route path="/profile" element={<LoginPage/>}/>
             <Route path="/workflow" element={<WorkflowPage/>}/>
+         
           </Routes>
         </Content>
       </div>

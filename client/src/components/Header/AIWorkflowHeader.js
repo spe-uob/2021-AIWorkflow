@@ -46,6 +46,7 @@ const AIWorkflowHeader = () => (
             Workflow
           </HeaderMenuItem>
         </HeaderNavigation>
+        
         <SideNav
           aria-label="Side navigation"
           expanded={isSideNavExpanded}
