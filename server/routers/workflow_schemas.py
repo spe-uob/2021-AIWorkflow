@@ -1,6 +1,5 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 
-from pyparsing import Dict
 from pydantic import BaseModel
 
 class WorkflowModel(BaseModel):
