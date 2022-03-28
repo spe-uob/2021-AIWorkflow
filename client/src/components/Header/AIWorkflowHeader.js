@@ -58,7 +58,7 @@ const AIWorkflowHeader = () => (
               </HeaderMenuItem>
             </HeaderSideNavItems>
           </SideNavItems>
-          <SideNavItems>
+          < SideNavItems>
             <HeaderSideNavItems>
               <HeaderMenuItem element={Link} to="/Workflow">
                 Workflow
