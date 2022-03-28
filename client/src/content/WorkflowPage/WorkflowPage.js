@@ -1,10 +1,6 @@
-
-
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { useRete } from "./rete";
 
-import "./styles.css";
 
 function Editor() {
   const [setContainer] = useRete();
@@ -24,17 +20,11 @@ function WorkflowPage() {
   const [visible, setVisible] = useState(true);
 
   return (
-    <div className="App">
+    <div className="Workflow-Page">
       <button onClick={() => setVisible(false)}>Destroy</button>
       <button onClick={() => setVisible(true)}>Restore</button>
       {visible && <Editor />}
     </div>
   );
 }
-
-
-
-
-
-
 export default WorkflowPage
