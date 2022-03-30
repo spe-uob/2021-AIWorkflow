@@ -18,11 +18,12 @@ def tweet_helper(tweet) -> dict:
         "time": tweet["time"],
     }
 
-async def retrieve_all_tweets() -> dict:
-    tweets = []
-    async for tweet in tweet_collection.find():
-        tweets.append(tweet_helper(tweet))
-    return tweets
+# Use [tweet_helper(tweet) for tweet in retrieve_all_from_collection(tweet_collection)] to get all tweets
+async def retrieve_all_from_collection(collection: motor.motor_asyncio.AsyncIOMotorCollection) -> List[dict]:
+    items = []
+    async for item in collection.find():
+        items.append(item)
+    return items
 
 # Use json.loads() to convert json string to dict
 async def add_to_collection(data: dict, collection: motor.motor_asyncio.AsyncIOMotorCollection) -> dict:
