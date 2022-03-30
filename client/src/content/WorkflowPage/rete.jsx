@@ -8,6 +8,8 @@ import { MyNode } from "./MyNode";
 
 var numSocket = new Rete.Socket("Number value");
 var strSocket = new Rete.Socket("String value");
+var boolSocket = new Rete.Socket("Boolean value");
+
 
 class NumControl extends Rete.Control {
   static component = ({ value, onChange }) => (
@@ -32,6 +34,45 @@ class NumControl extends Rete.Control {
     node.data[key] = initial;
     this.props = {
       readonly,
+      value: initial,
+      onChange: (v) => {
+        this.setValue(v);
+        this.emitter.trigger("process");
+      }
+    };
+  }
+
+  setValue(val) {
+    this.props.value = val;
+    this.putData(this.key, val);
+    this.update();
+  }
+}
+class CheckboxControl extends Rete.Control{
+  static component = ({ label, value, onChange }) => (
+    <div>
+      <input
+      id="checkbox"
+      type="checkbox"
+      checked={value}
+      onChange={(e) => onChange(e.target.value)}
+    />
+    <label>{label}</label>
+    </div>
+  );
+
+  constructor(emitter, key, node, readonly = false) {
+    super(key);
+    this.emitter = emitter;
+    this.key = key;
+    this.component = CheckboxControl.component;
+
+    const initial = node.data[key] || false;
+
+    node.data[key] = initial;
+    this.props = {
+      readonly,
+      label: key,
       value: initial,
       onChange: (v) => {
         this.setValue(v);
@@ -153,9 +194,31 @@ class SearchTwitterComponent extends Rete.Component {
     outputs["tweets"] = node.data.keywords;
   }
 }
+class ToneAnalyzerComponent extends Rete.Component {
+  constructor() {
+    super("Tone Analyzer");
+    this.data.component = MyNode; // optional
+  }
+    
+  builder(node) {
+    var positiveCtrl = new CheckboxControl(this.editor, "Positive", boolSocket);
+    var negativeCtrl = new CheckboxControl(this.editor, "Negative", boolSocket);
+    var out = new Rete.Output("tone", "Tone", strSocket);
+
+    return node
+    .addControl(positiveCtrl)
+    .addControl(negativeCtrl)
+    .addOutput(out);
+  }
+
+  worker(node, inputs, outputs) {
+    outputs["tone"] = node.data.keywords;
+  }
+}
+
 
 export async function createEditor(container) {
-  var components = [new NumComponent(), new AddComponent(), new SearchTwitterComponent()];
+  var components = [new NumComponent(), new AddComponent(), new SearchTwitterComponent(),new ToneAnalyzerComponent()];
 
   var editor = new Rete.NodeEditor("demo@0.1.0", container);
   editor.use(ConnectionPlugin);
@@ -172,16 +235,19 @@ export async function createEditor(container) {
   var n2 = await components[0].createNode({ num: 3 });
   var add = await components[1].createNode();
   var twitter = await components[2].createNode();
+  var toneAnalyzer= await components[3].createNode();
 
   n1.position = [80, 200];
   n2.position = [80, 400];
   add.position = [500, 240];
   twitter.position = [500, 400];
+  toneAnalyzer.position=[600,600];
 
   editor.addNode(n1);
   editor.addNode(n2);
   editor.addNode(add);
   editor.addNode(twitter);
+  editor.addNode(toneAnalyzer)
 
   editor.connect(n1.outputs.get("num"), add.inputs.get("num1"));
   editor.connect(n2.outputs.get("num"), add.inputs.get("num2"));
