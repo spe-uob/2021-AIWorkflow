@@ -7,6 +7,7 @@ import AreaPlugin from "rete-area-plugin";
 import { MyNode } from "./MyNode";
 
 var numSocket = new Rete.Socket("Number value");
+var strSocket = new Rete.Socket("String value");
 
 class NumControl extends Rete.Control {
   static component = ({ value, onChange }) => (
@@ -46,6 +47,41 @@ class NumControl extends Rete.Control {
   }
 }
 
+class TextControl extends Rete.Control{
+  static component = ({ value, onChange }) => (
+    <input
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  );
+
+  constructor(emitter, key, node, readonly = false) {
+    super(key);
+    this.emitter = emitter;
+    this.key = key;
+    this.component = TextControl.component;
+
+    const initial = node.data[key] || "IBM Cloud, VPC, Watson";
+
+    node.data[key] = initial;
+    this.props = {
+      readonly,
+      value: initial,
+      onChange: (v) => {
+        this.setValue(v);
+        this.emitter.trigger("process");
+      }
+    };
+  }
+
+  setValue(val) {
+    this.props.value = val;
+    this.putData(this.key, val);
+    this.update();
+  }
+}
+
 class NumComponent extends Rete.Component {
   constructor() {
     super("Number");
@@ -62,7 +98,6 @@ class NumComponent extends Rete.Component {
     outputs["num"] = node.data.num;
   }
 }
-
 class AddComponent extends Rete.Component {
   constructor() {
     super("Add");
@@ -97,8 +132,30 @@ class AddComponent extends Rete.Component {
   }
 }
 
+
+
+class SearchTwitterComponent extends Rete.Component {
+  constructor() {
+    super("Search Twitter");
+    this.data.component = MyNode; // optional
+  }
+    
+  builder(node) {
+    var ctrl = new TextControl(this.editor, "keywords", strSocket);
+    var out = new Rete.Output("tweets", "Tweets", strSocket);
+
+    return node
+    .addControl(ctrl)
+    .addOutput(out);
+  }
+
+  worker(node, inputs, outputs) {
+    outputs["tweets"] = node.data.keywords;
+  }
+}
+
 export async function createEditor(container) {
-  var components = [new NumComponent(), new AddComponent()];
+  var components = [new NumComponent(), new AddComponent(), new SearchTwitterComponent()];
 
   var editor = new Rete.NodeEditor("demo@0.1.0", container);
   editor.use(ConnectionPlugin);
@@ -114,14 +171,17 @@ export async function createEditor(container) {
   var n1 = await components[0].createNode({ num: 2 });
   var n2 = await components[0].createNode({ num: 3 });
   var add = await components[1].createNode();
+  var twitter = await components[2].createNode();
 
   n1.position = [80, 200];
   n2.position = [80, 400];
   add.position = [500, 240];
+  twitter.position = [500, 400];
 
   editor.addNode(n1);
   editor.addNode(n2);
   editor.addNode(add);
+  editor.addNode(twitter);
 
   editor.connect(n1.outputs.get("num"), add.inputs.get("num1"));
   editor.connect(n2.outputs.get("num"), add.inputs.get("num2"));
@@ -130,6 +190,7 @@ export async function createEditor(container) {
     "process nodecreated noderemoved connectioncreated connectionremoved",
     async () => {
       console.log("process");
+      console.log(editor.toJSON());
       await engine.abort();
       await engine.process(editor.toJSON());
     }
