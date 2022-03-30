@@ -1,12 +1,40 @@
+from multiprocessing.sharedctypes import Value
 from .google_slides import GoogleSlides
 from .google_sheets import GoogleSheets
 from .tone_analyzer import IBMToneAnalyzer
 from .twitter_api import TwitterAPI
 from .google_api import GoogleAPI
-from typing import List, Optional
+from .users import Users
+from typing import List, Optional, Dict
 from loguru import logger
 from datetime import datetime
 from traceback import format_exc
+
+class WorkflowNew:
+    def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
+        self.creds_file = google_creds_file
+        self.users = Users()
+        self.twitter_api = TwitterAPI()
+        self.tone_analyzer = IBMToneAnalyzer(ibm_ta_key)
+
+    def user_signout(self, user_id: str) -> None:
+        self.users.remove_user(user_id)
+
+    def user_signin(self, auth_code: str) -> dict:
+        try:
+            return self.users.register_user(self.creds_file, auth_code)
+        except Exception as e:
+            logger.error(e)
+            logger.error(format_exc())
+
+    def run(self, user_id: str, workflow_request: Dict[str ,str]) -> None:
+        user_profile = self.users.get_user(user_id)
+        if user_profile is None:
+            raise ValueError("User not found")
+        else:
+            for req in workflow_request:
+                pass
+
 
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
