@@ -8,6 +8,14 @@ tweet_collection = database.get_collection("tweets")
 print(type(tweet_collection))
 workflow_collection = database.get_collection("workflows")
 
+def get_collection(name):
+    if name == "tweets":
+        return tweet_collection
+    elif name == "workflows":
+        return workflow_collection
+    else:
+        raise NotImplementedError("Unknown collection")
+
 def tweet_helper(tweet) -> dict:
     return {
         "id": str(tweet["_id"]),
