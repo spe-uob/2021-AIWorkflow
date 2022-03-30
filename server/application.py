@@ -18,6 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(tweets.router)
+app.include_router(tweets.user_router)
 
 
 @app.get("/")
