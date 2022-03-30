@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Rete from "rete";
 import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from "rete-connection-plugin";
@@ -89,7 +89,7 @@ class AddComponent extends Rete.Component {
     var sum = n1 + n2;
 
     this.editor.nodes
-      .find((n) => n.id == node.id)
+      .find((n) => n.id === node.id)
       .controls.get("preview")
       .setValue(sum);
     outputs["num"] = sum;
@@ -105,7 +105,7 @@ export async function createEditor(container) {
 
   var engine = new Rete.Engine("demo@0.1.0");
 
-  components.map((c) => {
+  components.forEach((c) => { 
     editor.register(c);
     engine.register(c);
   });
