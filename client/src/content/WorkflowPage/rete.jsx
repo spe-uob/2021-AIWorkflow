@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import 'regenerator-runtime';
 import Rete from "rete";
 import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from "rete-connection-plugin";
