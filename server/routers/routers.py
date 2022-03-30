@@ -1,5 +1,4 @@
-from urllib import response
-from fastapi import APIRouter, Header
+from fastapi import APIRouter
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
@@ -14,13 +13,13 @@ from loguru import logger
 from traceback import format_exc
 import os
 
-router = APIRouter(prefix="/twitterapi")
+tweet_router = APIRouter(prefix="/twitterapi")
 
 load_dotenv(verbose=True)
 WORKFLOW_DEMO = Workflow(os.getenv("IBM_TONE_ANALYZER_KEY"))
 
 
-@router.post("/tweets", response_model=SaveTweetsResponse)
+@tweet_router.post("/tweets", response_model=SaveTweetsResponse)
 async def save_tweet_request(request: SaveTweetsRequest) -> JSONResponse:
     response = {
         "data": {
@@ -32,7 +31,7 @@ async def save_tweet_request(request: SaveTweetsRequest) -> JSONResponse:
     return JSONResponse(response, status_code=200)
 
 
-@router.get("/tweets", response_model=SearchTweetsResponse)
+@tweet_router.get("/tweets", response_model=SearchTweetsResponse)
 async def search_tweet_request(
     user_id: str,
     keywords: str,
@@ -82,3 +81,13 @@ async def get_users():
 async def user_logout(request: UserLogOutRequest):
     logger.debug(request.user_id)
     return JSONResponse({"data": {}, "message": "logout successful", "success": True}, status_code=200)
+
+workflow_router = APIRouter(prefix="/workflow")
+
+@workflow_router.get("/")
+async def workflow_default():
+    return JSONResponse({"data": {}, "message": "get workflow successful", "success": True}, status_code=200)
+
+@workflow_router.post("/run")
+async def run_workflow():
+    return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
