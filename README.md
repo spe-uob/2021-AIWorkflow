@@ -26,6 +26,8 @@
       - [1.4.2.1. With Kubernetes (Recommended)](#1421-with-kubernetes-recommended)
       - [1.4.2.2. With Docker Compose](#1422-with-docker-compose)
     - [1.4.3. Continuous Integration](#143-continuous-integration)
+  - [1.5. Wikis](#15-wikis)
+    - [1.5.1. Wiki Link](#151-wiki-link)
 
 ---
 
@@ -134,6 +136,12 @@ To test locally, use [act][10]:
 act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
 ```
 
+## 1.5. Wikis
+
+### 1.5.1. Wiki Link
+
+Our [Wikis][12] contains our developments progress and the achievements and goals for every release version.
+
 ---
 
 [2]:https://reactjs.org
@@ -146,3 +154,4 @@ act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMES
 [9]:https://github.com/spe-uob/2021-AIWorkflow/tree/main/docs
 [10]:https://github.com/nektos/act
 [11]:https://www.mongodb.com
+[12]:https://github.com/spe-uob/2021-AIWorkflow.wiki.git

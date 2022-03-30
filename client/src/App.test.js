@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import LandingPage from './content/LandingPage';
 import LoginPage from './content/LoginPage';
 import WorkflowDemoPage from './content/WorkflowDemoPage';
+import WorkflowPage from "./content/WorkflowPage"
 
 
 describe('Pages load properly', () => {
@@ -14,5 +15,8 @@ describe('Pages load properly', () => {
   });
   it('renders workflowDemo page without crashing', () => {
     shallow(<WorkflowDemoPage />);
+  });
+  it('renders Workflow page without crashing', () => {
+    shallow(<WorkflowPage />);
   });
 });
