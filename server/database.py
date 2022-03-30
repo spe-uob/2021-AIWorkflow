@@ -30,3 +30,7 @@ async def add_to_collection(data: dict, collection: motor.motor_asyncio.AsyncIOM
     item = await collection.insert_one(data)
     new_data = await collection.find_one({"_id": item.inserted_id})
     return new_data
+
+async def retrieve_by_id(in_id: int, collection: motor.motor_asyncio.AsyncIOMotorCollection) -> dict:
+    item = await collection.find_one({"_id": in_id})
+    return item
