@@ -6,11 +6,13 @@ import ConnectionPlugin from "rete-connection-plugin";
 import AreaPlugin from "rete-area-plugin";
 import { MyNode } from "./MyNode";
 
+// Created sockets
 var numSocket = new Rete.Socket("Number value");
 var strSocket = new Rete.Socket("String value");
 var boolSocket = new Rete.Socket("Boolean value");
 
 
+// created controls
 class NumControl extends Rete.Control {
   static component = ({ value, onChange }) => (
     <input
@@ -123,6 +125,8 @@ class TextControl extends Rete.Control{
   }
 }
 
+
+//created components
 class NumComponent extends Rete.Component {
   constructor() {
     super("Number");
@@ -172,9 +176,6 @@ class AddComponent extends Rete.Component {
     outputs["num"] = sum;
   }
 }
-
-
-
 class SearchTwitterComponent extends Rete.Component {
   constructor() {
     super("Search Twitter");
@@ -194,6 +195,31 @@ class SearchTwitterComponent extends Rete.Component {
     outputs["tweets"] = node.data.keywords;
   }
 }
+class GoogleSheets extends Rete.Component {
+  constructor() {
+    super("Write to google sheets");
+    this.data.component = MyNode; // optional
+  }
+
+  builder(node) {
+    var inp1 = new Rete.Input("tweets", "Tweets", strSocket);
+    var out = new Rete.Output("tweets", "Tweets", strSocket);
+    
+    return node
+      .addInput(inp1)
+      .addOutput(out);
+  }
+  worker(node, inputs, outputs) {
+    var n1 = inputs["text1"].length ? inputs["text2"][0] : node.data.num1;
+    var sum = n1 
+
+    this.editor.nodes
+      .find((n) => n.id === node.id)
+      .controls.get("preview")
+      .setValue(sum);
+    outputs["text"] = sum;
+  }
+}
 class ToneAnalyzerComponent extends Rete.Component {
   constructor() {
     super("Tone Analyzer");
@@ -201,11 +227,13 @@ class ToneAnalyzerComponent extends Rete.Component {
   }
     
   builder(node) {
+    var inp = new Rete.Input("tweets","Tweets",strSocket)
     var positiveCtrl = new CheckboxControl(this.editor, "Positive", boolSocket);
     var negativeCtrl = new CheckboxControl(this.editor, "Negative", boolSocket);
     var out = new Rete.Output("tone", "Tone", strSocket);
 
     return node
+    .addInput(inp)
     .addControl(positiveCtrl)
     .addControl(negativeCtrl)
     .addOutput(out);
@@ -215,10 +243,35 @@ class ToneAnalyzerComponent extends Rete.Component {
     outputs["tone"] = node.data.keywords;
   }
 }
+class GoogleSlides extends Rete.Component {
+  constructor() {
+    super("Write to google slides");
+    this.data.component = MyNode; // optional
+  }
 
+  builder(node) {
+    var inp1 = new Rete.Input("tone", "Tone", strSocket);
+    var out = new Rete.Output("tweets", "Tweets", strSocket);
 
+    return node
+      .addInput(inp1)
+      .addOutput(out);
+  }
+
+  worker(node, inputs, outputs) {
+    var n1 = inputs["num1"].length ? inputs["num1"][0] : node.data.num1;
+    
+    var tweets = n1 ;
+
+    this.editor.nodes
+      .find((n) => n.id === node.id)
+      .controls.get("preview")
+      .setValue(tweets);
+    outputs["tweets"] = tweets;
+  }
+}
 export async function createEditor(container) {
-  var components = [new NumComponent(), new AddComponent(), new SearchTwitterComponent(),new ToneAnalyzerComponent()];
+  var components = [new NumComponent(), new AddComponent(), new SearchTwitterComponent(),new ToneAnalyzerComponent(),new GoogleSheets(),new GoogleSlides()];
 
   var editor = new Rete.NodeEditor("demo@0.1.0", container);
   editor.use(ConnectionPlugin);
@@ -236,22 +289,30 @@ export async function createEditor(container) {
   var add = await components[1].createNode();
   var twitter = await components[2].createNode();
   var toneAnalyzer= await components[3].createNode();
+  var googleSheets = await components[4].createNode()
+  var googleSlides =await components[5].createNode()
 
   n1.position = [80, 200];
   n2.position = [80, 400];
   add.position = [500, 240];
-  twitter.position = [500, 400];
-  toneAnalyzer.position=[600,600];
-
+  twitter.position = [0, 800];
+  toneAnalyzer.position=[600,800];
+  googleSheets.position=[300,800];
+  googleSlides.position=[900,800]
   editor.addNode(n1);
   editor.addNode(n2);
   editor.addNode(add);
   editor.addNode(twitter);
   editor.addNode(toneAnalyzer)
+  editor.addNode(googleSheets)
+  editor.addNode(googleSlides)
 
   editor.connect(n1.outputs.get("num"), add.inputs.get("num1"));
   editor.connect(n2.outputs.get("num"), add.inputs.get("num2"));
-
+  editor.connect(twitter.outputs.get("tweets"), googleSheets.inputs.get("tweets"));
+  editor.connect(googleSheets.outputs.get("tweets"), toneAnalyzer.inputs.get("tweets"));
+  editor.connect(toneAnalyzer.outputs.get("tone"), googleSlides.inputs.get("tone"));
+  
   editor.on(
     "process nodecreated noderemoved connectioncreated connectionremoved",
     async () => {
