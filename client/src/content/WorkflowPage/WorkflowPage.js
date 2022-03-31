@@ -21,8 +21,8 @@ function WorkflowPage() {
 
   return (
     <div className="Workflow-Page">
-      <button onClick={() => setVisible(false)}>Destroy</button>
-      <button onClick={() => setVisible(true)}>Restore</button>
+      {/* <button onClick={() => setVisible(false)}>Destroy</button>
+      <button onClick={() => setVisible(true)}>Restore</button> */}
       {visible && <Editor />}
     </div>
   );
