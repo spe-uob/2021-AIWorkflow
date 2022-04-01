@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from .google_slides import GoogleSlides
 from .google_sheets import GoogleSheets
 from .tone_analyzer import IBMToneAnalyzer
@@ -10,6 +9,9 @@ from loguru import logger
 from datetime import datetime
 from traceback import format_exc
 
+class UserNotAuthenticatedError(Exception):
+    pass
+
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
         self.creds_file = google_creds_file
@@ -17,8 +19,17 @@ class WorkflowNew:
         self.twitter_api = TwitterAPI()
         self.tone_analyzer = IBMToneAnalyzer(ibm_ta_key)
 
-    def user_signout(self, user_id: str) -> None:
-        self.users.remove_user(user_id)
+    def user_authenticated(self, user_id: str, code: str) -> bool: 
+        if self.users.get_user(user_id) is not None:
+            if user_id["code"] == code:
+                return True
+        return False
+
+    def user_signout(self, user_id: str, code: str) -> None:
+        if self.user_authenticated(user_id, code):
+            self.users.remove_user(user_id)
+        else:
+            raise UserNotAuthenticatedError("User is not authenticated.")
 
     def user_signin(self, auth_code: str) -> dict:
         try:
@@ -27,13 +38,16 @@ class WorkflowNew:
             logger.error(e)
             logger.error(format_exc())
 
-    def run(self, user_id: str, workflow_request: Dict[str ,str]) -> None:
-        user_profile = self.users.get_user(user_id)
-        if user_profile is None:
-            raise ValueError("User not found")
+    def run(self, user_id: str, code: str, workflow_request: Dict[str ,str]) -> None:
+        if self.user_authenticated(user_id, code):
+            user_profile = self.users.get_user(user_id)
+            if user_profile is None:
+                raise ValueError("User not found")
+            else:
+                for req in workflow_request:
+                    pass
         else:
-            for req in workflow_request:
-                pass
+            raise UserNotAuthenticatedError("User is not authenticated.")
 
 
 class Workflow:
