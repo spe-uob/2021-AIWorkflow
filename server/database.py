@@ -5,7 +5,6 @@ MONGO_DETAILS = "mongodb://localhost:27017"
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 database = client.ibm
 tweet_collection = database.get_collection("tweets")
-print(type(tweet_collection))
 workflow_collection = database.get_collection("workflows")
 
 def get_collection(name):
