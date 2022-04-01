@@ -91,3 +91,9 @@ async def workflow_default():
 @workflow_router.post("/run")
 async def run_workflow():
     return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
+
+database_router = APIRouter(prefix="/database")
+
+@database_router.get("/", response_model=GetWorkflowResponse)
+async def database_workflow_get(request: GetWorkflowRequest):
+    return JSONResponse({"data": {}, "message": "workflow get successful", "success": True}, status_code=200)
