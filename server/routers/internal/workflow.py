@@ -46,7 +46,7 @@ class WorkflowNew:
         
             if node["name"] == "Tone Analyzer":
                 for tweet in tweets:
-                    tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
+                    tweet_analysis = self.tone_analyzer.get_analysis(text=tweet["text"])
                     primary_tone = tweet_analysis["primary_tone"]
                     tweet.update({"primary_tone": primary_tone})
                     print("primary_tone")
