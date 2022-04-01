@@ -33,7 +33,8 @@ class WorkflowNew:
             raise ValueError("User not found")
         else:
             for req in workflow_request:
-                pass
+                if req.id == "1":
+                    tweets = self.twitter_api.search_tweets(keywords= req.data.keywords)
 
 
 class Workflow:
