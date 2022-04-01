@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Header
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
@@ -9,6 +9,7 @@ from .user_schemas import (
     UserLogOutRequest,
     UserLogOutResponse,
 )
+from typing import Optional
 from loguru import logger
 from traceback import format_exc
 import os
@@ -20,7 +21,7 @@ WORKFLOW_DEMO = Workflow(os.getenv("IBM_TONE_ANALYZER_KEY"))
 
 
 @tweet_router.post("/tweets", response_model=SaveTweetsResponse)
-async def save_tweet_request(request: SaveTweetsRequest) -> JSONResponse:
+async def save_tweet_request(request: SaveTweetsRequest, code: Optional[str] = Header(None)) -> JSONResponse:
     response = {
         "data": {
             "tweet_id": "123456789",
