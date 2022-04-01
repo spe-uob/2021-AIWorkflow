@@ -1,16 +1,16 @@
-from multiprocessing.sharedctypes import Value
-from .google_slides import GoogleSlides
-from .google_sheets import GoogleSheets
-from .tone_analyzer import IBMToneAnalyzer
-from .twitter_api import TwitterAPI
-from .google_api import GoogleAPI
-from .users import Users
+from google_slides import GoogleSlides
+from google_sheets import GoogleSheets
+from tone_analyzer import IBMToneAnalyzer
+from twitter_api import TwitterAPI
+from google_api import GoogleAPI
+from users import Users
 from typing import List, Optional, Dict
 from loguru import logger
 from datetime import datetime
 from traceback import format_exc
 
-from server.routers.internal import google_sheets
+import unittest
+import json
 
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
@@ -34,24 +34,29 @@ class WorkflowNew:
         if user_profile is None:
             raise ValueError("User not found")
         else:
-            for req in workflow_request:
-                if req.name == "Search Twitter":
-                    tweets = self.twitter_api.search_tweets(keywords= req.data.keywords)
-                if req.name == "Tone Analyzer":
-                    for tweet in tweets:
-                        tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
-                        primary_tone = tweet_analysis["primary_tone"]
-                        tweet.update({"primary_tone": primary_tone})
-                if req.name == "Write to google sheets":
-                    user_profile["google_sheets"].add_tweets_to_spreadsheet("data")
-                if req.name == "Write to google slides":
-                    user_profile["google_slides"].add_tweets_to_slide("data")
-
-class Workflow:
-    def __init__(self, ibm_ta_key: str) -> None:
-        self.twitterapi = TwitterAPI()
-        self.toneanalyzer = IBMToneAnalyzer(ibm_ta_key)
-        self.clients = {}
+            self.parse_workflow(workflow_request)
+  
+    def parse_workflow(self, workflow_request: Dict[str, str]) -> None:
+        workflow_request = workflow_request["nodes"]
+        for node in workflow_request:
+            if node == "1":
+                workflow_request1 = workflow_request["1"]
+                for keyvalue in workflow_request1:
+                    workflow_request2 = workflow_request["datas"]
+                    print(workflow_request2)
+                #tweets = self.twitter_api.search_tweets(keywords=workflow_request1["output"])
+        #if req.name == "Tone Analyzer":
+            #for tweet in tweets:
+                #tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
+                #primary_tone = tweet_analysis["primary_tone"]
+                #tweet.update({"primary_tone": primary_tone})
+                #print("primary_tone")
+        #if req.name == "Write to google sheets":
+            #print('writing to google sheets')
+            #user_profile["google_sheets"].add_tweets_to_spreadsheet("data")
+        #if req.name == "Write to google slides":
+            #print('writing to google slides')
+            #user_profile["google_slides"].add_tweets_to_slide("data")
 
     def user_signout(self, user_id: int):
         try:
@@ -128,7 +133,13 @@ class Workflow:
         logger.debug(self.clients)
 
 
+class WorkflowTests(unittest.TestCase):
+
+    def test_parse_workflow(self):
+        with open("example_workflow.json") as f:
+            data = json.load(f)
+        wf = WorkflowNew("./credentials.json", "test")
+        wf.parse_workflow(data)
+
 if __name__ == "__main__":
-    wf = Workflow("T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
-    #wf.main("ibm", ["ibm"], ["happy", "sad"])
-    wf.authenticate_user("./credentials.json", "4/0AX4XfWjOZFSsCSOYjfa5Dv4I4kIJjfBu6GhRd4KBwiPE4MiBZFKUzEggTHi6rmcTv-ExaQ\\")
+    unittest.main()
