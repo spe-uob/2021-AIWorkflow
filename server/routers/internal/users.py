@@ -20,14 +20,16 @@ class Users:
         user_profile = google_api.load_profile()
         googleslides = GoogleSlides(google_creds)
         googlesheets = GoogleSheets(google_creds)
-        backend_authcode = hash (user_profile["id"] + auth_code)
+        backend_authcode = hash(user_profile["id"] + auth_code)
         self.add_user(user_profile["id"], 
             {
                 "googleslides": googleslides,
                 "googlesheets": googlesheets,
+                "auth_code": backend_authcode,
             }
         )
-        return user_profile, backend_authcode
+        user_profile.update({"auth_code": backend_authcode})
+        return user_profile
 
     def add_user(self, user_id: str, props: dict):
         self.__users__[user_id] = props
@@ -38,11 +40,8 @@ class Users:
     def get_users(self):
         return self.__users__
     
-    def get_user(self, user_id, auth_code, backend_authcode):
-        if (backend_authcode == hash (user_id + auth_code)):
-            return self.__users__.get(user_id)
-        else:
-            print ("invalid auth_code!")
+    def get_user(self, user_id):
+        return self.__users__.get(user_id)
 
 if __name__ == "__main__":
     users = Users()
