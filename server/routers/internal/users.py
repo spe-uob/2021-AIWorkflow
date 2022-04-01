@@ -14,19 +14,20 @@ class Users:
                 text += f"\t{key}: {value}\n"
         return text
     
-    def register_user(self, creds_file: str, auth_code: str): 
+    def register_user(self, creds_file: str, auth_code: str, user_id: str): 
         google_api = GoogleAPI(creds_file, auth_code)
         google_creds = google_api.credentials
         user_profile = google_api.load_profile()
         googleslides = GoogleSlides(google_creds)
         googlesheets = GoogleSheets(google_creds)
+        backend_authcode = hash (user_id + auth_code)
         self.add_user(user_profile["id"], 
             {
                 "googleslides": googleslides,
                 "googlesheets": googlesheets,
             }
         )
-        return user_profile
+        return user_profile, backend_authcode
 
     def add_user(self, user_id: str, props: dict):
         self.__users__[user_id] = props
@@ -37,8 +38,10 @@ class Users:
     def get_users(self):
         return self.__users__
     
-    def get_user(self, user_id):
-        return self.__users__.get(user_id)
+    def get_user(self, user_id, auth_code, backend_authcode):
+        if (backend_authcode == hash (user_id + auth_code)):
+            return self.__users__.get(user_id)
+
 
 if __name__ == "__main__":
     users = Users()
