@@ -44,8 +44,8 @@ class WorkflowNew:
                         tweet.update({"primary_tone": primary_tone})
                 if req.name == "Write to google sheets":
                     user_profile["google_sheets"].add_tweets_to_spreadsheet("data")
-                if req.name:
-                    pass
+                if req.name == "Write to google slides":
+                    user_profile["google_slides"].add_tweets_to_slide("data")
 
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
