@@ -1,90 +1,115 @@
 {
-    "id": "demo@0.1.0",
-    "nodes": {
-      "1": {
-        "id": 1,
-        "data": {
-          "num": 2
-        },
-        "inputs": {},
-        "outputs": {
-          "num": {
-            "connections": [
-              {
-                "node": 3,
-                "input": "num1",
-                "data": {}
-              }
-            ]
-          }
-        },
-        "position": [
-          80,
-          200
-        ],
-        "name": "Number"
+  "id": "demo@0.1.0",
+  "nodes": {
+    "1": {
+      "id": 1,
+      "data": {
+        "keywords": "IBM Cloud, VPC, Watson"
       },
-      "2": {
-        "id": 2,
-        "data": {
-          "num": 3
-        },
-        "inputs": {},
-        "outputs": {
-          "num": {
-            "connections": [
-              {
-                "node": 3,
-                "input": "num2",
-                "data": {}
-              }
-            ]
-          }
-        },
-        "position": [
-          80,
-          400
-        ],
-        "name": "Number"
+      "inputs": {},
+      "outputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 3,
+              "input": "tweets",
+              "data": {}
+            }
+          ]
+        }
       },
-      "3": {
-        "id": 3,
-        "data": {
-          "num1": 0,
-          "num2": 0,
-          "preview": 0
-        },
-        "inputs": {
-          "num1": {
-            "connections": [
-              {
-                "node": 1,
-                "output": "num",
-                "data": {}
-              }
-            ]
-          },
-          "num2": {
-            "connections": [
-              {
-                "node": 2,
-                "output": "num",
-                "data": {}
-              }
-            ]
-          }
-        },
-        "outputs": {
-          "num": {
-            "connections": []
-          }
-        },
-        "position": [
-          500,
-          240
-        ],
-        "name": "Add"
-      }
+      "position": [
+        0,
+        800
+      ],
+      "name": "Search Twitter"
+    },
+    "2": {
+      "id": 2,
+      "data": {},
+      "inputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 3,
+              "output": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "analyzed tweets": {
+          "connections": [
+            {
+              "node": 4,
+              "input": "analyzed tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        600,
+        800
+      ],
+      "name": "Tone Analyzer"
+    },
+    "3": {
+      "id": 3,
+      "data": {},
+      "inputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 1,
+              "output": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 2,
+              "input": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        300,
+        800
+      ],
+      "name": "Write to google sheets"
+    },
+    "4": {
+      "id": 4,
+      "data": {},
+      "inputs": {
+        "analyzed tweets": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "analyzed tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "tweets": {
+          "connections": []
+        }
+      },
+      "position": [
+        900,
+        800
+      ],
+      "name": "Write to google slides"
     }
   }
-  
+}
