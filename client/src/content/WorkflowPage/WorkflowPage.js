@@ -17,13 +17,11 @@ function Editor() {
 }
 
 function WorkflowPage() {
-  const [visible, setVisible] = useState(true);
+  const [visible,] = useState(true);
   
   return (
     
     <div className="Workflow-Page" >
-      {/* <button onClick={() => setVisible(false)}>Destroy</button>
-      <button onClick={() => setVisible(true)}>Restore</button> */}
       <Button style={{position:"fixed",bottom:"35px",right:"35px",width:"150px",height:"50px",display:"block",
 whiteSpace:"nowrap",overflow:"hidden"}}>Run workflow</Button>
     
