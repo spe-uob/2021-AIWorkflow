@@ -1,12 +1,12 @@
 
-from server.application import app 
-from server.routers import tweets
-from server.routers.tweets import user_router
+from application import app 
+from routers.routers import user_router, tweet_router, workflow_router
 from fastapi.testclient import TestClient
 
 client = TestClient(app)
+app.include_router(tweet_router)
 app.include_router(user_router)
-app.include_router(tweets.router)
+app.include_router(workflow_router)
 
 def test_root():
     response = client.get("/")
@@ -19,4 +19,8 @@ def test_tweets():
 
 def test_users():
     response = client.get("/user/")
+    assert response.status_code == 200
+
+def test_workflow():
+    response = client.get("/workflow/")
     assert response.status_code == 200
