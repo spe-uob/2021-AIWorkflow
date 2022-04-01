@@ -14,10 +14,10 @@ class CheckboxControl extends Rete.Control{
   static component = ({ label, value, onChange }) => (
     <div>
       <input
-      id="checkbox"
+      id={label.toLowerCase()}
       type="checkbox"
-      checked={value}
-      onChange={(e) => onChange(e.target.value)}
+      defaultChecked={value}
+      onChange={(e) => onChange(value)}
     />
     <label>{label}</label>
     </div>
@@ -31,19 +31,30 @@ class CheckboxControl extends Rete.Control{
 
     const initial = node.data[key] || false;
 
+    console.log(initial);
+
+
     node.data[key] = initial;
     this.props = {
       readonly,
       label: key,
       value: initial,
-      onChange: (v) => {
-        this.setValue(v);
-        this.emitter.trigger("process");
+      onChange: (value, targetValue) => {
+        //console.log("onChange("+value+`,`+targetValue+")");
+        this.toggleCheckbox(value);
+        //this.emitter.trigger("process");
       }
     };
   }
 
+  toggleCheckbox(value){
+    let newValue = (value === "on" || value === true) ? false : true;
+    this.setValue(newValue);
+  }
+
   setValue(val) {
+    console.log("setValue("+val+")");
+    this.val = val;
     this.props.value = val;
     this.putData(this.key, val);
     this.update();
@@ -84,8 +95,6 @@ class TextControl extends Rete.Control{
     this.update();
   }
 }
-
-
 
 class SearchTwitterComponent extends Rete.Component {
   constructor() {
@@ -203,7 +212,7 @@ export async function createEditor(container) {
   editor.connect(toneAnalyzer.outputs.get("analyzed tweets"), googleSlides.inputs.get("analyzed tweets"));
   
   editor.on(
-    "process nodecreated noderemoved connectioncreated connectionremoved",
+    "process",
     async () => {
       console.log("process");
       console.log(editor.toJSON());
@@ -213,7 +222,6 @@ export async function createEditor(container) {
   );
 
   editor.view.resize();
-  editor.trigger("process");
   AreaPlugin.zoomAt(editor, editor.nodes);
 
   return editor;
