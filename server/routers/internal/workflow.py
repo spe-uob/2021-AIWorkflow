@@ -11,6 +11,9 @@ from traceback import format_exc
 
 import unittest
 import json
+from dotenv import load_dotenv
+import os
+
 
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
@@ -136,7 +139,8 @@ class WorkflowTests(unittest.TestCase):
     def test_parse_workflow(self):
         with open("example_workflow.json") as f:
             data = json.load(f)
-        wf = WorkflowNew("./credentials.json", "test")
+        load_dotenv(verbose=True)
+        wf = WorkflowNew("./credentials.json", "_T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
         wf.parse_workflow(data)
 
 if __name__ == "__main__":
