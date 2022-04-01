@@ -35,7 +35,11 @@ class WorkflowNew:
             for req in workflow_request:
                 if req.id == "1":
                     tweets = self.twitter_api.search_tweets(keywords= req.data.keywords)
-
+                if req.id == "2":
+                    for tweet in tweets:
+                        tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
+                        primary_tone = tweet_analysis["primary_tone"]
+                        tweet.update({"primary_tone": primary_tone})
 
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
