@@ -10,6 +10,8 @@ from loguru import logger
 from datetime import datetime
 from traceback import format_exc
 
+from server.routers.internal import google_sheets
+
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
         self.creds_file = google_creds_file
@@ -34,7 +36,6 @@ class WorkflowNew:
         else:
             for req in workflow_request:
                 pass
-
 
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
