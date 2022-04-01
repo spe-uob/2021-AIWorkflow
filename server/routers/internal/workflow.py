@@ -32,9 +32,26 @@ class WorkflowNew:
         if user_profile is None:
             raise ValueError("User not found")
         else:
-            for req in workflow_request:
-                pass
-
+            self.parse_workflow(workflow_request)
+  
+    def parse_workflow(self, workflow_request: Dict[str, str]) -> None:
+        workflow_request = workflow_request["nodes"]
+        for id, node in workflow_request.items():
+            #print(id, node)
+            if node["name"] == "Search Twitter":
+                keywords = node["data"]["keywords"]
+                tweets = self.twitter_api.search_tweets(keywords)
+        
+            if node["name"] == "Tone Analyzer":
+                for tweet in tweets:
+                    tweet_analysis = self.tone_analyzer.get_analysis(text=tweet["text"])
+                    primary_tone = tweet_analysis["primary_tone"]
+                    tweet.update({"primary_tone": primary_tone})
+                    print("primary_tone")
+            if node["name"] == "Write to google sheets":
+                print('writing to google sheets')
+            if node["name"] == "Write to google slides":
+                print('writing to google slides')
 
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:

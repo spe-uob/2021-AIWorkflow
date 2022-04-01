@@ -15,10 +15,12 @@ function LogoutHooks() {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Code': JSON.parse(sessionStorage.getItem('googleObj')).code
         },
         body: JSON.stringify({'user_id': JSON.parse(sessionStorage.getItem('googleObj')).id})
       })
       sessionStorage.removeItem("googleObj")
+      sessionStorage.removeItem("code")
     } catch (error){
       console.log(error);
     }

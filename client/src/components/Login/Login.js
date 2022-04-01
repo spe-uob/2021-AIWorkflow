@@ -9,6 +9,7 @@ function Login() {
     try {
       console.log('Login Success: currentUser:', res);
       sessionStorage.setItem('sessionObj', JSON.stringify(res));
+      sessionStorage.setItem('code', JSON.stringify(res.code))
       console.log(sessionStorage.getItem("sessionObj"));
       var sanitisedCode = String.raw`${res.code}`.replace("\\", "\\\\");
       var googleObj;

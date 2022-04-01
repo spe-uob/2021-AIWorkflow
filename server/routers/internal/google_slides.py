@@ -1,5 +1,5 @@
 from __future__ import print_function
-from .google_drive import GoogleDrive
+from google_drive import GoogleDrive
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from typing import List, Dict

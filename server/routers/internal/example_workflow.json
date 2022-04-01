@@ -1,0 +1,115 @@
+{
+  "id": "demo@0.1.0",
+  "nodes": {
+    "1": {
+      "id": 1,
+      "data": {
+        "keywords": "IBM Cloud, VPC, Watson"
+      },
+      "inputs": {},
+      "outputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 3,
+              "input": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        0,
+        800
+      ],
+      "name": "Search Twitter"
+    },
+    "2": {
+      "id": 2,
+      "data": {},
+      "inputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 3,
+              "output": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "analyzed tweets": {
+          "connections": [
+            {
+              "node": 4,
+              "input": "analyzed tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        600,
+        800
+      ],
+      "name": "Tone Analyzer"
+    },
+    "3": {
+      "id": 3,
+      "data": {},
+      "inputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 1,
+              "output": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 2,
+              "input": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        300,
+        800
+      ],
+      "name": "Write to google sheets"
+    },
+    "4": {
+      "id": 4,
+      "data": {},
+      "inputs": {
+        "analyzed tweets": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "analyzed tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "tweets": {
+          "connections": []
+        }
+      },
+      "position": [
+        900,
+        800
+      ],
+      "name": "Write to google slides"
+    }
+  }
+}
