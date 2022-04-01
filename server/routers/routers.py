@@ -2,7 +2,17 @@ from fastapi import APIRouter
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
-from .tweets_schemas import SaveTweetsRequest, SaveTweetsResponse, SearchTweetsResponse
+from .tweets_schemas import (
+    SaveTweetsRequest, 
+    SaveTweetsResponse, 
+    SearchTweetsResponse, 
+    TweetRequest, 
+    TweetResponse
+)
+from .database_schemas import (
+    GetWorkflowRequest, 
+    GetWorkflowResponse
+)
 from .user_schemas import (
     UserLogInRequest,
     UserLogInResponse,
@@ -96,4 +106,8 @@ database_router = APIRouter(prefix="/database")
 
 @database_router.get("/", response_model=GetWorkflowResponse)
 async def database_workflow_get(request: GetWorkflowRequest):
+    return JSONResponse({"data": {}, "message": "workflow get successful", "success": True}, status_code=200)
+
+@database_router.get("/", response_model=TweetResponse)
+async def database_tweet_get(request: TweetRequest):
     return JSONResponse({"data": {}, "message": "workflow get successful", "success": True}, status_code=200)
