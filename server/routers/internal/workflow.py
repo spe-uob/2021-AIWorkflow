@@ -10,6 +10,8 @@ from loguru import logger
 from datetime import datetime
 from traceback import format_exc
 
+from server.routers.internal import google_sheets
+
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
         self.creds_file = google_creds_file
@@ -33,14 +35,15 @@ class WorkflowNew:
             raise ValueError("User not found")
         else:
             for req in workflow_request:
-                if req.id == "1":
+                if req.id == "Search Twitter":
                     tweets = self.twitter_api.search_tweets(keywords= req.data.keywords)
-                if req.id == "2":
+                if req.id == "Tone Analyzer":
                     for tweet in tweets:
                         tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
                         primary_tone = tweet_analysis["primary_tone"]
                         tweet.update({"primary_tone": primary_tone})
-
+                if req.id == "Write to google sheets":
+                    user_profile["google_sheets"].add_tweets_to_spreadsheet("data")
 
 
 class Workflow:
