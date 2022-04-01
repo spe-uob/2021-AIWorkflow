@@ -52,8 +52,8 @@ class WorkflowNew:
                     print("primary_tone")
             if node["name"] == "Write to google sheets":
                 print('writing to google sheets')
-            #if req.name == "Write to google slides":
-                #print('writing to google slides')
+            if node["name"] == "Write to google slides":
+                print('writing to google slides')
                 #user_profile["google_slides"].add_tweets_to_slide("data")
 
     def user_signout(self, user_id: int):
