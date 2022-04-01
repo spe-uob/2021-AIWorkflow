@@ -7,9 +7,9 @@ export class MyNode extends Node {
     const { outputs, controls, inputs, selected } = this.state;
 
     return (
-      <div className={`node ${selected}`} style={{ background: "grey", color:"white" }}>
+      <div className={`node ${selected}`}>
         <div className="title">
-          {"<<"} {node.name} {">>"}
+          {node.name}
         </div>
         {/* Outputs */}
         {outputs.map(output => (

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRete } from "./rete";
-import {Button}  from 'carbon-components-react'
+import {Button}  from 'carbon-components-react';
+import "./_workflow-page.scss";
 
 function Editor() {
   const [setContainer] = useRete();
@@ -22,11 +23,7 @@ function WorkflowPage() {
   return (
     
     <div className="Workflow-Page" >
-      <Button style={{position:"fixed",bottom:"35px",right:"35px",width:"150px",height:"50px",display:"block",
-whiteSpace:"nowrap",overflow:"hidden"}}>Run workflow</Button>
-    
-
-
+      <Button className="run-workflow-button">Run workflow</Button>
       {visible && <Editor />}
     </div>
   );
