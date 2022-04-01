@@ -1,19 +1,16 @@
-from google_slides import GoogleSlides
-from google_sheets import GoogleSheets
-from tone_analyzer import IBMToneAnalyzer
-from twitter_api import TwitterAPI
-from google_api import GoogleAPI
-from users import Users
+from multiprocessing.sharedctypes import Value
+from .google_slides import GoogleSlides
+from .google_sheets import GoogleSheets
+from .tone_analyzer import IBMToneAnalyzer
+from .twitter_api import TwitterAPI
+from .google_api import GoogleAPI
+from .users import Users
 from typing import List, Optional, Dict
 from loguru import logger
 from datetime import datetime
 from traceback import format_exc
 
-import unittest
-import json
-from dotenv import load_dotenv
-import os
-
+from server.routers.internal import google_sheets
 
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
@@ -57,7 +54,12 @@ class WorkflowNew:
                 print('writing to google sheets')
             if node["name"] == "Write to google slides":
                 print('writing to google slides')
-                #user_profile["google_slides"].add_tweets_to_slide("data")
+
+class Workflow:
+    def __init__(self, ibm_ta_key: str) -> None:
+        self.twitterapi = TwitterAPI()
+        self.toneanalyzer = IBMToneAnalyzer(ibm_ta_key)
+        self.clients = {}
 
     def user_signout(self, user_id: int):
         try:
@@ -134,14 +136,7 @@ class WorkflowNew:
         logger.debug(self.clients)
 
 
-class WorkflowTests(unittest.TestCase):
-
-    def test_parse_workflow(self):
-        with open("example_workflow.json") as f:
-            data = json.load(f)
-        load_dotenv(verbose=True)
-        wf = WorkflowNew("./credentials.json", "_T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
-        wf.parse_workflow(data)
-
 if __name__ == "__main__":
-    unittest.main()
+    wf = Workflow("T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
+    #wf.main("ibm", ["ibm"], ["happy", "sad"])
+    wf.authenticate_user("./credentials.json", "4/0AX4XfWjOZFSsCSOYjfa5Dv4I4kIJjfBu6GhRd4KBwiPE4MiBZFKUzEggTHi6rmcTv-ExaQ\\")
