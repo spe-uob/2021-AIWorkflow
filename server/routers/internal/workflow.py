@@ -38,25 +38,24 @@ class WorkflowNew:
   
     def parse_workflow(self, workflow_request: Dict[str, str]) -> None:
         workflow_request = workflow_request["nodes"]
-        for node in workflow_request:
-            if node == "1":
-                workflow_request1 = workflow_request["1"]
-                for keyvalue in workflow_request1:
-                    workflow_request2 = workflow_request["datas"]
-                    print(workflow_request2)
-                #tweets = self.twitter_api.search_tweets(keywords=workflow_request1["output"])
-        #if req.name == "Tone Analyzer":
-            #for tweet in tweets:
-                #tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
-                #primary_tone = tweet_analysis["primary_tone"]
-                #tweet.update({"primary_tone": primary_tone})
-                #print("primary_tone")
-        #if req.name == "Write to google sheets":
-            #print('writing to google sheets')
-            #user_profile["google_sheets"].add_tweets_to_spreadsheet("data")
-        #if req.name == "Write to google slides":
-            #print('writing to google slides')
-            #user_profile["google_slides"].add_tweets_to_slide("data")
+        for id, node in workflow_request.items():
+            #print(id, node)
+            if node["name"] == "Search Twitter":
+                keywords = node["data"]["keywords"]
+                tweets = self.twitter_api.search_tweets(keywords)
+        
+            if node["name"] == "Tone Analyzer":
+                for tweet in tweets:
+                    tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
+                    primary_tone = tweet_analysis["primary_tone"]
+                    tweet.update({"primary_tone": primary_tone})
+                    print("primary_tone")
+            #if req.name == "Write to google sheets":
+                #print('writing to google sheets')
+                #user_profile["google_sheets"].add_tweets_to_spreadsheet("data")
+            #if req.name == "Write to google slides":
+                #print('writing to google slides')
+                #user_profile["google_slides"].add_tweets_to_slide("data")
 
     def user_signout(self, user_id: int):
         try:
