@@ -41,7 +41,8 @@ class Users:
     def get_user(self, user_id, auth_code, backend_authcode):
         if (backend_authcode == hash (user_id + auth_code)):
             return self.__users__.get(user_id)
-
+        else:
+            print ("invalid auth_code!")
 
 if __name__ == "__main__":
     users = Users()
