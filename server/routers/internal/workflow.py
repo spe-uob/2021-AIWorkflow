@@ -10,7 +10,6 @@ from loguru import logger
 from datetime import datetime
 from traceback import format_exc
 
-
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
         self.creds_file = google_creds_file

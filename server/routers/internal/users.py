@@ -2,6 +2,9 @@ from google_api import GoogleAPI
 from google_slides import GoogleSlides
 from google_sheets import GoogleSheets
 
+from random import shuffle
+from hashlib import md5 
+
 class Users:
     def __init__(self):
         self.__users__ = {}
@@ -13,6 +16,10 @@ class Users:
             for key, value in self.__users__[user_id].items():
                 text += f"\t{key}: {value}\n"
         return text
+
+    def hash(self, auth_code: str, user_id: str) -> str:
+        randstring = shuffle(auth_code+user_id)
+        return md5(randstring.encode()).hexdigest()
     
     def register_user(self, creds_file: str, auth_code: str): 
         google_api = GoogleAPI(creds_file, auth_code)
@@ -20,12 +27,15 @@ class Users:
         user_profile = google_api.load_profile()
         googleslides = GoogleSlides(google_creds)
         googlesheets = GoogleSheets(google_creds)
+        backend_authcode = self.hash(auth_code, user_profile["id"])
         self.add_user(user_profile["id"], 
             {
                 "googleslides": googleslides,
                 "googlesheets": googlesheets,
+                "code": backend_authcode,
             }
         )
+        user_profile.update({"code": backend_authcode})
         return user_profile
 
     def add_user(self, user_id: str, props: dict):
@@ -46,3 +56,4 @@ if __name__ == "__main__":
     users.add_user("2", {"some_props": "some_value", "some_other_props": "some_other_value"})
     users.add_user("3", {"some_props": "some_value", "some_other_props": "some_other_value"})
     print(users)
+    print(users.hash("yeeeeeeeee", "yeeee1374124975893y589y hghdsfo ghs"))
