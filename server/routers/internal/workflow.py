@@ -50,9 +50,8 @@ class WorkflowNew:
                     primary_tone = tweet_analysis["primary_tone"]
                     tweet.update({"primary_tone": primary_tone})
                     print("primary_tone")
-            #if req.name == "Write to google sheets":
-                #print('writing to google sheets')
-                #user_profile["google_sheets"].add_tweets_to_spreadsheet("data")
+            if node["name"] == "Write to google sheets":
+                print('writing to google sheets')
             #if req.name == "Write to google slides":
                 #print('writing to google slides')
                 #user_profile["google_slides"].add_tweets_to_slide("data")
