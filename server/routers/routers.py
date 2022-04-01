@@ -2,7 +2,17 @@ from fastapi import APIRouter, Header
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
-from .tweets_schemas import SaveTweetsRequest, SaveTweetsResponse, SearchTweetsResponse
+from .tweets_schemas import (
+    SaveTweetsRequest, 
+    SaveTweetsResponse, 
+    SearchTweetsResponse, 
+    TweetRequest, 
+    TweetResponse
+)
+from .database_schemas import (
+    GetWorkflowRequest, 
+    GetWorkflowResponse
+)
 from .user_schemas import (
     UserLogInRequest,
     UserLogInResponse,
@@ -10,6 +20,7 @@ from .user_schemas import (
     UserLogOutResponse,
 )
 from typing import Optional
+from ..database.py import get_collection, retrieve_by_id
 from loguru import logger
 from traceback import format_exc
 import os
@@ -92,3 +103,17 @@ async def workflow_default():
 @workflow_router.post("/run")
 async def run_workflow():
     return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
+
+database_router = APIRouter(prefix="/database")
+
+@database_router.get("/", response_model=GetWorkflowResponse)
+async def database_workflow_get(request: GetWorkflowRequest):
+    collection = get_collection("workflows")
+    workflow = retrieve_by_id(request.workflow_id, collection)
+    return JSONResponse({"data": workflow, "message": "workflow get successful", "success": True}, status_code=200)
+
+@database_router.get("/", response_model=TweetResponse)
+async def database_tweet_get(request: TweetRequest):
+    collection = get_collection("tweets")
+    tweet = retrieve_by_id(request.tweet_id, collection)
+    return JSONResponse({"data": tweet, "message": "workflow get successful", "success": True}, status_code=200)
