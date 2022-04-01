@@ -10,6 +10,8 @@ from loguru import logger
 from datetime import datetime
 from traceback import format_exc
 
+from server.routers.internal import google_sheets
+
 class WorkflowNew:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
         self.creds_file = google_creds_file
@@ -40,6 +42,8 @@ class WorkflowNew:
                         tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["data"])
                         primary_tone = tweet_analysis["primary_tone"]
                         tweet.update({"primary_tone": primary_tone})
+                if req.id == "3":
+                    google_sheets.add_tweets_to_spreadsheet(")
 
 class Workflow:
     def __init__(self, ibm_ta_key: str) -> None:
