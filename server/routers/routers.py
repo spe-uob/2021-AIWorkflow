@@ -19,7 +19,7 @@ from .user_schemas import (
     UserLogOutRequest,
     UserLogOutResponse,
 )
-from ../database.py import get_collection, retrieve_by_id
+from ..database.py import get_collection, retrieve_by_id
 from loguru import logger
 from traceback import format_exc
 import os
