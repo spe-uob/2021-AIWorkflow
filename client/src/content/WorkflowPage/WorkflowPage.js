@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
-//import { MyNode } from "./MyNode";
+
 
 
 function Editor() {
