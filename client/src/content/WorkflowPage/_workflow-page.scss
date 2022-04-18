@@ -1,18 +1,25 @@
-html, body {
-    height: 100%;
-    width: 100%;
-  }
-  
-  .node .control input, .node .input-control input {
-    width: 140px;
-  }
-  select, input {
-    width: 100%;
-    border-radius: 30px;
-    background-color: white;
-    padding: 2px 6px;
-    border: 1px solid #999;
-    font-size: 110%;
-    width: 170px;
-    
-  }
+.workflow-editor-container {
+    height: 100vh;
+    width: 100vw;
+}
+
+.run-workflow-button{
+  position:fixed;
+  bottom:35px;
+  right:35px;
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  z-index: 1;
+}
+
+.node {
+  background: #0f62fe;  
+  color: white;
+  border: 0;
+  border-radius: 2%;
+}
+
+.socket.string{
+  background: #2e64c7;
+}
