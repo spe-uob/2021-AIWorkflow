@@ -37,7 +37,9 @@ async def get_backend_auth_code(authorization: str = Header(None)):
 tweet_router = APIRouter(prefix="/twitterapi", dependencies=[Depends(get_backend_auth_code)])
 
 @tweet_router.post("/tweets", response_model=SaveTweetsResponse)
-async def save_tweet_request(request: SaveTweetsRequest) -> JSONResponse:
+async def save_tweet_request(request: SaveTweetsRequest, authorization: str = Header(None)) -> JSONResponse:
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
     response = {
         "data": {
             "tweet_id": "123456789",
@@ -55,7 +57,10 @@ async def search_tweet_request(
     tones: str,
     time_start: str = None,
     time_end: str = None,
-) -> JSONResponse:
+    authorization: str = Header(None)
+) -> JSONResponse: 
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
     try:
         keywords = [kw.rstrip() for kw in keywords.split(",")]
         tones = [kw.rstrip() for kw in tones.split(",")]
@@ -104,23 +109,31 @@ async def user_logout(request: UserLogOutRequest, authorization: str = Header(No
 workflow_router = APIRouter(prefix="/workflow", dependencies=[Depends(get_backend_auth_code)])
 
 @workflow_router.get("/")
-async def workflow_default():
+async def workflow_default(authorization: str = Header(None)):
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
     return JSONResponse({"data": {}, "message": "get workflow successful", "success": True}, status_code=200)
 
 @workflow_router.post("/run")
-async def run_workflow():
+async def run_workflow(authorization: str = Header(None)):
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
     return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
 
 database_router = APIRouter(prefix="/database", dependencies=[Depends(get_backend_auth_code)])
 
 @database_router.get("/", response_model=GetWorkflowResponse)
-async def database_workflow_get(request: GetWorkflowRequest):
+async def database_workflow_get(request: GetWorkflowRequest, authorization: str = Header(None)):
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
     collection = get_collection("workflows")
     workflow = retrieve_by_id(request.workflow_id, collection)
     return JSONResponse({"data": workflow, "message": "workflow get successful", "success": True}, status_code=200)
 
 @database_router.get("/", response_model=TweetResponse)
-async def database_tweet_get(request: TweetRequest):
+async def database_tweet_get(request: TweetRequest, authorization: str = Header(None)):
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
     collection = get_collection("tweets")
     tweet = retrieve_by_id(request.tweet_id, collection)
     return JSONResponse({"data": tweet, "message": "workflow get successful", "success": True}, status_code=200)
