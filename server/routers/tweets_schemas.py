@@ -2,6 +2,7 @@ from typing import Optional, List
 from pydantic import BaseModel
 
 class TweetRequest(BaseModel):
+    user_id: str
     tweet_id: int
 
 class TweetModel(BaseModel):
