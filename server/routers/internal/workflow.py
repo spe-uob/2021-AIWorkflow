@@ -28,10 +28,12 @@ class Workflow:
         user_profile = self.users.get_user(user_id)
         if user_profile is None:
             raise ValueError("User not found")
+        elif backend_auth_code != self.users.get_users["code"]:
+            print("Auth_key incorrect!")
         else:
             self.parse_workflow(workflow_request)
   
-    def parse_workflow(self, workflow_request: Dict[str, str]) -> None:
+    def parse_workflow(self, backend_auth_code: str, workflow_request: Dict[str, str]) -> None:
         workflow_request = workflow_request["nodes"]
         for id, node in workflow_request.items():
             #print(id, node)
