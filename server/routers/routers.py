@@ -81,7 +81,7 @@ async def search_tweet_request(
         return JSONResponse({"data": {},"message": "something went wrong", "success": False}, status_code=500)
 
 
-user_router = APIRouter(prefix="/user", dependencies=[Depends(get_backend_auth_code)])
+user_router = APIRouter(prefix="/user")
 
 @user_router.post("/login", response_model=UserLogInResponse)
 async def user_login(request: UserLogInRequest):
@@ -90,12 +90,12 @@ async def user_login(request: UserLogInRequest):
     return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful", "success": True}, status_code=200)
 
 @user_router.get("/")
-async def get_users():
+async def get_users(authorization: str = Header(None)):
     return JSONResponse({"data": {"users": list(WORKFLOW_DEMO.clients.keys())}, "message": "get users successful", "success": True}, status_code=200)
 
 
 @user_router.post("/logout", response_model=UserLogOutResponse)
-async def user_logout(request: UserLogOutRequest):
+async def user_logout(request: UserLogOutRequest, authorization: str = Header(None)):
     logger.debug(request.user_id)
     return JSONResponse({"data": {}, "message": "logout successful", "success": True}, status_code=200)
 
