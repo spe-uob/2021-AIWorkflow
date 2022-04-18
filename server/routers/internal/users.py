@@ -1,6 +1,6 @@
-from google_api import GoogleAPI
-from google_slides import GoogleSlides
-from google_sheets import GoogleSheets
+from .google_api import GoogleAPI
+from .google_slides import GoogleSlides
+from .google_sheets import GoogleSheets
 
 from random import shuffle
 from hashlib import md5 

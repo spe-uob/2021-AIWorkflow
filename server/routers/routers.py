@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Header, HTTPException, Depends
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
@@ -20,20 +20,24 @@ from .user_schemas import (
     UserLogOutResponse,
 )
 from typing import Optional
-from ..database import get_collection, retrieve_by_id
+from .database import get_collection, retrieve_by_id
 
 from loguru import logger
 from traceback import format_exc
 import os
 
-tweet_router = APIRouter(prefix="/twitterapi")
+async def get_backend_auth_code(authorization: str = Header(None)):
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
+    return authorization
+
+tweet_router = APIRouter(prefix="/twitterapi", dependencies=[Depends(get_backend_auth_code)])
 
 load_dotenv(verbose=True)
 WORKFLOW_DEMO = Workflow(os.getenv("IBM_TONE_ANALYZER_KEY"))
 
-
 @tweet_router.post("/tweets", response_model=SaveTweetsResponse)
-async def save_tweet_request(request: SaveTweetsRequest, code: Optional[str] = Header(None)) -> JSONResponse:
+async def save_tweet_request(request: SaveTweetsRequest) -> JSONResponse:
     response = {
         "data": {
             "tweet_id": "123456789",
@@ -77,7 +81,7 @@ async def search_tweet_request(
         return JSONResponse({"data": {},"message": "something went wrong", "success": False}, status_code=500)
 
 
-user_router = APIRouter(prefix="/user")
+user_router = APIRouter(prefix="/user", dependencies=[Depends(get_backend_auth_code)])
 
 @user_router.post("/login", response_model=UserLogInResponse)
 async def user_login(request: UserLogInRequest):
@@ -95,7 +99,7 @@ async def user_logout(request: UserLogOutRequest):
     logger.debug(request.user_id)
     return JSONResponse({"data": {}, "message": "logout successful", "success": True}, status_code=200)
 
-workflow_router = APIRouter(prefix="/workflow")
+workflow_router = APIRouter(prefix="/workflow", dependencies=[Depends(get_backend_auth_code)])
 
 @workflow_router.get("/")
 async def workflow_default():
@@ -105,7 +109,7 @@ async def workflow_default():
 async def run_workflow():
     return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
 
-database_router = APIRouter(prefix="/database")
+database_router = APIRouter(prefix="/database", dependencies=[Depends(get_backend_auth_code)])
 
 @database_router.get("/", response_model=GetWorkflowResponse)
 async def database_workflow_get(request: GetWorkflowRequest):
