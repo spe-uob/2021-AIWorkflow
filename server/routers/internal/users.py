@@ -2,7 +2,7 @@ from .google_api import GoogleAPI
 from .google_slides import GoogleSlides
 from .google_sheets import GoogleSheets
 
-from random import shuffle
+from random import sample
 from hashlib import md5
 
 class Users:
@@ -18,7 +18,8 @@ class Users:
         return text
 
     def hash(self, auth_code: str, user_id: str) -> str:
-        randstring = shuffle(auth_code+user_id)
+        source_string = f"{auth_code}{user_id}"
+        randstring = ''.join(sample(source_string,len(source_string)))
         return md5(randstring.encode()).hexdigest()
     
     def register_user(self, creds_file: str, auth_code: str): 
