@@ -30,6 +30,9 @@ function handleClick(){
     })
 }
 function WorkflowPage() {
+  if (sessionStorage.getItem("googleObj") === null) {
+    window.location.assign("./#/profile")
+  }
   const [visible,] = useState(true);
   
   return (
