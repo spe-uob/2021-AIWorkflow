@@ -22,9 +22,9 @@ function handleClick(){
       method: 'POST',
       mode: Constants.CORS,
       headers: {
-        'Access-Control-Allow-Origin':'*',
         'Accept': 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem('googleObj')).code
       },
       body: JSON.stringify({'obj': sessionStorage.getItem("workflowObj")})
     })
