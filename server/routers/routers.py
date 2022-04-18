@@ -20,7 +20,7 @@ from .user_schemas import (
     UserLogOutResponse,
 )
 from typing import Optional
-from ..database.py import get_collection, retrieve_by_id
+from ..database import get_collection, retrieve_by_id
 
 from loguru import logger
 from traceback import format_exc

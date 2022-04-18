@@ -27,7 +27,7 @@ class WorkflowNew:
             logger.error(e)
             logger.error(format_exc())
 
-    def run(self, user_id: str, workflow_request: Dict[str ,str]) -> None:
+    def run(self, user_id: str, backend_auth_code: str, workflow_request: Dict[str ,str]) -> None:
         user_profile = self.users.get_user(user_id)
         if user_profile is None:
             raise ValueError("User not found")
