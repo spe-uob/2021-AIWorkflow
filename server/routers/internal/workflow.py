@@ -55,6 +55,9 @@ class Workflow:
                 date = datetime.datetime.now()
             if node["name"] == "Write to google slides":
                 print('writing to google slides')
+                tweet = node["data"]
+                date = datetime.datetime.now()
+
 
     def main(
             self,
