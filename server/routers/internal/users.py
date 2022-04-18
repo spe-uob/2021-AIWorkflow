@@ -1,9 +1,9 @@
-from google_api import GoogleAPI
-from google_slides import GoogleSlides
-from google_sheets import GoogleSheets
+from .google_api import GoogleAPI
+from .google_slides import GoogleSlides
+from .google_sheets import GoogleSheets
 
-from random import shuffle
-from hashlib import md5 
+from random import sample
+from hashlib import md5
 
 class Users:
     def __init__(self):
@@ -18,7 +18,8 @@ class Users:
         return text
 
     def hash(self, auth_code: str, user_id: str) -> str:
-        randstring = shuffle(auth_code+user_id)
+        source_string = f"{auth_code}{user_id}"
+        randstring = ''.join(sample(source_string,len(source_string)))
         return md5(randstring.encode()).hexdigest()
     
     def register_user(self, creds_file: str, auth_code: str): 
@@ -42,7 +43,8 @@ class Users:
         self.__users__[user_id] = props
 
     def remove_user(self, user_id: str):
-        self.__users__.pop(user_id)
+        if self.get_user(user_id) is not None:
+            del self.__users__[user_id]
 
     def get_users(self):
         return self.__users__
