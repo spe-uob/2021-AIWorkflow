@@ -3,7 +3,7 @@ from .google_slides import GoogleSlides
 from .google_sheets import GoogleSheets
 
 from random import shuffle
-from hashlib import md5 
+from hashlib import md5
 
 class Users:
     def __init__(self):

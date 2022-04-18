@@ -26,15 +26,15 @@ from loguru import logger
 from traceback import format_exc
 import os
 
+load_dotenv(verbose=True)
+WORKFLOW = Workflow("./routers/internal/credentials.json", os.getenv("IBM_TONE_ANALYZER_KEY"))
+
 async def get_backend_auth_code(authorization: str = Header(None)):
     if authorization is None:
         raise HTTPException(status_code=401, detail="Missing Authorization Header")
     return authorization
 
 tweet_router = APIRouter(prefix="/twitterapi", dependencies=[Depends(get_backend_auth_code)])
-
-load_dotenv(verbose=True)
-WORKFLOW_DEMO = Workflow(os.getenv("IBM_TONE_ANALYZER_KEY"))
 
 @tweet_router.post("/tweets", response_model=SaveTweetsResponse)
 async def save_tweet_request(request: SaveTweetsRequest) -> JSONResponse:
@@ -59,10 +59,10 @@ async def search_tweet_request(
     try:
         keywords = [kw.rstrip() for kw in keywords.split(",")]
         tones = [kw.rstrip() for kw in tones.split(",")]
-        if WORKFLOW_DEMO.clients.get(user_id) is None:
+        if WORKFLOW.clients.get_user(user_id) is None:
             return JSONResponse({"message": "User has not logged in"}, status_code=403)
-
-        WORKFLOW_DEMO.main(
+            
+        WORKFLOW.main(
             user_id,
             keywords,
             tones,
@@ -86,12 +86,14 @@ user_router = APIRouter(prefix="/user")
 @user_router.post("/login", response_model=UserLogInResponse)
 async def user_login(request: UserLogInRequest):
     logger.debug(request.code)
-    user_profile = WORKFLOW_DEMO.authenticate_user("./routers/internal/credentials.json", request.code)
+    user_profile = WORKFLOW.authenticate_user("./routers/internal/credentials.json", request.code)
     return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful", "success": True}, status_code=200)
 
 @user_router.get("/")
 async def get_users(authorization: str = Header(None)):
-    return JSONResponse({"data": {"users": list(WORKFLOW_DEMO.clients.keys())}, "message": "get users successful", "success": True}, status_code=200)
+    if authorization is None or authorization != WORKFLOW.clients:
+        raise HTTPException(status_code=401, detail="Missing Authorization Header")
+    return JSONResponse({"data": {"users": list(WORKFLOW.clients.keys())}, "message": "get users successful", "success": True}, status_code=200)
 
 
 @user_router.post("/logout", response_model=UserLogOutResponse)
