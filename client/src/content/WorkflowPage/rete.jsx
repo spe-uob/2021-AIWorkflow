@@ -31,9 +31,6 @@ class CheckboxControl extends Rete.Control{
 
     const initial = node.data[key] || false;
 
-    console.log(initial);
-
-
     node.data[key] = initial;
     this.props = {
       readonly,
@@ -210,11 +207,14 @@ export async function createEditor(container) {
   editor.connect(twitter.outputs.get("tweets"), googleSheets.inputs.get("tweets"));
   editor.connect(googleSheets.outputs.get("tweets"), toneAnalyzer.inputs.get("tweets"));
   editor.connect(toneAnalyzer.outputs.get("tweets"), googleSlides.inputs.get("tweets"));
+
+  sessionStorage.setItem("workflowObj", JSON.stringify(editor.toJSON()));  
   
   editor.on(
     "process",
     async () => {
       console.log("process");
+      sessionStorage.setItem("workflowObj", JSON.stringify(editor.toJSON()));
       console.log(editor.toJSON());
       await engine.abort();
       await engine.process(editor.toJSON());
@@ -239,15 +239,6 @@ export function useRete() {
       });
     }
   }, [container]);
-
-  useEffect(() => {
-    return () => {
-      if (editorRef.current) {
-        console.log("destroy");
-        editorRef.current.destroy();
-      }
-    };
-  }, []);
 
   return [setContainer];
 }
