@@ -57,7 +57,7 @@ class Workflow:
                 print('writing to google slides')
                 tweet = node["data"]
                 date = datetime.datetime.now()
-
+        return tweet,date
 
     def main(
             self,
