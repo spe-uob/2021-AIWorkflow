@@ -22,6 +22,7 @@
     - [1.4.1. Requirements](#141-requirements)
       - [1.4.1.1. Development](#1411-development)
       - [1.4.1.2. Deployment](#1412-deployment)
+      - [1.4.1.3. Envs and credentials](#1413-envs-and-credentials)
     - [1.4.2. To Deploy](#142-to-deploy)
       - [1.4.2.1. With Kubernetes (Recommended)](#1421-with-kubernetes-recommended)
       - [1.4.2.2. With Docker Compose](#1422-with-docker-compose)
@@ -91,6 +92,8 @@ cd ..
 #### 1.4.1.2. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
+
+#### 1.4.1.3. Envs and credentials
 
 ### 1.4.2. To Deploy
 
