@@ -2,6 +2,9 @@ import $ from 'jquery';
 import Constants from '../../settings';
 
 async function runWorkflow() {
+  if (sessionStorage.getItem("googleObj") === null) {
+    window.location.assign("./#/profile")
+  }
   console.log('Running workflow demo...');
   var formData = new FormData();
   formData.append('user_id', JSON.parse(sessionStorage.getItem('googleObj')).id);
