@@ -7,8 +7,8 @@ import AreaPlugin from "rete-area-plugin";
 import { MyNode } from "./MyNode";
 
 // Created sockets
-var strSocket = new Rete.Socket("String value");
-var boolSocket = new Rete.Socket("Boolean value");
+var strSocket = new Rete.Socket("String");
+var boolSocket = new Rete.Socket("Boolean");
 
 class CheckboxControl extends Rete.Control{
   static component = ({ label, value, onChange }) => (
@@ -117,7 +117,7 @@ class SearchTwitterComponent extends Rete.Component {
 }
 class GoogleSheets extends Rete.Component {
   constructor() {
-    super("Write to google sheets");
+    super("Write to Google Sheets");
     this.data.component = MyNode; // optional
   }
 
@@ -144,7 +144,7 @@ class ToneAnalyzerComponent extends Rete.Component {
     var inp = new Rete.Input("tweets","Tweets",strSocket)
     var positiveCtrl = new CheckboxControl(this.editor, "Positive", boolSocket);
     var negativeCtrl = new CheckboxControl(this.editor, "Negative", boolSocket);
-    var out = new Rete.Output("analyzed tweets", "Analyzed Tweets", strSocket);
+    var out = new Rete.Output("tweets", "Analyzed Tweets", strSocket);
 
     return node
     .addInput(inp)
@@ -154,17 +154,17 @@ class ToneAnalyzerComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    outputs["analyzed tweets"] = node.data.keywords;
+    outputs["tweets"] = node.data.keywords;
   }
 }
 class GoogleSlides extends Rete.Component {
   constructor() {
-    super("Write to google slides");
+    super("Write to Google Slides");
     this.data.component = MyNode; // optional
   }
 
   builder(node) {
-    var inp1 = new Rete.Input("analyzed tweets", "Analyzed Tweets", strSocket);
+    var inp1 = new Rete.Input("tweets", "Tweets", strSocket);
     var out = new Rete.Output("tweets", "Tweets", strSocket);
 
     return node
@@ -209,7 +209,7 @@ export async function createEditor(container) {
 
   editor.connect(twitter.outputs.get("tweets"), googleSheets.inputs.get("tweets"));
   editor.connect(googleSheets.outputs.get("tweets"), toneAnalyzer.inputs.get("tweets"));
-  editor.connect(toneAnalyzer.outputs.get("analyzed tweets"), googleSlides.inputs.get("analyzed tweets"));
+  editor.connect(toneAnalyzer.outputs.get("tweets"), googleSlides.inputs.get("tweets"));
   
   editor.on(
     "process",
