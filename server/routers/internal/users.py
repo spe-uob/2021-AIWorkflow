@@ -43,7 +43,8 @@ class Users:
         self.__users__[user_id] = props
 
     def remove_user(self, user_id: str):
-        self.__users__.pop(user_id)
+        if self.get_user(user_id) is not None:
+            del self.__users__[user_id]
 
     def get_users(self):
         return self.__users__
