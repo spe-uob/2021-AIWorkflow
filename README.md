@@ -87,7 +87,9 @@ cd ..
 cd server && pip3 install -r requirements.txt
 cd ..
 ```
-During the implementation and test process, we forget to mention about the .env and credentials.json files, which cause the failure of the development.
+During the implementation and test process, we forget to mention about the `.env` and `credentials.json` files, which cause the failure of the development.
+
+For the .env file, we add a .env.sample file in the `server/routers`, which is easier for setup. And for the `credentials.json`
 
 #### 1.4.1.2. Deployment
 
