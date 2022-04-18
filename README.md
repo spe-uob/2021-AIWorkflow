@@ -87,6 +87,9 @@ cd ..
 cd server && pip3 install -r requirements.txt
 cd ..
 ```
+During the implementation and test process, we forget to mention about the `.env` and `credentials.json` files, which cause the failure of the development.
+
+For the `.env` file, we add a .env.sample file in the `server/routers`, which is easier for setup. And for the `credentials.json`, you can find it in `server/routers/internal/`, you can also follow this [guide][13].
 
 #### 1.4.1.2. Deployment
 
@@ -155,3 +158,4 @@ Our [Wikis][12] contains our developments progress and the achievements and goal
 [10]:https://github.com/nektos/act
 [11]:https://www.mongodb.com
 [12]:https://github.com/spe-uob/2021-AIWorkflow.wiki.git
+[13]:https://developers.google.com/identity/protocols/oauth2/web-server
