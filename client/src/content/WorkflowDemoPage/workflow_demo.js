@@ -25,7 +25,6 @@ async function runWorkflow() {
     console.log(pair[0]+ ', ' + pair[1]); 
   }
   const queryString = new URLSearchParams(formData).toString();
-  console.log(queryString);
   var url = new URL(Constants.API_DOMAIN+"/twitterapi/tweets?"+queryString);
   if (sessionStorage.getItem('sessionObj') == null || sessionStorage.getItem('googleObj') == null) {
     alert("You have not signed in yet -- redirecting you to the login page");
