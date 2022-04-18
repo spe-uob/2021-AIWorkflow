@@ -37,7 +37,7 @@ async function runWorkflow() {
     headers: {
       'Access-Control-Allow-Origin':'*',
       'Content-type': 'application/json;charset=UTF-8',
-      'Code': JSON.parse(sessionStorage.getItem('googleObj')).code
+      'Authorization': JSON.parse(sessionStorage.getItem('googleObj')).code
     },
     });
     if (response.ok) {
