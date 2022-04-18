@@ -1,34 +1,47 @@
 import React, { useState } from "react";
 import { useRete } from "./rete";
-import {Button}  from 'carbon-components-react'
+import {Button}  from 'carbon-components-react';
+import "./_workflow-page.scss";
+import Constants from '../../settings';
+
+
 
 function Editor() {
   const [setContainer] = useRete();
 
   return (
     <div
-      style={{
-        width: "100vw",
-        height: "100vh"
-      }}
+      className="workflow-editor-container"
       ref={(ref) => ref && setContainer(ref)}
     />
   );
 }
-
+function handleClick(){
+    console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
+    const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
+    const userId = JSON.parse(sessionStorage.getItem("googleObj")).id
+    fetch(Constants.API_DOMAIN+'/workflow/run', {
+      method: 'POST',
+      mode: Constants.CORS,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem('googleObj')).code
+      },
+      body: JSON.stringify({'user_id': userId, 'workflow': workflowObj})
+    })
+}
 function WorkflowPage() {
+  if (sessionStorage.getItem("googleObj") === null) {
+    window.location.assign("./#/profile")
+  }
   const [visible,] = useState(true);
   
   return (
-    
-    <div className="Workflow-Page" >
-      <Button style={{position:"fixed",bottom:"35px",right:"35px",width:"150px",height:"50px",display:"block",
-whiteSpace:"nowrap",overflow:"hidden"}}>Run workflow</Button>
-    
-
-
+    <div className="workflow-page" >
+      <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
       {visible && <Editor />}
     </div>
   );
 }
-export default WorkflowPage
+export default WorkflowPage;
