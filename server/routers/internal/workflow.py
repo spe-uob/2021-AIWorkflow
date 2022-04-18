@@ -1,7 +1,4 @@
 from multiprocessing.sharedctypes import Value
-
-from server.routers.internal.google_sheets import GoogleSheets
-from server.routers.internal.google_slides import GoogleSlides
 from .tone_analyzer import IBMToneAnalyzer
 from .twitter_api import TwitterAPI
 from .users import Users
@@ -52,40 +49,32 @@ class Workflow:
                     print("primary_tone")
             if node["name"] == "Write to google sheets":
                 print('writing to google sheets')
-                googlesheets = GoogleSheets(self.users.get_user["id"])
-                googlesheets.update({"googlesheets": googlesheets})
             if node["name"] == "Write to google slides":
                 print('writing to google slides')
-                googleslides = GoogleSlides(self.users.get_user["id"])
-                googleslides.update({"googleslides": googleslides})
 
     def main(
             self,
             user_id: str,
             keywords: List[str],
             tones: List[str],
-            backend_auth_code: str,
             start_date: Optional[str] = None,
             end_date: Optional[str] = None,
         ) -> None:
             if self.users.get_user(user_id) is None:
                 raise ValueError("User has not logged in yet.")
-            else:
-                googleslides = self.clients[user_id]["googleslides"]
-                googlesheets = self.clients[user_id]["googlesheets"]
 
-            if self.users.get_user(user_id).get("code") != backend_auth_code:
-                raise ValueError("Backend auth code is not valid.")
+            googlesheets = self.users.get_user(user_id).get("googlesheets")
+            googleslides = self.users.get_user(user_id).get("googleslides")
 
-            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")     
 
-            tweets = self.twitterapi.search_tweets(keywords, start_date, end_date)
+            tweets = self.twitter_api.search_tweets(keywords, start_date, end_date)
 
             googlesheets.add_tweets_to_spreadsheet(tweets, date)
 
             for tweet in tweets:
                 # {'text': "I'm so happy today!", 'primary_tone': 'positive', 'tones': ['joy']}
-                tweet_analysis = self.toneanalyzer.get_analysis(text=tweet["text"])
+                tweet_analysis = self.tone_analyzer.get_analysis(text=tweet["text"])
                 primary_tone = tweet_analysis["primary_tone"]
                 tweet.update({"primary_tone": primary_tone})
 
@@ -114,3 +103,4 @@ if __name__ == "__main__":
     wf = Workflow("T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
     #wf.main("ibm", ["ibm"], ["happy", "sad"])
     wf.authenticate_user("./credentials.json", "4/0AX4XfWjOZFSsCSOYjfa5Dv4I4kIJjfBu6GhRd4KBwiPE4MiBZFKUzEggTHi6rmcTv-ExaQ\\")
+
