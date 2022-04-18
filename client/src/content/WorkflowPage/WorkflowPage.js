@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
+import Constants from '../../settings';
 
 
 
@@ -17,6 +18,16 @@ function Editor() {
 }
 function handleClick(){
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
+    fetch(Constants.API_DOMAIN+'/workflow/run', {
+      method: 'POST',
+      mode: Constants.CORS,
+      headers: {
+        'Access-Control-Allow-Origin':'*',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({'obj': sessionStorage.getItem("workflowObj")})
+    })
 }
 function WorkflowPage() {
   const [visible,] = useState(true);
