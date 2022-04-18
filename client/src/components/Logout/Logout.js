@@ -15,7 +15,7 @@ function LogoutHooks() {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': JSON.parse(sessionStorage.getItem('googleObj')).code
+          'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem('googleObj')).code
         },
         body: JSON.stringify({'user_id': JSON.parse(sessionStorage.getItem('googleObj')).id})
       })
