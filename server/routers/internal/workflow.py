@@ -1,4 +1,6 @@
 from multiprocessing.sharedctypes import Value
+
+from server.routers.internal.google_sheets import GoogleSheets
 from .tone_analyzer import IBMToneAnalyzer
 from .twitter_api import TwitterAPI
 from .users import Users
@@ -49,6 +51,8 @@ class Workflow:
                     print("primary_tone")
             if node["name"] == "Write to google sheets":
                 print('writing to google sheets')
+                tweet = node["data"]
+                date = datetime.datetime.now()
             if node["name"] == "Write to google slides":
                 print('writing to google slides')
 
