@@ -8,10 +8,7 @@ function Editor() {
 
   return (
     <div
-      style={{
-        width: "100vw",
-        height: "100vh"
-      }}
+      className="workflow-editor-container"
       ref={(ref) => ref && setContainer(ref)}
     />
   );
@@ -21,11 +18,10 @@ function WorkflowPage() {
   const [visible,] = useState(true);
   
   return (
-    
-    <div className="Workflow-Page" >
+    <div className="workflow-page" >
       <Button className="run-workflow-button">Run workflow</Button>
       {visible && <Editor />}
     </div>
   );
 }
-export default WorkflowPage
+export default WorkflowPage;
