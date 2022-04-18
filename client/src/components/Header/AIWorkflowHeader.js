@@ -56,15 +56,12 @@ const AIWorkflowHeader = () => (
               <HeaderMenuItem element={Link} to="/workflow_demo">
                 Workflow Demo
               </HeaderMenuItem>
-            </HeaderSideNavItems>
-          </SideNavItems>
-          < SideNavItems>
-            <HeaderSideNavItems>
-              <HeaderMenuItem element={Link} to="/Workflow">
-                Workflow
+              <HeaderMenuItem element={Link} to="/workflow">
+                Workflow 
               </HeaderMenuItem>
             </HeaderSideNavItems>
           </SideNavItems>
+          
         </SideNav>
         <HeaderGlobalBar>
           <HeaderGlobalAction aria-label="Notifications">
