@@ -18,7 +18,7 @@ function Editor() {
 }
 function handleClick(){
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
-    const workflowObj = sessionStorage.getItem("workflowObj")
+    const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = JSON.parse(sessionStorage.getItem("googleObj")).id
     fetch(Constants.API_DOMAIN+'/workflow/run', {
       method: 'POST',
