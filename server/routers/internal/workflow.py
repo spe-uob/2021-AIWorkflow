@@ -1,6 +1,3 @@
-from multiprocessing.sharedctypes import Value
-
-from server.routers.internal.google_sheets import GoogleSheets
 from .tone_analyzer import IBMToneAnalyzer
 from .twitter_api import TwitterAPI
 from .users import Users
@@ -36,24 +33,28 @@ class Workflow:
             self.parse_workflow(workflow_request)
   
     def parse_workflow(self, backend_auth_code: str, workflow_request: Dict[str, str]) -> None:
+        # TODO define a workflow request data structure
         workflow_request = workflow_request["nodes"]
         for id, node in workflow_request.items():
             #print(id, node)
             if node["name"] == "Search Twitter":
+                #TODO
                 keywords = node["data"]["keywords"]
                 tweets = self.twitter_api.search_tweets(keywords)
-        
             if node["name"] == "Tone Analyzer":
+                #TODO
                 for tweet in tweets:
                     tweet_analysis = self.tone_analyzer.get_analysis(text=tweet["text"])
                     primary_tone = tweet_analysis["primary_tone"]
                     tweet.update({"primary_tone": primary_tone})
                     print("primary_tone")
             if node["name"] == "Write to google sheets":
+                #TODO
                 print('writing to google sheets')
                 tweet = node["data"]
                 date = datetime.datetime.now()
             if node["name"] == "Write to google slides":
+                #TODO
                 print('writing to google slides')
                 tweet = node["data"]
                 date = datetime.datetime.now()
