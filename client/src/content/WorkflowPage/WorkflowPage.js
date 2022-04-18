@@ -18,8 +18,8 @@ function Editor() {
 }
 function handleClick(){
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
-    workflowObj = sessionStorage.getItem("workflowObj")
-    userId = JSON.parse(sessionStorage.getItem("googleObj")).id
+    const workflowObj = sessionStorage.getItem("workflowObj")
+    const userId = JSON.parse(sessionStorage.getItem("googleObj")).id
     fetch(Constants.API_DOMAIN+'/workflow/run', {
       method: 'POST',
       mode: Constants.CORS,
@@ -28,7 +28,7 @@ function handleClick(){
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem('googleObj')).code
       },
-      body: JSON.stringify({'workflow': workflowObj, 'user_id': userId})
+      body: JSON.stringify({'user_id': userId, 'workflow': workflowObj})
     })
 }
 function WorkflowPage() {
