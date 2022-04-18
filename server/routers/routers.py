@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Header, HTTPException, Depends
+from fastapi import APIRouter, Header, HTTPException
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
@@ -29,25 +29,27 @@ import os
 load_dotenv(verbose=True)
 WORKFLOW = Workflow("./routers/internal/credentials.json", os.getenv("IBM_TONE_ANALYZER_KEY"))
 
-async def get_backend_auth_code(authorization: str = Header(None)):
-    if authorization is None:
+def user_authenticated(auth: str, user_id: str):
+    if auth is None:
         raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    return authorization
+    if auth != WORKFLOW.users.get_user(user_id).get("backend_auth_code", None):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    else:
+        return True
 
-tweet_router = APIRouter(prefix="/twitterapi", dependencies=[Depends(get_backend_auth_code)])
+tweet_router = APIRouter(prefix="/twitterapi")
 
 @tweet_router.post("/tweets", response_model=SaveTweetsResponse)
 async def save_tweet_request(request: SaveTweetsRequest, authorization: str = Header(None)) -> JSONResponse:
-    if authorization is None:
-        raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    response = {
-        "data": {
-            "tweet_id": "123456789",
-        },
-        "message": "saved tweet successfully",
-        "success": True,
-    }
-    return JSONResponse(response, status_code=200)
+    if user_authenticated(authorization, request.user_id):
+        response = {
+            "data": {
+                "tweet_id": "123456789",
+            },
+            "message": "saved tweet successfully",
+            "success": True,
+        }
+        return JSONResponse(response, status_code=200)
 
 
 @tweet_router.get("/tweets", response_model=SearchTweetsResponse)
@@ -59,81 +61,77 @@ async def search_tweet_request(
     time_end: str = None,
     authorization: str = Header(None)
 ) -> JSONResponse: 
-    if authorization is None:
-        raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    try:
-        keywords = [kw.rstrip() for kw in keywords.split(",")]
-        tones = [kw.rstrip() for kw in tones.split(",")]
-        if WORKFLOW.clients.get_user(user_id) is None:
-            return JSONResponse({"message": "User has not logged in"}, status_code=403)
-            
-        WORKFLOW.main(
-            user_id,
-            keywords,
-            tones,
-            time_start,
-            time_end,
-        )
-        response = {
-            "data": {},
-            "message": "Data is generated, you can see the results on your Google account now.",
-            "success": True,
-        }
-        return JSONResponse(response, status_code=200)
-    except Exception as e:
-        logger.error(e)
-        logger.error(format_exc())
-        return JSONResponse({"data": {},"message": "something went wrong", "success": False}, status_code=500)
+    if user_authenticated(authorization, user_id):
+        try:
+            keywords = [kw.rstrip() for kw in keywords.split(",")]
+            tones = [kw.rstrip() for kw in tones.split(",")]
+            if WORKFLOW.users.get_user(user_id) is None:
+                return JSONResponse({"message": "User has not logged in"}, status_code=403)
+                
+            WORKFLOW.main(
+                user_id,
+                keywords,
+                tones,
+                time_start,
+                time_end,
+            )
+            response = {
+                "data": {},
+                "message": "Data is generated, you can see the results on your Google account now.",
+                "success": True,
+            }
+            return JSONResponse(response, status_code=200)
+        except Exception as e:
+            logger.error(e)
+            logger.error(format_exc())
+            return JSONResponse({"data": {},"message": "something went wrong", "success": False}, status_code=500)
 
 
 user_router = APIRouter(prefix="/user")
 
 @user_router.post("/login", response_model=UserLogInResponse)
 async def user_login(request: UserLogInRequest):
+    # no auth because it is a login request
     logger.debug(request.code)
-    user_profile = WORKFLOW.authenticate_user("./routers/internal/credentials.json", request.code)
+    user_profile = WORKFLOW.user_signin(request.code)
     return JSONResponse({"data": {"google_object": user_profile}, "message": "login successful", "success": True}, status_code=200)
 
 @user_router.get("/")
-async def get_users(authorization: str = Header(None)):
-    if authorization is None or authorization != WORKFLOW.clients:
-        raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    return JSONResponse({"data": {"users": list(WORKFLOW.clients.keys())}, "message": "get users successful", "success": True}, status_code=200)
+async def get_users():
+    # no auth needed because it only returns public user ids, no private info
+    return JSONResponse({"data": {"users": list(WORKFLOW.users.keys())}, "message": "get users successful", "success": True}, status_code=200)
 
 
 @user_router.post("/logout", response_model=UserLogOutResponse)
 async def user_logout(request: UserLogOutRequest, authorization: str = Header(None)):
-    logger.debug(request.user_id)
-    return JSONResponse({"data": {}, "message": "logout successful", "success": True}, status_code=200)
+    if user_authenticated(authorization, request.user_id):
+        WORKFLOW.user_signout(request.user_id)
+        return JSONResponse({"data": {}, "message": "logout successful", "success": True}, status_code=200)
 
-workflow_router = APIRouter(prefix="/workflow", dependencies=[Depends(get_backend_auth_code)])
+workflow_router = APIRouter(prefix="/workflow")
 
 @workflow_router.get("/")
-async def workflow_default(authorization: str = Header(None)):
-    if authorization is None:
-        raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    return JSONResponse({"data": {}, "message": "get workflow successful", "success": True}, status_code=200)
+async def workflow_default():
+    return JSONResponse({"data": {}, "message": "workflow router is running", "success": True}, status_code=200)
 
 @workflow_router.post("/run")
-async def run_workflow(authorization: str = Header(None)):
-    if authorization is None:
-        raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
+#TODO!!!!!!!!!!
+async def run_workflow(user_id: str, authorization: str = Header(None)):
+    if user_authenticated(authorization, user_id):
+        return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
 
-database_router = APIRouter(prefix="/database", dependencies=[Depends(get_backend_auth_code)])
+database_router = APIRouter(prefix="/database")
 
 @database_router.get("/", response_model=GetWorkflowResponse)
 async def database_workflow_get(request: GetWorkflowRequest, authorization: str = Header(None)):
-    if authorization is None:
-        raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    collection = get_collection("workflows")
-    workflow = retrieve_by_id(request.workflow_id, collection)
-    return JSONResponse({"data": workflow, "message": "workflow get successful", "success": True}, status_code=200)
+    if user_authenticated(authorization, request.user_id):
+        collection = get_collection("workflows")
+        workflow = retrieve_by_id(request.workflow_id, collection)
+        return JSONResponse({"data": workflow, "message": "workflow get successful", "success": True}, status_code=200)
 
 @database_router.get("/", response_model=TweetResponse)
 async def database_tweet_get(request: TweetRequest, authorization: str = Header(None)):
-    if authorization is None:
-        raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    collection = get_collection("tweets")
-    tweet = retrieve_by_id(request.tweet_id, collection)
-    return JSONResponse({"data": tweet, "message": "workflow get successful", "success": True}, status_code=200)
+    if user_authenticated(authorization, request.user_id):
+        collection = get_collection("tweets")
+        tweet = retrieve_by_id(request.tweet_id, collection)
+        return JSONResponse({"data": tweet, "message": "workflow get successful", "success": True}, status_code=200)
