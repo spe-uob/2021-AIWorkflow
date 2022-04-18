@@ -6,29 +6,30 @@
 - [1. AI WorkFlow Backend API Documentation](#1-ai-workflow-backend-api-documentation)
   - [1.1. Table of Contents](#11-table-of-contents)
   - [1.2. API User flow diagram](#12-api-user-flow-diagram)
-  - [1.3. API Endpoints](#13-api-endpoints)
-    - [1.3.1. API for Twitter](#131-api-for-twitter)
-      - [1.3.1.1. Save Tweets](#1311-save-tweets)
-        - [1.3.1.1.1. Endpoint](#13111-endpoint)
-        - [1.3.1.1.2. Accepted Methods](#13112-accepted-methods)
-        - [1.3.1.1.3. Parameters](#13113-parameters)
-        - [1.3.1.1.4. Results](#13114-results)
-      - [1.3.1.2. Search Tweets](#1312-search-tweets)
-        - [1.3.1.2.1. Endpoint](#13121-endpoint)
-        - [1.3.1.2.2. Accepted Methods](#13122-accepted-methods)
-        - [1.3.1.2.3. Parameters](#13123-parameters)
-        - [1.3.1.2.4. Results](#13124-results)
-    - [1.3.2. API for Users](#132-api-for-users)
-      - [1.3.2.1. User Login](#1321-user-login)
-        - [1.3.2.1.1. Endpoint](#13211-endpoint)
-        - [1.3.2.1.2. Accepted Methods](#13212-accepted-methods)
-        - [1.3.2.1.3. Parameters](#13213-parameters)
-        - [1.3.2.1.4. Results](#13214-results)
-      - [1.3.2.2. User Logout](#1322-user-logout)
-        - [1.3.2.2.1. Endpoint](#13221-endpoint)
-        - [1.3.2.2.2. Accepted Methods](#13222-accepted-methods)
-        - [1.3.2.2.3. Parameters](#13223-parameters)
-        - [1.3.2.2.4. Results](#13224-results)
+  - [1.3. Authorization](#13-authorization)
+  - [1.4. API Endpoints](#14-api-endpoints)
+    - [1.4.1. API for Twitter](#141-api-for-twitter)
+      - [1.4.1.1. Save Tweets](#1411-save-tweets)
+        - [1.4.1.1.1. Endpoint](#14111-endpoint)
+        - [1.4.1.1.2. Accepted Methods](#14112-accepted-methods)
+        - [1.4.1.1.3. Parameters](#14113-parameters)
+        - [1.4.1.1.4. Results](#14114-results)
+      - [1.4.1.2. Search Tweets](#1412-search-tweets)
+        - [1.4.1.2.1. Endpoint](#14121-endpoint)
+        - [1.4.1.2.2. Accepted Methods](#14122-accepted-methods)
+        - [1.4.1.2.3. Parameters](#14123-parameters)
+        - [1.4.1.2.4. Results](#14124-results)
+    - [1.4.2. API for Users](#142-api-for-users)
+      - [1.4.2.1. User Login](#1421-user-login)
+        - [1.4.2.1.1. Endpoint](#14211-endpoint)
+        - [1.4.2.1.2. Accepted Methods](#14212-accepted-methods)
+        - [1.4.2.1.3. Parameters](#14213-parameters)
+        - [1.4.2.1.4. Results](#14214-results)
+      - [1.4.2.2. User Logout](#1422-user-logout)
+        - [1.4.2.2.1. Endpoint](#14221-endpoint)
+        - [1.4.2.2.2. Accepted Methods](#14222-accepted-methods)
+        - [1.4.2.2.3. Parameters](#14223-parameters)
+        - [1.4.2.2.4. Results](#14224-results)
 
 ---
 
@@ -39,27 +40,37 @@
 
 ---
 
-## 1.3. API Endpoints
+## 1.3. Authorization
 
-### 1.3.1. API for Twitter
+All paths have to have a Header:
+
+    Authorization: Bearer <access_token>
+
+where `access_token` is the access token of the user. This can be retrieved from using the `/user/login` endpoint.
+
+---
+
+## 1.4. API Endpoints
+
+### 1.4.1. API for Twitter
 
 API search in Twitter in Twitter API key with the input keywords
 
-#### 1.3.1.1. Save Tweets
+#### 1.4.1.1. Save Tweets
 
 Saves tweets to database
 
-##### 1.3.1.1.1. Endpoint
+##### 1.4.1.1.1. Endpoint
 
     /twitterapi/tweets
 
-##### 1.3.1.1.2. Accepted Methods
+##### 1.4.1.1.2. Accepted Methods
 
 ```txt
  POST 
 ```
 
-##### 1.3.1.1.3. Parameters
+##### 1.4.1.1.3. Parameters
 
 | Parameter      | Type    | Description           | Optional |
 | -------------- | ------- | --------------------- | -------- |
@@ -83,7 +94,7 @@ e.g.
 }
 ```
 
-##### 1.3.1.1.4. Results
+##### 1.4.1.1.4. Results
 
 **Success:**
 
@@ -107,21 +118,21 @@ e.g.
 }
 ```
 
-#### 1.3.1.2. Search Tweets
+#### 1.4.1.2. Search Tweets
 
 Search tweet search and collect information in twitter according to the key words
 
-##### 1.3.1.2.1. Endpoint
+##### 1.4.1.2.1. Endpoint
 
     /twitterapi/tweets
 
-##### 1.3.1.2.2. Accepted Methods
+##### 1.4.1.2.2. Accepted Methods
 
 ```txt
  GET 
 ```
 
-##### 1.3.1.2.3. Parameters
+##### 1.4.1.2.3. Parameters
 
 **Query Params:**
 
@@ -140,7 +151,7 @@ GET http://hostname.domain/twitterapi/tweets?user_id=123&keywords=tweet,ibm&tone
 ```
 
 
-##### 1.3.1.2.4. Results
+##### 1.4.1.2.4. Results
 
 
 **Success:**
@@ -176,23 +187,23 @@ GET http://hostname.domain/twitterapi/tweets?user_id=123&keywords=tweet,ibm&tone
 ```
 
 
-### 1.3.2. API for Users
+### 1.4.2. API for Users
 
-#### 1.3.2.1. User Login
+#### 1.4.2.1. User Login
 
 Lets user login to the system
 
-##### 1.3.2.1.1. Endpoint
+##### 1.4.2.1.1. Endpoint
 
     /user/login
 
-##### 1.3.2.1.2. Accepted Methods
+##### 1.4.2.1.2. Accepted Methods
 
 ```txt
  POST 
 ```
 
-##### 1.3.2.1.3. Parameters
+##### 1.4.2.1.3. Parameters
 
 | Parameter | Type   | Description      | Optional |
 | --------- | ------ | ---------------- | -------- |
@@ -206,7 +217,7 @@ e.g.
 }
 ```
 
-##### 1.3.2.1.4. Results
+##### 1.4.2.1.4. Results
 
 ```json
 {  
@@ -220,19 +231,19 @@ e.g.
 }
 ```
 
-#### 1.3.2.2. User Logout
+#### 1.4.2.2. User Logout
 
-##### 1.3.2.2.1. Endpoint
+##### 1.4.2.2.1. Endpoint
 
     /user/logout
 
-##### 1.3.2.2.2. Accepted Methods
+##### 1.4.2.2.2. Accepted Methods
 
 ```txt
 POST
 ```
 
-##### 1.3.2.2.3. Parameters
+##### 1.4.2.2.3. Parameters
 
 | Parameter | Type   | Description    | Optional |
 | --------- | ------ | -------------- | -------- |
@@ -246,7 +257,7 @@ e.g.
 }
 ```
 
-##### 1.3.2.2.4. Results
+##### 1.4.2.2.4. Results
 
 ```json
 {  
