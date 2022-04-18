@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import HTTPBearer
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 from .internal.workflow import Workflow
@@ -29,10 +30,14 @@ import os
 load_dotenv(verbose=True)
 WORKFLOW = Workflow("./routers/internal/credentials.json", os.getenv("IBM_TONE_ANALYZER_KEY"))
 
+token_auth_scheme = HTTPBearer()
+
 def user_authenticated(auth: str, user_id: str):
     if auth is None:
         raise HTTPException(status_code=401, detail="Missing Authorization Header")
-    if auth != WORKFLOW.users.get_user(user_id).get("backend_auth_code", None):
+    if WORKFLOW.users.get_user(user_id) is None:
+        raise HTTPException(status_code=401, detail="Invalid user")
+    if auth != WORKFLOW.users.get_user(user_id).get("code", None):
         raise HTTPException(status_code=401, detail="Unauthorized")
     else:
         return True
@@ -40,8 +45,8 @@ def user_authenticated(auth: str, user_id: str):
 tweet_router = APIRouter(prefix="/twitterapi")
 
 @tweet_router.post("/tweets", response_model=SaveTweetsResponse)
-async def save_tweet_request(request: SaveTweetsRequest, authorization: str = Header(None)) -> JSONResponse:
-    if user_authenticated(authorization, request.user_id):
+async def save_tweet_request(request: SaveTweetsRequest, token: str = Depends(token_auth_scheme)) -> JSONResponse:
+    if user_authenticated(token.credentials, request.user_id):
         response = {
             "data": {
                 "tweet_id": "123456789",
@@ -59,9 +64,9 @@ async def search_tweet_request(
     tones: str,
     time_start: str = None,
     time_end: str = None,
-    authorization: str = Header(None)
+    token: str = Depends(token_auth_scheme)
 ) -> JSONResponse: 
-    if user_authenticated(authorization, user_id):
+    if user_authenticated(token.credentials, user_id):
         try:
             keywords = [kw.rstrip() for kw in keywords.split(",")]
             tones = [kw.rstrip() for kw in tones.split(",")]
@@ -103,8 +108,9 @@ async def get_users():
 
 
 @user_router.post("/logout", response_model=UserLogOutResponse)
-async def user_logout(request: UserLogOutRequest, authorization: str = Header(None)):
-    if user_authenticated(authorization, request.user_id):
+async def user_logout(request: UserLogOutRequest, token: str = Depends(token_auth_scheme)):
+    logger.debug(token)
+    if user_authenticated(token.credentials, request.user_id):
         WORKFLOW.user_signout(request.user_id)
         return JSONResponse({"data": {}, "message": "logout successful", "success": True}, status_code=200)
 
@@ -116,22 +122,22 @@ async def workflow_default():
 
 @workflow_router.post("/run")
 #TODO!!!!!!!!!!
-async def run_workflow(user_id: str, authorization: str = Header(None)):
-    if user_authenticated(authorization, user_id):
+async def run_workflow(user_id: str, token: str = Depends(token_auth_scheme)):
+    if user_authenticated(token.credentials, user_id):
         return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
 
 database_router = APIRouter(prefix="/database")
 
 @database_router.get("/", response_model=GetWorkflowResponse)
-async def database_workflow_get(request: GetWorkflowRequest, authorization: str = Header(None)):
-    if user_authenticated(authorization, request.user_id):
+async def database_workflow_get(request: GetWorkflowRequest, token: str = Depends(token_auth_scheme)):
+    if user_authenticated(token.credentials, request.user_id):
         collection = get_collection("workflows")
         workflow = retrieve_by_id(request.workflow_id, collection)
         return JSONResponse({"data": workflow, "message": "workflow get successful", "success": True}, status_code=200)
 
 @database_router.get("/", response_model=TweetResponse)
-async def database_tweet_get(request: TweetRequest, authorization: str = Header(None)):
-    if user_authenticated(authorization, request.user_id):
+async def database_tweet_get(request: TweetRequest, token: str = Depends(token_auth_scheme)):
+    if user_authenticated(token.credentials, request.user_id):
         collection = get_collection("tweets")
         tweet = retrieve_by_id(request.tweet_id, collection)
         return JSONResponse({"data": tweet, "message": "workflow get successful", "success": True}, status_code=200)
