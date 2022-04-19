@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
@@ -16,7 +16,14 @@ function Editor() {
     />
   );
 }
-function handleClick(){
+
+function WorkflowPage() {
+  if (sessionStorage.getItem("googleObj") === null) {
+    window.location.assign("./#/profile")
+  }
+
+  function run_workflow(){
+    
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
     const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = JSON.parse(sessionStorage.getItem("googleObj")).id
@@ -30,18 +37,17 @@ function handleClick(){
       },
       body: JSON.stringify({'user_id': userId, 'workflow': workflowObj})
     })
-}
-function WorkflowPage() {
-  if (sessionStorage.getItem("googleObj") === null) {
-    window.location.assign("./#/profile")
   }
-  const [visible,] = useState(true);
   
   return (
     <div className="workflow-page" >
-      <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
-      {visible && <Editor />}
+        <div className={"desc"}>
+          <b>Workflow Editor</b>
+        </div>
+        <Button className="run-workflow-button" onClick={run_workflow} type="submit">Run Workflow</Button>
+      <Editor />
     </div>
   );
 }
+
 export default WorkflowPage;
