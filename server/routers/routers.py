@@ -22,6 +22,7 @@ from .user_schemas import (
 )
 from typing import Optional
 from .database import get_collection, retrieve_by_id
+from .workflow_schemas import WorkflowRun
 
 from loguru import logger
 from traceback import format_exc
@@ -122,8 +123,8 @@ async def workflow_default():
 
 @workflow_router.post("/run")
 #TODO!!!!!!!!!!
-async def run_workflow(user_id: str, token: str = Depends(token_auth_scheme)):
-    if user_authenticated(token.credentials, user_id):
+async def run_workflow(r: WorkflowRun, token: str = Depends(token_auth_scheme)):
+    if user_authenticated(token.credentials, r.user_id):
         return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
 
 database_router = APIRouter(prefix="/database")

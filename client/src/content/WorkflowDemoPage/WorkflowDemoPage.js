@@ -32,6 +32,9 @@ const datePickerBoxProps = {
 
 
 const WorkflowDemoPage = () => {
+  if (sessionStorage.getItem("googleObj") === null) {
+    window.location.assign("./#/profile")
+  }
   function FormSubmission({children}) {
       const [isSubmitting, setIsSubmitting] = useState(false);
       const [success, setSuccess] = useState(false);
