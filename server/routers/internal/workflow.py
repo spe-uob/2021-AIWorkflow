@@ -22,43 +22,65 @@ class Workflow:
         except Exception as e:
             logger.error(e)
             logger.error(format_exc())
-
-    def run(self, user_id: str, backend_auth_code: str, workflow_request: Dict[str ,str]) -> None:
-        user_profile = self.users.get_user(user_id)
-        if user_profile is None:
-            raise ValueError("User not found")
-        elif backend_auth_code != self.users.get_users["code"]:
-            print("Auth_key incorrect!")
-        else:
-            self.parse_workflow(workflow_request)
   
-    def parse_workflow(self, backend_auth_code: str, workflow_request: Dict[str, str]) -> None:
-        # TODO define a workflow request data structure
-        workflow_request = workflow_request["nodes"]
-        for id, node in workflow_request.items():
-            #print(id, node)
+    def run_workflow(self, user_id: str, workflow: Dict[str, str]) -> None:
+        logger.debug(workflow)
+        workflow_variables = {}
+        nodes = workflow["nodes"]
+        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        googlesheets = self.users.get_user(user_id).get("googlesheets")
+        googleslides = self.users.get_user(user_id).get("googleslides")
+        for _, node in nodes.items():
+            print("")
+            #print(num, node)
+            if node["data"]:
+                workflow_variables.update(node["data"])
+            #print(node["data"])
             if node["name"] == "Search Twitter":
-                #TODO
-                keywords = node["data"]["keywords"]
-                tweets = self.twitter_api.search_tweets(keywords)
+                logger.debug("searching twitter.")
+                output_var = list(node["outputs"].keys())[0]
+                tweets = self.twitter_api.search_tweets(node["data"]["keywords"])
+                workflow_variables.update({output_var : tweets})
+                logger.debug(f"searched: {tweets}")
             if node["name"] == "Tone Analyzer":
-                #TODO
-                for tweet in tweets:
-                    tweet_analysis = self.tone_analyzer.get_analysis(text=tweet["text"])
-                    primary_tone = tweet_analysis["primary_tone"]
-                    tweet.update({"primary_tone": primary_tone})
-                    print("primary_tone")
-            if node["name"] == "Write to google sheets":
-                #TODO
-                print('writing to google sheets')
-                tweet = node["data"]
-                date = datetime.datetime.now()
-            if node["name"] == "Write to google slides":
-                #TODO
-                print('writing to google slides')
-                tweet = node["data"]
-                date = datetime.datetime.now()
-        return tweet,date
+                logger.debug("tone")
+                input_var = list(node["inputs"].keys())[0]
+                data = workflow_variables[input_var]
+                for datum in data:
+                    # {'text': "I'm so happy today!", 'primary_tone': 'positive', 'tones': ['joy']}
+                    analysis = self.tone_analyzer.get_analysis(text=datum["text"])
+                    primary_tone = analysis["primary_tone"]
+                    datum.update({"primary_tone": primary_tone})
+                output_var = list(node["outputs"].keys())[0]
+                workflow_variables.update({output_var: tweets})
+                logger.debug(f"tone_analyser: {tweets}")
+            if node["name"] == "Write to Google Sheets":
+                logger.debug('writing to google sheets')
+                input_var = list(node["inputs"].keys())[0]
+                data = workflow_variables[input_var]
+                googlesheets.add_tweets_to_spreadsheet(data, date)
+                logger.debug(f"write_data GSheets: {data}")
+            if node["name"] == "Write to Google Slides":
+                logger.debug('writing to google slides')
+                input_var = list(node["inputs"].keys())[0]
+                data = workflow_variables[input_var]
+                tones = []
+                if workflow_variables.get("positive") is True:
+                    tones.append("Positive")
+                if workflow_variables.get("negative") is True:
+                    tones.append("Negative")
+                processed_data = {}
+                for datum in data:
+                    if datum["primary_tone"] in tones:
+                        processed_data.update({datum["primary_tone"]: []})
+                for datum in data:
+                    if datum["primary_tone"] in tones:
+                        processed_data[datum["primary_tone"]].append(datum)
+                logger.info(processed_data)
+                for primary_tone, i in processed_data.items():
+                    googleslides.add_tweets_to_slide(i, date, primary_tone)
+                logger.debug(f"write_data GSlides: {data}")
+        return
 
     def main(
             self,
