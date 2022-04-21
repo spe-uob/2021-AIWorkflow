@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Constants from '../../settings';
+import cookie from "json-cookie"
 
 async function runWorkflow() {
   console.log('Running workflow demo...');
