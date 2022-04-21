@@ -19,7 +19,7 @@ const LandingPage = () => {
         </h1>
         <br/>
         
-        <Button  onClick={()=>{window.location.href="./#/profile/"}}>
+        <Button  onClick={()=>{window.location.href="./profile"}}>
           GET STARTED
         </Button>
        

@@ -24,7 +24,7 @@ function LogoutHooks() {
     } catch (error){
       console.log(error);
     }
-    window.location.replace("./#");
+    window.location.replace("./");
 
   };
 
