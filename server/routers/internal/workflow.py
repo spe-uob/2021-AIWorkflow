@@ -1,4 +1,5 @@
 from multiprocessing.sharedctypes import Value
+from unittest import result
 from .tone_analyzer import IBMToneAnalyzer
 from .twitter_api import TwitterAPI
 from .users import Users
@@ -56,7 +57,8 @@ class Workflow:
     def automation(self, workflow_request: Dict[str, str]) -> None:
         thread1 = threading.Timer(interval= 3600, function= self.run, args=(workflow_request))
         thread1.start()
-
+        result = {"success": True}
+        return result
 
     def main(
             self,
