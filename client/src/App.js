@@ -21,8 +21,9 @@ class App extends Component {
             <Route exact path="/" element={<LandingPage/ >} />
             <Route path="/workflow_demo" element={<WorkflowDemoPage/>} />
             <Route path="/profile" element={<LoginPage/>}/>
-            <Route path="/workflow" element={<WorkflowPage/>}/>
-         
+            <Route exact path="/workflow">
+              {sessionStorage.getItem('googleObj') === null ? <Redirect to="/profile" /> : <WorkflowPage />}
+            </Route>        
           </Routes>
         </Content>
       </div>

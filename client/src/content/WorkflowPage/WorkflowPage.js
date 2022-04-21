@@ -32,16 +32,16 @@ function handleClick(){
     })
 }
 function WorkflowPage() {
-  if (sessionStorage.getItem("googleObj") === null) {
-    window.location.assign("./#/profile")
-    return null
-  } else {
+  //if (sessionStorage.getItem("googleObj") === null) {
+    //window.location.assign("./#/profile")
+    //return null
+  //} else {
     return (
       <div className="workflow-page" >
         <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
         <Editor />
       </div>
     );
-  }
+  //}
 }
 export default WorkflowPage;
