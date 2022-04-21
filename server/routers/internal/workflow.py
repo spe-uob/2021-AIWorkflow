@@ -52,6 +52,11 @@ class Workflow:
             if node["name"] == "Write to google slides":
                 print('writing to google slides')
 
+    def automation(
+        
+    )
+
+
     def main(
             self,
             user_id: str,
@@ -97,7 +102,7 @@ class Workflow:
 
             logger.debug(self.clients)
 
-
+    
 
 if __name__ == "__main__":
     wf = Workflow("T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
