@@ -6,7 +6,7 @@ import Logout from '../../components/Logout/Logout';
 const LoginPage = () => {
   var stri;
   var obj;
-  if (cookie.get("googleObj") == "") {
+  if (cookie.get("googleObj") === "") {
     stri = "You are not signed in."
     obj = <Login/>
   } else {

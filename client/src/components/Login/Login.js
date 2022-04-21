@@ -1,6 +1,5 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
-import { Navigate } from "react-router-dom"
 import Constants from '../../settings';
 import cookie from 'json-cookie';
 
