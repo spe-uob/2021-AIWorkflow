@@ -34,14 +34,14 @@ function handleClick(){
 function WorkflowPage() {
   if (sessionStorage.getItem("googleObj") === null) {
     window.location.assign("./#/profile")
+    return null
+  } else {
+    return (
+      <div className="workflow-page" >
+        <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
+        <Editor />
+      </div>
+    );
   }
-  const [visible,] = useState(true);
-  
-  return (
-    <div className="workflow-page" >
-      <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
-      {visible && <Editor />}
-    </div>
-  );
 }
 export default WorkflowPage;
