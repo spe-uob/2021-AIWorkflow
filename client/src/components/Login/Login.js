@@ -32,6 +32,7 @@ function Login() {
       console.log(error);
       alert("An error occurred while logging in. Please try again.");
     }
+  }
 
   const onFailure = (res) => {
     console.log('Login failed: res:', res);
@@ -54,7 +55,7 @@ function Login() {
 
       <span className="buttonText">Sign in with Google</span>
     </button>
-  );}
+  );
 }
 
 export default Login;
