@@ -37,9 +37,8 @@ class CheckboxControl extends Rete.Control{
       label: key,
       value: initial,
       onChange: (value, targetValue) => {
-        //console.log("onChange("+value+`,`+targetValue+")");
         this.toggleCheckbox(value);
-        //this.emitter.trigger("process");
+        this.emitter.trigger("process");
       }
     };
   }
@@ -50,10 +49,10 @@ class CheckboxControl extends Rete.Control{
   }
 
   setValue(val) {
-    console.log("setValue("+val+")");
+    //console.log("setValue("+val+")");
     this.val = val;
     this.props.value = val;
-    this.putData(this.key, val);
+    this.putData(this.key.toLowerCase(), val);
     this.update();
   }
 }
@@ -73,7 +72,7 @@ class TextControl extends Rete.Control{
     this.key = key;
     this.component = TextControl.component;
 
-    const initial = node.data[key] || "IBM Cloud, VPC, Watson";
+    const initial = node.data[key] || "";
 
     node.data[key] = initial;
     this.props = {
@@ -174,7 +173,7 @@ class GoogleSlides extends Rete.Component {
   }
 }
 export async function createEditor(container) {
-  var components = [new SearchTwitterComponent(),new ToneAnalyzerComponent(),new GoogleSheets(),new GoogleSlides()];
+  var components = [new SearchTwitterComponent(), new GoogleSheets(),new ToneAnalyzerComponent(), new GoogleSlides()];
 
   var editor = new Rete.NodeEditor("demo@0.1.0", container);
   editor.use(ConnectionPlugin);
@@ -189,26 +188,25 @@ export async function createEditor(container) {
 
   
   var twitter = await components[0].createNode();
-  var toneAnalyzer= await components[1].createNode();
-  var googleSheets = await components[2].createNode()
-  var googleSlides =await components[3].createNode()
+  var googleSheets = await components[1].createNode();
+  var toneAnalyzer= await components[2].createNode();
+  var googleSlides =await components[3].createNode();
 
   
   twitter.position = [0, 800];
-  toneAnalyzer.position=[600,800];
   googleSheets.position=[300,800];
-  googleSlides.position=[900,800]
+  toneAnalyzer.position=[600,800];
+  googleSlides.position=[900,800];
   
   editor.addNode(twitter);
-  editor.addNode(toneAnalyzer)
-  editor.addNode(googleSheets)
-  editor.addNode(googleSlides)
+  editor.addNode(googleSheets);
+  editor.addNode(toneAnalyzer);
+  editor.addNode(googleSlides);
 
   editor.connect(twitter.outputs.get("tweets"), googleSheets.inputs.get("tweets"));
   editor.connect(googleSheets.outputs.get("tweets"), toneAnalyzer.inputs.get("tweets"));
   editor.connect(toneAnalyzer.outputs.get("tweets"), googleSlides.inputs.get("tweets"));
 
-  sessionStorage.setItem("workflowObj", JSON.stringify(editor.toJSON()));  
   
   editor.on(
     "process",
@@ -223,6 +221,8 @@ export async function createEditor(container) {
 
   editor.view.resize();
   AreaPlugin.zoomAt(editor, editor.nodes);
+
+  sessionStorage.setItem("workflowObj", JSON.stringify(editor.toJSON()));  
 
   return editor;
 }

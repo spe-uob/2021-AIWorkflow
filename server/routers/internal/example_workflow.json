@@ -4,14 +4,14 @@
     "1": {
       "id": 1,
       "data": {
-        "keywords": "IBM Cloud, VPC, Watson"
+        "keywords": "IBM Cloud, Watson, VPC"
       },
       "inputs": {},
       "outputs": {
         "tweets": {
           "connections": [
             {
-              "node": 3,
+              "node": 2,
               "input": "tweets",
               "data": {}
             }
@@ -31,37 +31,6 @@
         "tweets": {
           "connections": [
             {
-              "node": 3,
-              "output": "tweets",
-              "data": {}
-            }
-          ]
-        }
-      },
-      "outputs": {
-        "analyzed tweets": {
-          "connections": [
-            {
-              "node": 4,
-              "input": "analyzed tweets",
-              "data": {}
-            }
-          ]
-        }
-      },
-      "position": [
-        600,
-        800
-      ],
-      "name": "Tone Analyzer"
-    },
-    "3": {
-      "id": 3,
-      "data": {},
-      "inputs": {
-        "tweets": {
-          "connections": [
-            {
               "node": 1,
               "output": "tweets",
               "data": {}
@@ -73,7 +42,7 @@
         "tweets": {
           "connections": [
             {
-              "node": 2,
+              "node": 3,
               "input": "tweets",
               "data": {}
             }
@@ -84,17 +53,51 @@
         300,
         800
       ],
-      "name": "Write to google sheets"
+      "name": "Write to Google Sheets"
+    },
+    "3": {
+      "id": 3,
+      "data": {
+        "positive": true,
+        "negative": true
+      },
+      "inputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "tweets": {
+          "connections": [
+            {
+              "node": 4,
+              "input": "tweets",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        600,
+        800
+      ],
+      "name": "Tone Analyzer"
     },
     "4": {
       "id": 4,
       "data": {},
       "inputs": {
-        "analyzed tweets": {
+        "tweets": {
           "connections": [
             {
-              "node": 2,
-              "output": "analyzed tweets",
+              "node": 3,
+              "output": "tweets",
               "data": {}
             }
           ]
@@ -109,7 +112,7 @@
         900,
         800
       ],
-      "name": "Write to google slides"
+      "name": "Write to Google Slides"
     }
   }
 }

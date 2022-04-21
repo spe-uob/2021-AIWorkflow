@@ -105,7 +105,7 @@ async def user_login(request: UserLogInRequest):
 @user_router.get("/")
 async def get_users():
     # no auth needed because it only returns public user ids, no private info
-    return JSONResponse({"data": {"users": list(WORKFLOW.users.keys())}, "message": "get users successful", "success": True}, status_code=200)
+    return JSONResponse({"data": {"users": list(WORKFLOW.users.get_users().keys())}, "message": "get users successful", "success": True}, status_code=200)
 
 
 @user_router.post("/logout", response_model=UserLogOutResponse)
@@ -122,10 +122,14 @@ async def workflow_default():
     return JSONResponse({"data": {}, "message": "workflow router is running", "success": True}, status_code=200)
 
 @workflow_router.post("/run")
-#TODO!!!!!!!!!!
 async def run_workflow(r: WorkflowRun, token: str = Depends(token_auth_scheme)):
     if user_authenticated(token.credentials, r.user_id):
-        return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
+        try:
+            WORKFLOW.run_workflow(r.user_id, r.workflow)
+            return JSONResponse({"data": {}, "message": "workflow run successful", "success": True}, status_code=200)
+        except Exception:
+            logger.error(format_exc())
+            return JSONResponse({"data": {}, "message": "something went wrong", "success": False}, status_code=500)
 
 database_router = APIRouter(prefix="/database")
 
