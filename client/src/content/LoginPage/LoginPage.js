@@ -6,10 +6,10 @@ const LoginPage = () => {
   var stri;
   var obj;
   if (sessionStorage.getItem("sessionObj") == null) {
-    stri = "You are logged out."
+    stri = "You are not signed in."
     obj = <Login/>
   } else {
-    stri = "You are logged in."
+    stri = "You are signed in."
     obj = <Logout/>
   }
 
