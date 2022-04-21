@@ -7,10 +7,10 @@ const LoginPage = () => {
   var stri;
   var obj;
   if (cookie.get("googleObj") === "") {
-    stri = "You are logged out."
+    stri = "You are not signed in."
     obj = <Login/>
   } else {
-    stri = "You are logged in."
+    stri = "You are signed in."
     obj = <Logout/>
   }
 
