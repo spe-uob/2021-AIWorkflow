@@ -29,7 +29,7 @@ function Login() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const onFailure = (res) => {
     console.log('Login failed: res:', res);

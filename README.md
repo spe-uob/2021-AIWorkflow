@@ -20,8 +20,9 @@
   - [1.3. Tech Stack](#13-tech-stack)
   - [1.4. Deployment Instructions](#14-deployment-instructions)
     - [1.4.1. Requirements](#141-requirements)
-      - [1.4.1.1. Development](#1411-development)
-      - [1.4.1.2. Deployment](#1412-deployment)
+      - [1.4.1.1. Environment and Credentials](#1411-environment-and-credentials)
+      - [1.4.1.2. Development](#1412-development)
+      - [1.4.1.3. Deployment](#1413-deployment)
     - [1.4.2. To Deploy](#142-to-deploy)
       - [1.4.2.1. With Kubernetes (Recommended)](#1421-with-kubernetes-recommended)
       - [1.4.2.2. With Docker Compose](#1422-with-docker-compose)
@@ -69,7 +70,13 @@ The following tech stack was used to build the application:
 
 ### 1.4.1. Requirements
 
-#### 1.4.1.1. Development
+#### 1.4.1.1. Environment and Credentials
+
+A `.env` file is needed. A .env.sample file can be found in `server/routers`. To get a twitter bearer token, go to [Twitter's Developer Portal][14] and create an app. Once you have created an app, go to the "Keys and Access Tokens" tab and click "Create my access token". Copy the "Bearer Token" and paste it into the `.env` file. The IBM Tone Analyser API key can be found by going to the IBM Cloud website and activating the service.
+
+A `credentials.json` file is also needed in `server/routers/internal/`, you can also follow this [guide][13], rename the file and put it in the aforementioned directory.
+
+#### 1.4.1.2. Development
 
 If you are developing this project, you will need to install the following: 
 
@@ -87,11 +94,9 @@ cd ..
 cd server && pip3 install -r requirements.txt
 cd ..
 ```
-During the implementation and test process, we forget to mention about the `.env` and `credentials.json` files, which cause the failure of the development.
 
-For the `.env` file, we add a .env.sample file in the `server/routers`, which is easier for setup. And for the `credentials.json`, you can find it in `server/routers/internal/`, you can also follow this [guide][13].
 
-#### 1.4.1.2. Deployment
+#### 1.4.1.3. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
 
@@ -159,3 +164,4 @@ Our [Wikis][12] contains our developments progress and the achievements and goal
 [11]:https://www.mongodb.com
 [12]:https://github.com/spe-uob/2021-AIWorkflow.wiki.git
 [13]:https://developers.google.com/identity/protocols/oauth2/web-server
+[14]:https://developer.twitter.com/en/apps/

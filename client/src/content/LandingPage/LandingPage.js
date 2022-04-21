@@ -1,7 +1,9 @@
 import React from 'react';
 import {Button} from 'carbon-components-react';
- import bgvideo from './bg-video1.mp4'
+import bgvideo from './bg-video1.mp4'
 import './LandingPage.css';
+
+import cookie from "json-cookie";
 
 // import bgpicture from "./background.jpeg"
 
@@ -19,7 +21,13 @@ const LandingPage = () => {
         </h1>
         <br/>
         
-        <Button  onClick={()=>{window.location.href="./#/profile/"}}>
+        <Button  onClick={()=>{
+          if (cookie.get("googleObj") === "") {
+            window.location.assign("./profile");
+          } else {
+            window.location.assign("./workflow");
+          }
+        }}>
           GET STARTED
         </Button>
        

@@ -11,7 +11,7 @@
     box-sizing: content-box;
     margin: 20px auto 0px;
     width: 70%;
-    padding: 15px 20px;
+
     border-radius: 24px;
     border-color: transparent;
     background-color: white;
@@ -33,3 +33,19 @@
     left: 30px;
     align-items: center;
   }
+
+  .user-information{
+    padding-top: 5rem;
+    text-align: center;
+    img{
+      border-radius: 50%;
+    }
+}
+  
+.login-info{
+  text-align: center;
+  padding-top: 15rem;
+
+}
+
+   
