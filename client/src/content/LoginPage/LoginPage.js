@@ -14,15 +14,21 @@ const LoginPage = () => {
   }
 
   return <div className="App">
-    <br/>
-    <div>    
-      <h1>{stri}</h1>
+    <div className="leftPart" >
+
+      {/* <img src={picture} alt="logo" /> */}
+        <h2>name:</h2>
+        <h2>email:</h2>
     </div>
-    <br/>
-    <div>
-      {obj}
+    <div className="rightPart">
+      <br/>
+      <div>    
+          <h1>{stri}</h1>
+         {obj}
+      </div>
     </div>
   </div>;
+  
 };
 
 export default LoginPage;
