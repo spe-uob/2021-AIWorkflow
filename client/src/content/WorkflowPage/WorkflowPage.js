@@ -1,4 +1,5 @@
-import React, { Redirect } from "react";
+import React from "react";
+import { Redirect } from "react-router-dom"
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
