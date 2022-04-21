@@ -5,6 +5,7 @@ from typing import List, Optional, Dict
 from loguru import logger
 from datetime import datetime
 from traceback import format_exc
+import threading
 
 class Workflow:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
@@ -82,6 +83,10 @@ class Workflow:
                 logger.debug(f"write_data GSlides: {data}")
         return
 
+    def automation(self, workflow_request: Dict[str, str]) -> None:
+        thread1 = threading.Timer(interval= 3600, function= self.run, args=(workflow_request))
+        thread1.start()
+
     def main(
             self,
             user_id: str,
@@ -127,7 +132,7 @@ class Workflow:
 
             logger.debug(self.clients)
 
-
+    
 
 if __name__ == "__main__":
     wf = Workflow("T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
