@@ -34,19 +34,18 @@
     align-items: center;
   }
 
- .leftPart{
-     width: 35%;
-    float:left;
-    height: 1000px;
-  
+  .user-information{
+    padding-top: 5rem;
+    text-align: center;
+    img{
+      border-radius: 50%;
+    }
 }
-.rightPart{
-    width: 65%;
-    float:left;
-    height: 1000px;
+  
+.login-info{
+  text-align: center;
+  padding-top: 15rem;
 
-}    
-   
-
+}
 
    

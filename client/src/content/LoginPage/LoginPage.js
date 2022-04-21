@@ -8,7 +8,7 @@ const LoginPage = () => {
   if (cookie.get("googleObj") === "") {
     return (
       <div>
-        <div>
+        <div className="login-info">
           <h1>You have not signed in.</h1>
         </div>
         <div>
@@ -21,7 +21,7 @@ const LoginPage = () => {
     var email = cookie.get("googleObj").email;
     var name = cookie.get("googleObj").name;
     return (
-      <div>
+      <div className="user-information">
         <img src={picture} alt="logo" />
         <p>Welcome back, {name}</p>
         <p>email: {email}</p>
