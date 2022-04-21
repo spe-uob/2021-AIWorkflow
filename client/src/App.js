@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Redirect } from 'react';
 import './app.scss';
 import { Content } from 'carbon-components-react';
 import AIWorkflowHeader from './components/Header';
@@ -21,7 +21,7 @@ class App extends Component {
             <Route exact path="/" element={<LandingPage/ >} />
             <Route path="/workflow_demo" element={<WorkflowDemoPage/>} />
             <Route path="/profile" element={<LoginPage/>}/>
-            <Route exact path="/workflow">
+            <Route path="/workflow">
               {sessionStorage.getItem('googleObj') === null ? <Redirect to="/profile" /> : <WorkflowPage />}
             </Route>        
           </Routes>
