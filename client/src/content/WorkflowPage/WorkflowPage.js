@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
@@ -34,7 +34,7 @@ function handleClick(){
 }
 function WorkflowPage() {
   if (sessionStorage.getItem("googleObj") === null) {
-    return <Redirect to='/profile'/>
+    return <Navigate to='/profile' replace={true}/>
   } else {
     return (
       <div className="workflow-page" >
