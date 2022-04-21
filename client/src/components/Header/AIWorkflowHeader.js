@@ -19,6 +19,10 @@ import {
 } from '@carbon/icons-react';
 import { Link } from 'react-router-dom';
 
+function goToLogin(){
+  window.location.replace("./#/profile");
+}
+
 const AIWorkflowHeader = () => (
   <HeaderContainer
     render={({ isSideNavExpanded, onClickSideNavExpand }) => (
@@ -63,7 +67,7 @@ const AIWorkflowHeader = () => (
           <HeaderGlobalAction aria-label="Notifications">
             <Notification20 />
           </HeaderGlobalAction>
-          <HeaderGlobalAction aria-label="Profile" onClick={()=>{window.location.replace("./profile")}} tooltipAlignment="end"><UserAvatar20 />
+          <HeaderGlobalAction aria-label="Profile" onClick={goToLogin} tooltipAlignment="end">            <UserAvatar20 />
           </HeaderGlobalAction>
         </HeaderGlobalBar>
       </Header>

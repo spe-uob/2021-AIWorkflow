@@ -10,8 +10,6 @@ import {
   InlineLoading
 } from 'carbon-components-react';
 import {runWorkflowDemo} from './workflow_demo.js';
-import cookie from "json-cookie";
-
 
 const fieldsetKeywordBoxProps = {
   className: "demo-workflow-class",
@@ -34,8 +32,8 @@ const datePickerBoxProps = {
 
 
 const WorkflowDemoPage = () => {
-  if (cookie.get("googleObj") === "") {
-    window.location.assign("./profile")
+  if (sessionStorage.getItem("googleObj") === null) {
+    window.location.assign("./#/profile")
   }
   function FormSubmission({children}) {
       const [isSubmitting, setIsSubmitting] = useState(false);
