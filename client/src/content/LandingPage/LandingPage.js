@@ -1,12 +1,14 @@
 import React from 'react';
 import {Button} from 'carbon-components-react';
- import bgvideo from './bg-video1.mp4'
+import cookie from "json-cookie";
+import bgvideo from './bg-video1.mp4'
 import './LandingPage.css';
 
 // import bgpicture from "./background.jpeg"
 
 
 const LandingPage = () => {
+  console.log(cookie.get('googleObj'));
   return (
     <div className="background-container">
      <video autoPlay loop muted>
@@ -20,7 +22,7 @@ const LandingPage = () => {
         <br/>
         
         <Button  onClick={()=>{
-          if (sessionStorage.getItem("googleObj") === null) {
+          if (cookie.get("googleObj") === "") {
             window.location.assign("./profile");
           } else {
             window.location.assign("/workflow");
