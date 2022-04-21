@@ -1,3 +1,4 @@
+import cookie from 'json-cookie';
 import React from 'react';
 import Login from '../../components/Login/Login';
 import Logout from '../../components/Logout/Logout';
@@ -5,7 +6,7 @@ import Logout from '../../components/Logout/Logout';
 const LoginPage = () => {
   var stri;
   var obj;
-  if (sessionStorage.getItem("sessionObj") == null) {
+  if (cookie.get("googleObj") === "") {
     stri = "You are logged out."
     obj = <Login/>
   } else {
