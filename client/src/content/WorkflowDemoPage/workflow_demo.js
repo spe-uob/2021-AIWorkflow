@@ -26,7 +26,7 @@ async function runWorkflow() {
   }
   const queryString = new URLSearchParams(formData).toString();
   var url = new URL(Constants.API_DOMAIN+"/twitterapi/tweets?"+queryString);
-  if (sessionStorage.getItem('sessionObj') == null || sessionStorage.getItem('googleObj') == null) {
+  if (cookie.get('googleObj') === "") {
     alert("You have not signed in yet -- redirecting you to the login page");
     window.location.assign("./profile");
   } else {
