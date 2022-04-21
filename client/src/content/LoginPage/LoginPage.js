@@ -4,26 +4,31 @@ import Login from '../../components/Login/Login';
 import Logout from '../../components/Logout/Logout';
 
 const LoginPage = () => {
-  var stri;
-  var obj;
+  console.log(cookie.get("googleObj"));
   if (cookie.get("googleObj") === "") {
-    stri = "You are not signed in."
-    obj = <Login/>
+    return (
+      <div>
+        <div className="login-info">
+          <h1>You have not signed in.</h1>
+        </div>
+        <div>
+          <Login/>
+        </div>
+      </div>
+    )
   } else {
-    stri = "You are signed in."
-    obj = <Logout/>
+    var picture = cookie.get("googleObj").picture;
+    var email = cookie.get("googleObj").email;
+    var name = cookie.get("googleObj").name;
+    return (
+      <div className="user-information">
+        <img src={picture} alt="logo" />
+        <p>Welcome back, {name}</p>
+        <p>email: {email}</p>
+        <Logout/>
+      </div>
+    )
   }
-
-  return <div className="App">
-    <br/>
-    <div>    
-      <h1>{stri}</h1>
-    </div>
-    <br/>
-    <div>
-      {obj}
-    </div>
-  </div>;
 };
 
 export default LoginPage;
