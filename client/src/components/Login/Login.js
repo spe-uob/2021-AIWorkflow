@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
+import { Navigate } from "react-router-dom"
 import Constants from '../../settings';
 
 const clientId = Constants.CLIENT_ID;
@@ -24,14 +25,11 @@ function Login() {
       }).then(response => response.json())
       .then(data => googleObj = data.data.google_object)
       .then(() => sessionStorage.setItem('googleObj', JSON.stringify(googleObj)))
-      .then(() => console.log(JSON.parse(sessionStorage.getItem('googleObj'))))
-      .then(() => { this.props.history.push('/#/workflow') }).catch((error) => {
-        console.log(error)
-      });
-      //window.location.assign("./#/workflow");
+      .then(() => console.log(JSON.parse(sessionStorage.getItem('googleObj'))));
     } catch (error) {
       console.log(error);
     }
+    window.location.assign("./#/workflow");
   };
 
   const onFailure = (res) => {
