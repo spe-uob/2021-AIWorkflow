@@ -54,13 +54,9 @@ class Workflow:
             if node["name"] == "Write to google slides":
                 print('writing to google slides')
 
-    def automation(self, workflow_request: Dict[str, str], backend_auth_code: str) -> None:
-        if backend_auth_code != self.users.get_users["code"]:
-            raise ValueError("Auth_key incorrect!")
+    def automation(self, workflow_request: Dict[str, str]) -> None:
         thread1 = threading.Timer(interval= 3600, function= self.run, args=(workflow_request))
         thread1.start()
-        result = {"success": True}
-        return result
 
     def main(
             self,
