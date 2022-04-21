@@ -6,6 +6,7 @@ from typing import List, Optional, Dict
 from loguru import logger
 from datetime import datetime
 from traceback import format_exc
+import threading
 
 class Workflow:
     def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
@@ -24,7 +25,7 @@ class Workflow:
             logger.error(e)
             logger.error(format_exc())
 
-    def run(self, user_id: str, backend_auth_code: str, workflow_request: Dict[str ,str]) -> None:
+    def run(self, user_id: str, backend_auth_code: str, workflow_request: Dict[str, str]) -> None:
         user_profile = self.users.get_user(user_id)
         if user_profile is None:
             raise ValueError("User not found")
@@ -52,9 +53,9 @@ class Workflow:
             if node["name"] == "Write to google slides":
                 print('writing to google slides')
 
-    def automation(
+    def automation(self, workflow_request: Dict[str, str]) -> None:
+        thread1 = threading.Timer(interval= 3600, function= self.run, args=(workflow_request))
         
-    )
 
 
     def main(
