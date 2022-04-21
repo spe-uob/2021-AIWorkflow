@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
