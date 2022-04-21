@@ -24,8 +24,11 @@ function Login() {
       }).then(response => response.json())
       .then(data => googleObj = data.data.google_object)
       .then(() => sessionStorage.setItem('googleObj', JSON.stringify(googleObj)))
-      .then(() => console.log(JSON.parse(sessionStorage.getItem('googleObj'))));
-      window.location.assign("./#/workflow");
+      .then(() => console.log(JSON.parse(sessionStorage.getItem('googleObj'))))
+      .then(() => { this.props.history.push('/#/workflow') }).catch((error) => {
+        console.log(error)
+      });
+      //window.location.assign("./#/workflow");
     } catch (error) {
       console.log(error);
     }
