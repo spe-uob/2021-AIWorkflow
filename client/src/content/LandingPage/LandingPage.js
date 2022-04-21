@@ -19,7 +19,12 @@ const LandingPage = () => {
         </h1>
         <br/>
         
-        <Button  onClick={()=>{window.location.href="./profile"}}>
+        <Button  onClick={()=>{
+          if (sessionStorage.getItem("googleObj") === null) {
+            window.location.assign("./profile");
+          } else {
+            window.location.assign("/workflow");
+          }}}>
           GET STARTED
         </Button>
        
