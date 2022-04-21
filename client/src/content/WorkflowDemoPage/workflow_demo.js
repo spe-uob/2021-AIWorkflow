@@ -29,7 +29,7 @@ async function runWorkflow() {
   var url = new URL(Constants.API_DOMAIN+"/twitterapi/tweets?"+queryString);
   if (cookie.get('googleObj') === "") {
     alert("You have not signed in yet -- redirecting you to the login page");
-    window.location.assign("./profile");
+    window.location.assign("./#/profile");
   } else {
     const response = await fetch(url, {
     method: 'GET',

@@ -1,15 +1,17 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
 import Constants from '../../settings';
-import cookie from 'json-cookie';
 
 const clientId = Constants.CLIENT_ID;
 
-
 function Login() {
   const onSuccess = (res) => {
-    console.log("code: " + res.code);
-    try{
+    try {
+      console.log('Login Success: currentUser:', res);
+      sessionStorage.setItem('sessionObj', JSON.stringify(res));
+      console.log(sessionStorage.getItem("sessionObj"));
+      var sanitisedCode = String.raw`${res.code}`.replace("\\", "\\\\");
+      var googleObj;
       fetch(Constants.API_DOMAIN+'/user/login', {
         method: 'POST',
         mode: Constants.CORS,
@@ -18,18 +20,14 @@ function Login() {
           'Accept': 'application/json',
           'Content-Type': 'application/json;charset=UTF-8',
         },
-        body: JSON.stringify({'code': String.raw`${res.code}`.replace("\\", "\\\\")})
-      }).then(async (response) => { 
-        const data = await response.json();
-        const googleObj = data.data.google_object;
-        console.log("googleObj: " + googleObj);
-        cookie.set('googleObj', googleObj);
-        console.log(cookie.get('googleObj'))
-        window.location.assign("./workflow");
-      })
+        body: JSON.stringify({'code': sanitisedCode})
+      }).then(response => response.json())
+      .then(data => googleObj = data.data.google_object)
+      .then(() => sessionStorage.setItem('googleObj', JSON.stringify(googleObj)))
+      .then(() => console.log(JSON.parse(sessionStorage.getItem('googleObj'))));
+      window.location.assign("./#/workflow_demo");
     } catch (error) {
       console.log(error);
-      alert("An error occurred while logging in. Please try again.");
     }
   }
 

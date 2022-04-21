@@ -5,7 +5,7 @@ import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
 import Constants from '../../settings';
 
-import cookie from "json-cookie";
+
 
 function Editor() {
   const [setContainer] = useRete();
