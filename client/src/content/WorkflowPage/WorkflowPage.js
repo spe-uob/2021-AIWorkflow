@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { Navigate } from "react-router-dom"
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
 import "./_workflow-page.scss";
@@ -33,15 +34,14 @@ function handleClick(){
 }
 function WorkflowPage() {
   if (cookie.get("googleObj") === "") {
-    window.location.assign("./profile");
+    return <Navigate to='/profile' replace={true}/>
+  } else {
+    return (
+      <div className="workflow-page" >
+        <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
+        <Editor />
+      </div>
+    );
   }
-  const [visible,] = useState(true);
-  
-  return (
-    <div className="workflow-page" >
-      <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
-      {visible && <Editor />}
-    </div>
-  );
 }
 export default WorkflowPage;
