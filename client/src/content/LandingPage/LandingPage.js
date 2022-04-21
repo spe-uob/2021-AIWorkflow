@@ -3,6 +3,7 @@ import {Button} from 'carbon-components-react';
 import cookie from "json-cookie";
 import bgvideo from './bg-video1.mp4'
 import './LandingPage.css';
+import CookieConsent from "react-cookie-consent"
 
 // import bgpicture from "./background.jpeg"
 
@@ -29,7 +30,9 @@ const LandingPage = () => {
           }}}>
           GET STARTED
         </Button>
-       
+        <CookieConsent location="bottom" cookieName="googleObj" expires={999} overlay>
+            This website uses cookies to store login information. If you would like not to use cookies, don't login.
+        </CookieConsent>
       </div>
     </div>
   );
