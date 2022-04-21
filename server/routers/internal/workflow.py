@@ -31,7 +31,7 @@ class Workflow:
         if user_profile is None:
             raise ValueError("User not found")
         elif backend_auth_code != self.users.get_users["code"]:
-            print("Auth_key incorrect!")
+            raise ValueError("Auth_key incorrect!")
         else:
             self.parse_workflow(workflow_request)
   
