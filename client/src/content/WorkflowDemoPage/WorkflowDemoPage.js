@@ -9,6 +9,7 @@ import {
   DatePickerInput,
   InlineLoading
 } from 'carbon-components-react';
+import { Navigate } from 'react-router-dom';
 import {runWorkflowDemo} from './workflow_demo.js';
 
 import cookie from "json-cookie";
@@ -34,8 +35,8 @@ const datePickerBoxProps = {
 
 
 const WorkflowDemoPage = () => {
-  if (cookie.get("googleObj") === null) {
-    window.location.assign("./profile")
+  if (cookie.get("googleObj") === "") {
+    return <Navigate to='/profile' replace={true}/>
   }
   function FormSubmission({children}) {
       const [isSubmitting, setIsSubmitting] = useState(false);
