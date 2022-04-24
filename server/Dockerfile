@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:latest
+FROM --platform=linux/amd64 tiangolo/uvicorn-gunicorn-fastapi:latest
 
 # install required packages
 COPY requirements.txt ./requirements.txt
