@@ -6,7 +6,7 @@
 # 2. Setup secrets in your repository by going to settings: Create ICR_NAMESPACE and IBM_CLOUD_API_KEY
 # 3. Change the values for the IBM_CLOUD_REGION, REGISTRY_HOSTNAME, IMAGE_NAME, IKS_CLUSTER, DEPLOYMENT_NAME, and PORT
 
-name: Build and Deploy to IKS (Main Branch)
+name: Build and Deploy Backend to IKS
 
 on:
   push:
@@ -20,19 +20,14 @@ env:
   IBM_CLOUD_REGION: eu-gb
   ICR_NAMESPACE: ${{ secrets.ICR_NAMESPACE }}
   REGISTRY_HOSTNAME: uk.icr.io
-  FRONTEND_IMAGE_NAME: ai-workflow-frontend
-  BACKEND_IMAGE_NAME: ai-workflow-backend
-  DATABASE_IMAGE_NAME: ai-workflow-dongo
+  IMAGE_NAME: ai-workflow-server
   IKS_CLUSTER: classroom-eu-gb-1-bx2.4x16
-  FRONTEND_DEPLOYMENT_NAME: frontend
-  BACKEND_DEPLOYMENT_NAME: backend
-  FRONTEND_PORT: 8080
-  BACKEND_PORT: 5001
-  DATABASE_PORT: 27017
+  DEPLOYMENT_NAME: ai-workflow-server
+  PORT: 5001
 
 jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+  setup-build-publish-deploy-backend:
+    name: Setup, Build, Publish, and Deploy Backend
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -65,30 +60,27 @@ jobs:
         ibmcloud cr region-set "${IBM_CLOUD_REGION}"
         ibmcloud cr login
 
-    # Build the Docker images
-    - name: Build Docker Images
+    # Build the Docker image
+    - name: Build Docker Image
       run: |
-        docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$FRONTEND_IMAGE_NAME":"$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" ./client
-        docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$BACKEND_IMAGE_NAME":"$GITHUB_SHA" \
+        docker build -t "$REGISTRY_HOSTNAME"/"$ICR_NAMESPACE"/"$IMAGE_NAME":"$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" ./server
 
     # Push the image to IBM Container Registry
     - name: Push the images to ICR
       run: |
-        docker push $REGISTRY_HOSTNAME/$ICR_NAMESPACE/$FRONTEND_IMAGE_NAME:$GITHUB_SHA
-        docker push $REGISTRY_HOSTNAME/$ICR_NAMESPACE/$BACKEND_IMAGE_NAME:$GITHUB_SHA
+        docker push $REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA
 
     # Deploy the Docker image to the IKS cluster
     - name: Deploy to IKS
       run: |
-        ibmcloud ks cluster config --cluster $IKS_CLUSTER
-        kubectl config current-context 
-        kubectl config set-context --current --namespace=$ICR_NAMESPACE
-        kubectl config view --minify | grep namespace:
-        kubectl apply -f backend-service.yaml,backend-deployment.yaml,frontend-tcp-service.yaml,frontend-deployment.yaml
-        kubectl get services -o wide
-        kubectl describe service $FRONTEND_DEPLOYMENT_NAME
-        kubectl describe service $BACKEND_DEPLOYMENT_NAME
+          ibmcloud ks cluster config --cluster $IKS_CLUSTER
+          kubectl config set-context --current --namespace=$ICR_NAMESPACE
+          kubectl config current-context
+          kubectl create deployment $DEPLOYMENT_NAME --image=$REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA --dry-run=client -o yaml > deployment.yaml
+          kubectl apply -f deployment.yaml
+          kubectl rollout status deployment/$DEPLOYMENT_NAME
+          kubectl create service loadbalancer $DEPLOYMENT_NAME --tcp=$PORT:$PORT --dry-run=client -o yaml > service.yaml
+          kubectl apply -f service.yaml
+          kubectl get services -o wide

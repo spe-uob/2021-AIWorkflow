@@ -3,7 +3,8 @@
 ![Backend Tests](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/backend_ci_test.yml/badge.svg)
 ![Frontend Tests](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/frontend_ci_test.yml/badge.svg)
 ![Python Formatting](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/black.yml/badge.svg)
-![Deployment to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm.yml/badge.svg)
+![Deploy Frontend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_frontend.yml/badge.svg)
+![Deploy Backend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_backend.yml/badge.svg)
 
 
 ![beta_app](readme_assets/beta_website.png)
