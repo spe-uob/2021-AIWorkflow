@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 import unittest
 
 
-
 class IBMToneAnalyzer:
     def __init__(self, key: str) -> None:
         logger.info(f"IBMToneAnalyzer __init__({key})")
