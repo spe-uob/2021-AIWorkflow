@@ -25,6 +25,7 @@ env:
   DEPLOYMENT_NAME: ai-workflow
   FORWARD_PORT: 8080
   LISTEN_PORT: 3000
+  REACT_APP_API_DOMAIN: https://ai-workflow-server.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud
 
 jobs:
   setup-build-publish-deploy-frontend:
@@ -78,6 +79,10 @@ jobs:
         kubectl config set-context --current --namespace=$ICR_NAMESPACE
         kubectl config current-context
         kubectl create deployment $DEPLOYMENT_NAME --image=$REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA --dry-run=client -o yaml > deployment.yaml
+        yq -i '
+          .spec.template.spec.containers[0].env[0].name="REACT_APP_API_DOMAIN" |
+          .spec.template.spec.containers[0].env[0].value=strenv(REACT_APP_API_DOMAIN)
+        ' deployment.yaml
         kubectl delete secret ibmcloud-aiworkflow-toolchain
         kubectl create secret docker-registry ibmcloud-aiworkflow-toolchain --docker-server=${REGISTRY_HOSTNAME} --docker-password=${IBM_CLOUD_API_KEY} --docker-username=iamapikey --docker-email=a@b.com
         kubectl patch serviceaccount/default -p '{"imagePullSecrets":[{"name":"ibmcloud-aiworkflow-toolchain"}]}'
