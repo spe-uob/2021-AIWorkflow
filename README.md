@@ -25,10 +25,9 @@
       - [1.4.1.2. Development](#1412-development)
       - [1.4.1.3. Deployment](#1413-deployment)
     - [1.4.2. To Deploy](#142-to-deploy)
-      - [1.4.2.1. With Kubernetes (Recommended)](#1421-with-kubernetes-recommended)
-      - [1.4.2.2. With Docker Compose](#1422-with-docker-compose)
-    - [Continuous Integration](#continuous-integration)
-    - [1.4.3. Continuous Delivery](#143-continuous-delivery)
+      - [1.4.2.1. With Docker Compose](#1421-with-docker-compose)
+    - [1.4.3. Continuous Integration](#143-continuous-integration)
+    - [1.4.4. Continuous Delivery](#144-continuous-delivery)
   - [1.5. Wikis](#15-wikis)
     - [1.5.1. Wiki Link](#151-wiki-link)
 
@@ -114,25 +113,15 @@ There is also a `dongo` container that is the mongoDB database used to store use
 
 For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
 
-#### 1.4.2.1. With Kubernetes (Recommended)
-
-Simply run `./make_kubernetes.sh <context>` in a bash shell and go to http://localhost:8080, the application should run.
-
-You can see what `context`s are available by using `kubectl config get-contexts` and choose one `kubectl config use-context <context>` (We recommend using docker-desktop for development).
-
-If you are in Windows and the shell is not working correctly. You can manually run in terminal with `kubectl config use-context <context>` in order to switch your kubernetes context to docker desktop. And you can run the `kubectl apply -f <.yaml>` in order to apply the backend and frontend service. Finally run `kubectl get pods` in order to check the backend and frontend are running.
-
-Finally go to http://localhost:8080, the application should run.
-
-#### 1.4.2.2. With Docker Compose
+#### 1.4.2.1. With Docker Compose
 
 Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
-### Continuous Integration
+### 1.4.3. Continuous Integration
 
 We decided to use GitHub actions that triggers whenever we start a pull request. 
 
-### 1.4.3. Continuous Delivery
+### 1.4.4. Continuous Delivery
 
 We decided to use a GitHub action that triggers whenever we push to main. 
 
