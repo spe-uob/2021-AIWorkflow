@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState} from "react";
 import { Navigate } from 'react-router-dom';
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
@@ -17,8 +17,13 @@ function Editor() {
     />
   );
 }
+    
+function WorkflowPage() {
+  const [runEnabled, setRunEnabled] = useState(false);
 
-function handleClick(){
+  function handleClick(obj){
+    setRunEnabled(true);
+    alert("the workflow is running, you will get a notification when it is complete.");
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
     const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = cookie.get("googleObj").id
@@ -31,10 +36,19 @@ function handleClick(){
         'Authorization': 'Bearer ' + cookie.get('googleObj').code
       },
       body: JSON.stringify({'user_id': userId, 'workflow': workflowObj})
+    }).then((async (response) => {
+      const data = await response.json();
+      if (data.success === false){
+        alert("an error has occurred. Please contact the administrator")
+      } else {
+        alert("the workflow has finished running -- check your Google Drive.");
+      }
+      setRunEnabled(false);
     })
-}
+    )
     
-function WorkflowPage() {
+}
+
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
   } else {
@@ -44,7 +58,7 @@ function WorkflowPage() {
           <b>Workflow Editor</b>
         </div>
         <Button onClick={} className="save-workflow-button">Save workflow</Button>
-        <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
+        <Button disabled={runEnabled} onClick={handleClick} className="run-workflow-button" >Run workflow</Button>
         <Editor />
       </div>
     );
