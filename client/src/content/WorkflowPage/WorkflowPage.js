@@ -46,8 +46,11 @@ function WorkflowPage() {
       setRunEnabled(false);
     })
     )
+  }
+
+  function saveWorkflow(){
     
-}
+  }
 
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
