@@ -20,8 +20,9 @@ function Editor() {
     
 function WorkflowPage() {
   const [runEnabled, setRunEnabled] = useState(false);
+  const [saveEnabled, setSaveEnabled] = useState(false);
 
-  function handleClick(obj){
+  function runWorkflow(obj){
     setRunEnabled(true);
     alert("the workflow is running, you will get a notification when it is complete.");
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
@@ -46,9 +47,19 @@ function WorkflowPage() {
       setRunEnabled(false);
     })
     )
-    
-}
+  }
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function saveWorkflow(){
+    setSaveEnabled(true);
+    //TODO Add request, using sleep to imitate workflow
+    await sleep(2000);
+    setSaveEnabled(false);
+  } 
+ 
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
   } else {
@@ -57,11 +68,12 @@ function WorkflowPage() {
         <div className={"desc"}>
           <b>Workflow Editor</b>
         </div>
-        <Button id="button" disabled={runEnabled} onClick={handleClick} className="run-workflow-button" >Run workflow</Button>
+        <Button disabled={saveEnabled} onClick={saveWorkflow} className="save-workflow-button">Save workflow</Button>
+        <Button disabled={runEnabled} onClick={runWorkflow} className="run-workflow-button" >Run workflow</Button>
         <Editor />
       </div>
     );
-  }
+    }
 }
 
 export default WorkflowPage;

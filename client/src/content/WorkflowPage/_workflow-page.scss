@@ -3,6 +3,16 @@
     width: 100vw;
 }
 
+.save-workflow-button{
+  position:fixed;
+  bottom:35px;
+  right:250px;
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  z-index: 1;  
+}
+
 .run-workflow-button{
   position:fixed;
   bottom:35px;
