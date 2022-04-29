@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState} from "react";
 import { Navigate } from 'react-router-dom';
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
@@ -18,7 +18,7 @@ function Editor() {
   );
 }
 
-function handleClick(){
+function handleClick(obj){
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
     const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = cookie.get("googleObj").id
@@ -32,9 +32,12 @@ function handleClick(){
       },
       body: JSON.stringify({'user_id': userId, 'workflow': workflowObj})
     })
+    
 }
     
 function WorkflowPage() {
+  const [runEnabled, setRunEnabled] = useState(false);
+
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
   } else {
@@ -43,7 +46,7 @@ function WorkflowPage() {
         <div className={"desc"}>
           <b>Workflow Editor</b>
         </div>
-        <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
+        <Button id="button" disabled={runEnabled} onClick={handleClick} className="run-workflow-button" >Run workflow</Button>
         <Editor />
       </div>
     );
