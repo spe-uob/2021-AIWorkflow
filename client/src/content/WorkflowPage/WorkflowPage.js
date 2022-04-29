@@ -49,13 +49,18 @@ function WorkflowPage() {
     )
   }
 
-  function saveWorkflow(){
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function saveWorkflow(){
     setSaveEnabled(true);
-
+    //TODO Add request, using sleep to imitate workflow
+    await sleep(2000);
     setSaveEnabled(false);
-
   } 
-  /*
+
+  /*  
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
   } else {
