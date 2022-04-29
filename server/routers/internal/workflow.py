@@ -9,8 +9,9 @@ import threading
 
 
 class Workflow:
-    def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
-        self.creds_file = google_creds_file
+    def __init__(self, google_creds: str, ibm_ta_key: str) -> None:
+        logger.debug(f"Workflow(google_creds={google_creds}, ibm_ta_key={ibm_ta_key})")
+        self.creds = google_creds
         self.users = Users()
         self.twitter_api = TwitterAPI()
         self.tone_analyzer = IBMToneAnalyzer(ibm_ta_key)
@@ -20,7 +21,7 @@ class Workflow:
 
     def user_signin(self, auth_code: str) -> dict:
         try:
-            return self.users.register_user(self.creds_file, auth_code)
+            return self.users.register_user(self.creds, auth_code)
         except Exception as e:
             logger.error(e)
             logger.error(format_exc())

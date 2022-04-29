@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBearer
 from dotenv import load_dotenv
@@ -24,10 +25,24 @@ from .workflow_schemas import WorkflowRun
 from loguru import logger
 from traceback import format_exc
 import os
+import json
 
 load_dotenv(verbose=True)
+
+google_creds = "./credentials.json"
+
+with open(google_creds, "r") as f:
+    google_creds = json.load(f) 
+
+google_secret=os.getenv("GOOGLE_SECRET")
+
+if google_secret is None:
+    raise ValueError("Missing Google Secret")
+
+google_creds["client_secret"]=google_secret
+
 WORKFLOW = Workflow(
-    "./routers/internal/credentials.json", os.getenv("IBM_TONE_ANALYZER_KEY")
+    google_creds, os.getenv("IBM_TONE_ANALYZER_KEY")
 )
 
 token_auth_scheme = HTTPBearer()
