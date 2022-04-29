@@ -32,11 +32,7 @@ const AIWorkflowHeader = () => (
         <HeaderName element={Link} to="/" prefix="IBM">
           AI Workflow
         </HeaderName>
-        <HeaderNavigation aria-label="AI Workflow">
-          <HeaderMenuItem element={Link} to="/workflow_demo">
-            Workflow Demo
-          </HeaderMenuItem>
-        </HeaderNavigation>
+        
         <HeaderNavigation aria-label="AI Workflow">
           <HeaderMenuItem element={Link} to="/workflow">
             Workflow
