@@ -13,9 +13,7 @@ describe('Pages load properly', () => {
   it('renders login page without crashing', () => {
     shallow(<LoginPage />);
   });
-  it('renders workflowDemo page without crashing', () => {
-    shallow(<WorkflowDemoPage />);
-  });
+  
   it('renders Workflow page without crashing', () => {
     shallow(<WorkflowPage />);
   });
