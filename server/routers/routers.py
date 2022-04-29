@@ -29,7 +29,7 @@ import json
 
 load_dotenv(verbose=True)
 
-google_creds = "./credentials.json"
+google_creds = "./routers/credentials.json"
 
 with open(google_creds, "r") as f:
     google_creds = json.load(f) 
