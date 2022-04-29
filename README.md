@@ -31,8 +31,10 @@ URL:
       - [1.4.2.1. With Docker Compose](#1421-with-docker-compose)
     - [1.4.3. Continuous Integration](#143-continuous-integration)
     - [1.4.4. Continuous Delivery](#144-continuous-delivery)
-  - [1.5. Wikis](#15-wikis)
+  - [1.5. Wikis and Presentations](#15-wikis-and-presentations)
     - [1.5.1. Wiki Link](#151-wiki-link)
+    - [1.5.2 CS in the city poster](#152-cs-in-the-city-poster)
+  - [Our poster is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.](#our-poster-is-an-overview-of-our-project-containing-client-userstories-problems-we-encountered-approaches-to-solve-them-and-some-screenshots-about-our-program)
 
 ---
 
@@ -148,12 +150,15 @@ To test locally, use [act][10]:
 act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
 ```
 
-## 1.5. Wikis
+## 1.5. Wikis and Presentations
 
 ### 1.5.1. Wiki Link
 
 Our [Wikis][12] contains our developments progress and the achievements and goals for every release version.
 
+### 1.5.2 CS in the city poster
+
+Our [poster](/presentation.odp) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
 ---
 
 [2]:https://reactjs.org
