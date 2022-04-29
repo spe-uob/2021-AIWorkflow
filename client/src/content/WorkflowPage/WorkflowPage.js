@@ -43,7 +43,7 @@ function WorkflowPage() {
         <div className={"desc"}>
           <b>Workflow Editor</b>
         </div>
-        <Button onClick={}>Save workflow</Button>
+        <Button onClick={} className="save-workflow-button">Save workflow</Button>
         <Button onClick={handleClick} className="run-workflow-button">Run workflow</Button>
         <Editor />
       </div>
