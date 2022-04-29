@@ -45,9 +45,7 @@ const AIWorkflowHeader = () => (
           isPersistent={false}>
           <SideNavItems>
             <HeaderSideNavItems>
-              <HeaderMenuItem element={Link} to="/workflow_demo">
-                Workflow Demo
-              </HeaderMenuItem>
+              
               <HeaderMenuItem element={Link} to="/workflow">
                 Workflow 
               </HeaderMenuItem>
