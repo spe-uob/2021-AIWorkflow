@@ -20,6 +20,7 @@ function Editor() {
     
 function WorkflowPage() {
   const [runEnabled, setRunEnabled] = useState(false);
+  const [saveEnabled, setSaveEnabled] = useState(false);
 
   function runWorkflow(obj){
     setRunEnabled(true);
@@ -49,12 +50,16 @@ function WorkflowPage() {
   }
 
   function saveWorkflow(){
+    setSaveEnabled(true);
+    
+    setSaveEnabled(false);
 
-  }
-
+  } 
+  /*
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
   } else {
+  */
     return (
       <div className="workflow-page" >
         <div className={"desc"}>
@@ -65,7 +70,7 @@ function WorkflowPage() {
         <Editor />
       </div>
     );
-  }
+  //}
 }
 
 export default WorkflowPage;
