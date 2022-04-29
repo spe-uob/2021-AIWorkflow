@@ -49,7 +49,7 @@ function WorkflowPage() {
   }
 
   function saveWorkflow(){
-    
+
   }
 
   if (cookie.get("googleObj") === "") {
@@ -60,7 +60,7 @@ function WorkflowPage() {
         <div className={"desc"}>
           <b>Workflow Editor</b>
         </div>
-        <Button onClick={} className="save-workflow-button">Save workflow</Button>
+        <Button onClick={saveWorkflow} className="save-workflow-button">Save workflow</Button>
         <Button disabled={runEnabled} onClick={runWorkflow} className="run-workflow-button" >Run workflow</Button>
         <Editor />
       </div>
