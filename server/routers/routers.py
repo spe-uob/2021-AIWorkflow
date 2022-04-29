@@ -39,7 +39,7 @@ google_secret=os.getenv("GOOGLE_SECRET")
 if google_secret is None:
     raise ValueError("Missing Google Secret")
 
-google_creds["client_secret"]=google_secret
+google_creds["web"]["client_secret"]=google_secret
 
 WORKFLOW = Workflow(
     google_creds, os.getenv("IBM_TONE_ANALYZER_KEY")
