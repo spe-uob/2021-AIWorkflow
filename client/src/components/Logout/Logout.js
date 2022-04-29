@@ -1,15 +1,16 @@
 import React from 'react';
 import { useGoogleLogout } from 'react-google-login';
+import { CLIENT_ID, CORS, API_DOMAIN } from '../../settings';
 import cookie from "json-cookie";
 
-const clientId = process.env.REACT_APP_CLIENT_ID;
+const clientId = CLIENT_ID;
 
 function LogoutHooks() {
   const onLogoutSuccess = (res) => {
     try{
-      fetch(process.env.REACT_APP_API_DOMAIN+'/user/logout', {
+      fetch(API_DOMAIN()+'/user/logout', {
         method: 'POST',
-        mode: process.env.REACT_APP_CORS,
+        mode: CORS,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
