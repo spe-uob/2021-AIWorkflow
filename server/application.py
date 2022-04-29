@@ -21,6 +21,7 @@ app.include_router(user_router)
 app.include_router(tweet_router)
 app.include_router(workflow_router)
 
+
 @app.get("/")
 def root():
     """Root endpoint to check that the application is running."""

@@ -2,8 +2,8 @@ import { React, useState} from "react";
 import { Navigate } from 'react-router-dom';
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
+import { CORS, API_DOMAIN } from '../../settings';
 import "./_workflow-page.scss";
-import Constants from '../../settings';
 
 import cookie from "json-cookie";
 
@@ -26,9 +26,9 @@ function WorkflowPage() {
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
     const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = cookie.get("googleObj").id
-    fetch(Constants.API_DOMAIN+'/workflow/run', {
+    fetch(API_DOMAIN()+'/workflow/run', {
       method: 'POST',
-      mode: Constants.CORS,
+      mode: CORS,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

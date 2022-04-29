@@ -5,12 +5,11 @@ services:
     image: "frontend"
     hostname: "frontend"
     container_name: "frontend"
+    environment: 
+      - REACT_APP_ENVIRONMENT=development
     build: ./client
     ports:
       - 8080:3000
-    labels:
-      kompose.service.type: LoadBalancer
-      kompose.image-pull-policy: "Never"
   backend:
     image: "backend"
     hostname: "backend"

@@ -1,0 +1,58 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: ai-workflow-server
+  namespace: group-aiworkflow
+  uid: a402ac15-c640-418e-9c4a-d4497dfd7797
+  resourceVersion: '32154530'
+  generation: 1
+  creationTimestamp: '2021-12-17T13:57:57Z'
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"ai-workflow-server","namespace":"group-aiworkflow"},"spec":{"rules":[{"host":"ai-workflow-server.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud","http":{"paths":[{"backend":{"service":{"name":"ai-workflow","port":{"number":8080}}},"path":"/","pathType":"ImplementationSpecific"}]}}],"tls":[{"hosts":["ai-workflow-server.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud"],"secretName":"classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000"}]}}
+  managedFields:
+    - manager: kubectl-client-side-apply
+      operation: Update
+      apiVersion: networking.k8s.io/v1
+      time: '2021-12-17T13:57:57Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:spec:
+          f:rules: {}
+          f:tls: {}
+    - manager: nginx-ingress-controller
+      operation: Update
+      apiVersion: networking.k8s.io/v1
+      time: '2022-04-21T20:14:11Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:loadBalancer:
+            f:ingress: {}
+spec:
+  ingressClassName: public-iks-k8s-nginx
+  tls:
+    - hosts:
+        - >-
+          ai-workflow-server.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud
+      secretName: classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000
+  rules:
+    - host: >-
+        ai-workflow-server.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ai-workflow-server
+                port:
+                  number: 5001
+status:
+  loadBalancer:
+    ingress:
+      - hostname: fd9cb9e6-eu-gb.lb.appdomain.cloud
