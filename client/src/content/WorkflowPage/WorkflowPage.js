@@ -40,6 +40,8 @@ function WorkflowPage() {
       const data = await response.json();
       if (data.success === false){
         alert("an error has occurred. Please contact the administrator")
+      } else {
+        alert("the workflow has finished running -- check your Google Drive.");
       }
       setRunEnabled(false);
     })
