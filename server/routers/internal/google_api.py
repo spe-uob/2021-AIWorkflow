@@ -4,9 +4,9 @@ from googleapiclient.discovery import build
 
 
 class GoogleAPI:
-    def __init__(self, file_path: str, auth_code: str) -> None:
-        flow = Flow.from_client_secrets_file(
-            file_path,
+    def __init__(self, creds: str, auth_code: str) -> None:
+        flow = Flow.from_client_config(
+            creds,
             scopes=[
                 "openid",
                 "https://www.googleapis.com/auth/userinfo.profile",

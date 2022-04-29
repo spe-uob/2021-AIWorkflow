@@ -23,7 +23,9 @@ env:
   IMAGE_NAME: ai-workflow
   IKS_CLUSTER: classroom-eu-gb-1-bx2.4x16
   DEPLOYMENT_NAME: ai-workflow
-  PORT: 8080
+  FORWARD_PORT: 8080
+  LISTEN_PORT: 3000
+  ENVIRONMENT: production
 
 jobs:
   setup-build-publish-deploy-frontend:
@@ -50,7 +52,14 @@ jobs:
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
         kubectl version --client
-        
+    
+    # Download yq
+    - name: Install yq
+      run: |
+        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        sudo chmod a+x /usr/local/bin/yq
+        yq --version
+
     # Authenticate with IBM Cloud CLI
     - name: Authenticate with IBM Cloud CLI
       run: |
@@ -73,12 +82,17 @@ jobs:
     # Deploy the Docker image to the IKS cluster
     - name: Deploy to IKS
       run: |
-          ibmcloud ks cluster config --cluster $IKS_CLUSTER
-          kubectl config set-context --current --namespace=$ICR_NAMESPACE
-          kubectl config current-context
-          kubectl create deployment $DEPLOYMENT_NAME --image=$REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA --dry-run=client -o yaml > deployment.yaml
-          kubectl apply -f deployment.yaml
-          kubectl rollout status deployment/$DEPLOYMENT_NAME
-          kubectl create service loadbalancer $DEPLOYMENT_NAME --tcp=$PORT:$PORT --dry-run=client -o yaml > service.yaml
-          kubectl apply -f service.yaml
-          kubectl get services -o wide
+        ibmcloud ks cluster config --cluster $IKS_CLUSTER
+        kubectl config set-context --current --namespace=$ICR_NAMESPACE
+        kubectl config current-context
+        kubectl create deployment $DEPLOYMENT_NAME --image=$REGISTRY_HOSTNAME/$ICR_NAMESPACE/$IMAGE_NAME:$GITHUB_SHA --dry-run=client -o yaml > deployment.yaml
+        yq -i '
+          .spec.template.spec.containers[0].env[0].name="REACT_APP_ENVIRONMENT" |
+          .spec.template.spec.containers[0].env[0].value=strenv(ENVIRONMENT)
+        ' deployment.yaml
+        kubectl delete secret ibmcloud-aiworkflow-toolchain
+        kubectl create secret docker-registry ibmcloud-aiworkflow-toolchain --docker-server=${REGISTRY_HOSTNAME} --docker-password=${IBM_CLOUD_API_KEY} --docker-username=iamapikey --docker-email=a@b.com
+        kubectl patch serviceaccount/default -p '{"imagePullSecrets":[{"name":"ibmcloud-aiworkflow-toolchain"}]}'
+        kubectl apply -f deployment.yaml
+        kubectl rollout status deployment/$DEPLOYMENT_NAME      
+        kubectl get services -o wide

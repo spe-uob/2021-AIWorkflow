@@ -1,18 +1,18 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
-import Constants from '../../settings';
+import { CLIENT_ID, CORS, API_DOMAIN } from '../../settings';
 import cookie from 'json-cookie';
 
-const clientId = Constants.CLIENT_ID;
+const clientId = CLIENT_ID;
 
 
 function Login() {
   const onSuccess = (res) => {
     console.log("code: " + res.code);
     try{
-      fetch(Constants.API_DOMAIN+'/user/login', {
+      fetch(API_DOMAIN()+'/user/login', {
         method: 'POST',
-        mode: Constants.CORS,
+        mode: CORS,
         headers: {
           'Access-Control-Allow-Origin':'*',
           'Accept': 'application/json',

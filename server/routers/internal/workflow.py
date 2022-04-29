@@ -7,9 +7,11 @@ from datetime import datetime
 from traceback import format_exc
 import threading
 
+
 class Workflow:
-    def __init__(self, google_creds_file: str, ibm_ta_key: str) -> None:
-        self.creds_file = google_creds_file
+    def __init__(self, google_creds: str, ibm_ta_key: str) -> None:
+        logger.debug(f"Workflow(google_creds={google_creds}, ibm_ta_key={ibm_ta_key})")
+        self.creds = google_creds
         self.users = Users()
         self.twitter_api = TwitterAPI()
         self.tone_analyzer = IBMToneAnalyzer(ibm_ta_key)
@@ -19,11 +21,11 @@ class Workflow:
 
     def user_signin(self, auth_code: str) -> dict:
         try:
-            return self.users.register_user(self.creds_file, auth_code)
+            return self.users.register_user(self.creds, auth_code)
         except Exception as e:
             logger.error(e)
             logger.error(format_exc())
-  
+
     def run_workflow(self, user_id: str, workflow: Dict[str, str]) -> None:
         logger.debug(workflow)
         workflow_variables = {}
@@ -33,15 +35,15 @@ class Workflow:
         googleslides = self.users.get_user(user_id).get("googleslides")
         for _, node in nodes.items():
             print("")
-            #print(num, node)
+            # print(num, node)
             if node["data"]:
                 workflow_variables.update(node["data"])
-            #print(node["data"])
+            # print(node["data"])
             if node["name"] == "Search Twitter":
                 logger.debug("searching twitter.")
                 output_var = list(node["outputs"].keys())[0]
                 tweets = self.twitter_api.search_tweets(node["data"]["keywords"])
-                workflow_variables.update({output_var : tweets})
+                workflow_variables.update({output_var: tweets})
                 logger.debug(f"searched: {tweets}")
             if node["name"] == "Tone Analyzer":
                 logger.debug("tone")
@@ -56,13 +58,13 @@ class Workflow:
                 workflow_variables.update({output_var: tweets})
                 logger.debug(f"tone_analyser: {tweets}")
             if node["name"] == "Write to Google Sheets":
-                logger.debug('writing to google sheets')
+                logger.debug("writing to google sheets")
                 input_var = list(node["inputs"].keys())[0]
                 data = workflow_variables[input_var]
                 googlesheets.add_tweets_to_spreadsheet(data, date)
                 logger.debug(f"write_data GSheets: {data}")
             if node["name"] == "Write to Google Slides":
-                logger.debug('writing to google slides')
+                logger.debug("writing to google slides")
                 input_var = list(node["inputs"].keys())[0]
                 data = workflow_variables[input_var]
                 tones = []
@@ -84,62 +86,67 @@ class Workflow:
         return
 
     def automation(self, workflow_request: Dict[str, str]) -> None:
-        thread1 = threading.Timer(interval= 3600, function= self.run, args=(workflow_request))
+        thread1 = threading.Timer(
+            interval=3600, function=self.run, args=(workflow_request)
+        )
         thread1.start()
 
     def automation(self, workflow_request: Dict[str, str]) -> None:
-        thread1 = threading.Timer(interval= 3600, function= self.run, args=(workflow_request))
+        thread1 = threading.Timer(
+            interval=3600, function=self.run, args=(workflow_request)
+        )
         thread1.start()
 
     def main(
-            self,
-            user_id: str,
-            keywords: List[str],
-            tones: List[str],
-            start_date: Optional[str] = None,
-            end_date: Optional[str] = None,
-        ) -> None:
-            if self.users.get_user(user_id) is None:
-                raise ValueError("User has not logged in yet.")
+        self,
+        user_id: str,
+        keywords: List[str],
+        tones: List[str],
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+    ) -> None:
+        if self.users.get_user(user_id) is None:
+            raise ValueError("User has not logged in yet.")
 
-            googlesheets = self.users.get_user(user_id).get("googlesheets")
-            googleslides = self.users.get_user(user_id).get("googleslides")
+        googlesheets = self.users.get_user(user_id).get("googlesheets")
+        googleslides = self.users.get_user(user_id).get("googleslides")
 
-            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")     
+        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            tweets = self.twitter_api.search_tweets(keywords, start_date, end_date)
+        tweets = self.twitter_api.search_tweets(keywords, start_date, end_date)
 
-            googlesheets.add_tweets_to_spreadsheet(tweets, date)
+        googlesheets.add_tweets_to_spreadsheet(tweets, date)
 
-            for tweet in tweets:
-                # {'text': "I'm so happy today!", 'primary_tone': 'positive', 'tones': ['joy']}
-                tweet_analysis = self.tone_analyzer.get_analysis(text=tweet["text"])
-                primary_tone = tweet_analysis["primary_tone"]
-                tweet.update({"primary_tone": primary_tone})
+        for tweet in tweets:
+            # {'text': "I'm so happy today!", 'primary_tone': 'positive', 'tones': ['joy']}
+            tweet_analysis = self.tone_analyzer.get_analysis(text=tweet["text"])
+            primary_tone = tweet_analysis["primary_tone"]
+            tweet.update({"primary_tone": primary_tone})
 
-            logger.debug(tweets)
+        logger.debug(tweets)
 
-            # TODO sort tweets into positive and negative tones
-            processed_tweets = {}
-            for tweet in tweets:
-                if tweet["primary_tone"] in tones:
-                    processed_tweets.update({tweet["primary_tone"]: []})
-            for tweet in tweets:
-                if tweet["primary_tone"] in tones:
-                    processed_tweets[tweet["primary_tone"]].append(tweet)
+        # TODO sort tweets into positive and negative tones
+        processed_tweets = {}
+        for tweet in tweets:
+            if tweet["primary_tone"] in tones:
+                processed_tweets.update({tweet["primary_tone"]: []})
+        for tweet in tweets:
+            if tweet["primary_tone"] in tones:
+                processed_tweets[tweet["primary_tone"]].append(tweet)
 
-            logger.debug(processed_tweets)
+        logger.debug(processed_tweets)
 
-            # TODO add into google slides e.g. self.googleslides.add_tweets_to_slides(...)
-            for primary_tone, tweets_with_tone in processed_tweets.items():
-                googleslides.add_tweets_to_slide(tweets_with_tone, date, primary_tone)
+        # TODO add into google slides e.g. self.googleslides.add_tweets_to_slides(...)
+        for primary_tone, tweets_with_tone in processed_tweets.items():
+            googleslides.add_tweets_to_slide(tweets_with_tone, date, primary_tone)
 
-            logger.debug(self.clients)
+        logger.debug(self.clients)
 
-    
 
 if __name__ == "__main__":
     wf = Workflow("T2aP_uwW5D08F7pBtyvuZVuCRm1QGPXgm6qASB-JKyR")
-    #wf.main("ibm", ["ibm"], ["happy", "sad"])
-    wf.authenticate_user("./credentials.json", "4/0AX4XfWjOZFSsCSOYjfa5Dv4I4kIJjfBu6GhRd4KBwiPE4MiBZFKUzEggTHi6rmcTv-ExaQ\\")
-
+    # wf.main("ibm", ["ibm"], ["happy", "sad"])
+    wf.authenticate_user(
+        "./credentials.json",
+        "4/0AX4XfWjOZFSsCSOYjfa5Dv4I4kIJjfBu6GhRd4KBwiPE4MiBZFKUzEggTHi6rmcTv-ExaQ\\",
+    )

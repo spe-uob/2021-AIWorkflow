@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from routers.routers import user_router, tweet_router, workflow_router
+from routers.routers import user_router, tweet_router, workflow_router, database_router
 
 app = FastAPI()
 
@@ -20,6 +20,8 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(tweet_router)
 app.include_router(workflow_router)
+app.include_router(database_router)
+
 
 @app.get("/")
 def root():

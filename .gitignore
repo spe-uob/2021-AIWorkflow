@@ -75,7 +75,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+server/.env
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -113,9 +113,6 @@ dist
 __pycache__
 
 .DS_Store
-
-credentials.json
-token.json
 
 .pytest_cache
 
