@@ -21,7 +21,7 @@ function Editor() {
 function WorkflowPage() {
   const [runEnabled, setRunEnabled] = useState(false);
 
-  function handleClick(obj){
+  function runWorkflow(obj){
     setRunEnabled(true);
     alert("the workflow is running, you will get a notification when it is complete.");
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
@@ -58,7 +58,7 @@ function WorkflowPage() {
           <b>Workflow Editor</b>
         </div>
         <Button onClick={} className="save-workflow-button">Save workflow</Button>
-        <Button disabled={runEnabled} onClick={handleClick} className="run-workflow-button" >Run workflow</Button>
+        <Button disabled={runEnabled} onClick={runWorkflow} className="run-workflow-button" >Run workflow</Button>
         <Editor />
       </div>
     );
