@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Constants from '../../settings';
+import { CORS, API_DOMAIN } from '../../settings';
 import cookie from "json-cookie"
 
 async function runWorkflow() {
@@ -26,14 +26,14 @@ async function runWorkflow() {
     console.log(pair[0]+ ', ' + pair[1]); 
   }
   const queryString = new URLSearchParams(formData).toString();
-  var url = new URL(Constants.API_DOMAIN+"/twitterapi/tweets?"+queryString);
+  var url = new URL(API_DOMAIN()+"/twitterapi/tweets?"+queryString);
   if (cookie.get('googleObj') === "") {
     alert("You have not signed in yet -- redirecting you to the login page");
     window.location.assign("./#/profile");
   } else {
     const response = await fetch(url, {
     method: 'GET',
-    mode: Constants.CORS,
+    mode: CORS,
     headers: {
       'Access-Control-Allow-Origin':'*',
       'Content-type': 'application/json;charset=UTF-8',

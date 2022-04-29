@@ -5,8 +5,6 @@
 name: Frontend application
 
 on:
-  push:
-    branches: [ main, stable ]
   pull_request:
     branches: [ main, stable ]
 
