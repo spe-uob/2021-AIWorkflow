@@ -22,6 +22,7 @@ function WorkflowPage() {
   const [runEnabled, setRunEnabled] = useState(false);
 
   function handleClick(obj){
+    setRunEnabled(true);
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
     const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = cookie.get("googleObj").id
@@ -34,7 +35,14 @@ function WorkflowPage() {
         'Authorization': 'Bearer ' + cookie.get('googleObj').code
       },
       body: JSON.stringify({'user_id': userId, 'workflow': workflowObj})
+    }).then((async (response) => {
+      const data = await response.json();
+      if (data.success === false){
+        alert("an error has occurred. Please contact the administrator")
+      }
+      setRunEnabled(false);
     })
+    )
     
 }
 
