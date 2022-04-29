@@ -51,7 +51,7 @@ function WorkflowPage() {
 
   function saveWorkflow(){
     setSaveEnabled(true);
-    
+
     setSaveEnabled(false);
 
   } 
@@ -65,7 +65,7 @@ function WorkflowPage() {
         <div className={"desc"}>
           <b>Workflow Editor</b>
         </div>
-        <Button onClick={saveWorkflow} className="save-workflow-button">Save workflow</Button>
+        <Button disabled={saveEnabled} onClick={saveWorkflow} className="save-workflow-button">Save workflow</Button>
         <Button disabled={runEnabled} onClick={runWorkflow} className="run-workflow-button" >Run workflow</Button>
         <Editor />
       </div>
