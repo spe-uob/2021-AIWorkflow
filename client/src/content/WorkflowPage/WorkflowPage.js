@@ -23,6 +23,7 @@ function WorkflowPage() {
 
   function handleClick(obj){
     setRunEnabled(true);
+    alert("the workflow is running, you will get a notification when it is complete.");
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
     const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = cookie.get("googleObj").id
