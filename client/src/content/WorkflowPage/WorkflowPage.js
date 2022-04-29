@@ -59,12 +59,10 @@ function WorkflowPage() {
     await sleep(2000);
     setSaveEnabled(false);
   } 
-
-  /*  
+ 
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
   } else {
-  */
     return (
       <div className="workflow-page" >
         <div className={"desc"}>
@@ -75,7 +73,7 @@ function WorkflowPage() {
         <Editor />
       </div>
     );
-  //}
+    }
 }
 
 export default WorkflowPage;
