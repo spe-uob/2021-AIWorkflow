@@ -17,8 +17,11 @@ function Editor() {
     />
   );
 }
+    
+function WorkflowPage() {
+  const [runEnabled, setRunEnabled] = useState(false);
 
-function handleClick(obj){
+  function handleClick(obj){
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
     const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
     const userId = cookie.get("googleObj").id
@@ -34,9 +37,6 @@ function handleClick(obj){
     })
     
 }
-    
-function WorkflowPage() {
-  const [runEnabled, setRunEnabled] = useState(false);
 
   if (cookie.get("googleObj") === "") {
     return <Navigate to='/profile' replace={true}/>
