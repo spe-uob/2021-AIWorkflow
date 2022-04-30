@@ -6,6 +6,9 @@
 ![Deploy Frontend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_frontend.yml/badge.svg)
 ![Deploy Backend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_backend.yml/badge.svg)
 
+URL: 
+
+> https://ai-workflow.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud/profile
 
 ![beta_app](readme_assets/beta_website.png)
 
@@ -25,11 +28,13 @@
       - [1.4.1.2. Development](#1412-development)
       - [1.4.1.3. Deployment](#1413-deployment)
     - [1.4.2. To Deploy](#142-to-deploy)
-      - [1.4.2.1. With Kubernetes (Recommended)](#1421-with-kubernetes-recommended)
-      - [1.4.2.2. With Docker Compose](#1422-with-docker-compose)
+      - [1.4.2.1. With Docker Compose](#1421-with-docker-compose)
     - [1.4.3. Continuous Integration](#143-continuous-integration)
-  - [1.5. Wikis](#15-wikis)
+    - [1.4.4. Continuous Delivery](#144-continuous-delivery)
+  - [1.5. Wikis and Presentations](#15-wikis-and-presentations)
     - [1.5.1. Wiki Link](#151-wiki-link)
+    - [1.5.2 CS in the city poster](#152-cs-in-the-city-poster)
+  - [Our poster is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.](#our-poster-is-an-overview-of-our-project-containing-client-userstories-problems-we-encountered-approaches-to-solve-them-and-some-screenshots-about-our-program)
 
 ---
 
@@ -113,21 +118,15 @@ There is also a `dongo` container that is the mongoDB database used to store use
 
 For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
 
-#### 1.4.2.1. With Kubernetes (Recommended)
-
-Simply run `./make_kubernetes.sh <context>` in a bash shell and go to http://localhost:8080, the application should run.
-
-You can see what `context`s are available by using `kubectl config get-contexts` and choose one `kubectl config use-context <context>` (We recommend using docker-desktop for development).
-
-If you are in Windows and the shell is not working correctly. You can manually run in terminal with `kubectl config use-context <context>` in order to switch your kubernetes context to docker desktop. And you can run the `kubectl apply -f <.yaml>` in order to apply the backend and frontend service. Finally run `kubectl get pods` in order to check the backend and frontend are running.
-
-Finally go to http://localhost:8080, the application should run.
-
-#### 1.4.2.2. With Docker Compose
+#### 1.4.2.1. With Docker Compose
 
 Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
 ### 1.4.3. Continuous Integration
+
+We decided to use GitHub actions that triggers whenever we start a pull request. 
+
+### 1.4.4. Continuous Delivery
 
 We decided to use a GitHub action that triggers whenever we push to main. 
 
@@ -137,6 +136,12 @@ The repository should have two secrets:
 
 Detailed instructions can found in [the actual action file](/.github/workflows/ibm.yml)
 
+**IMPORTANT**: Please run the ibm_cloud_setup.sh shell script prior to running the action.
+
+```sh
+./ibm_cloud_setup.sh <REGISTRY_HOSTNAME> <IBM_CLOUD_API_KEY> <ICR_NAMESPACE>
+```
+
 The action builds three images and containers (one for each service detailed above) and pushes it to IBM's IKS where our client can access the platform.
 
 To test locally, use [act][10]:
@@ -145,12 +150,15 @@ To test locally, use [act][10]:
 act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
 ```
 
-## 1.5. Wikis
+## 1.5. Wikis and Presentations
 
 ### 1.5.1. Wiki Link
 
 Our [Wikis][12] contains our developments progress and the achievements and goals for every release version.
 
+### 1.5.2 CS in the city poster
+
+Our [poster](/presentation.odp) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
 ---
 
 [2]:https://reactjs.org
