@@ -158,6 +158,8 @@ To test locally, use [act][10]:
 act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
 ```
 
+---
+
 ## 1.5. Wikis and Presentations
 
 ### 1.5.1. Wiki Link
