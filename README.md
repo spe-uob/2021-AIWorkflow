@@ -76,6 +76,7 @@ The following tech stack was used to build the application:
 ### 1.3.2 Set up
 
  Firstly make sure you have installed all the prerequisites.
+ 
  And then clone the repository: `git clone git@github.com:spe-uob/2021-ARMessaging.git`
 
 ---
