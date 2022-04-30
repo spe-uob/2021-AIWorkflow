@@ -34,7 +34,6 @@ URL:
   - [1.5. Wikis and Presentations](#15-wikis-and-presentations)
     - [1.5.1. Wiki Link](#151-wiki-link)
     - [1.5.2 CS in the city poster](#152-cs-in-the-city-poster)
-  - [Our poster is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.](#our-poster-is-an-overview-of-our-project-containing-client-userstories-problems-we-encountered-approaches-to-solve-them-and-some-screenshots-about-our-program)
 
 ---
 
@@ -159,6 +158,7 @@ Our [Wikis][12] contains our developments progress and the achievements and goal
 ### 1.5.2 CS in the city poster
 
 Our [poster](/presentation.odp) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
+
 ---
 
 [2]:https://reactjs.org
