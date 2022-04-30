@@ -33,7 +33,7 @@ URL:
       - [1.4.2.1. With Docker Compose](#1421-with-docker-compose)
     - [1.4.3. Continuous Integration](#143-continuous-integration)
     - [1.4.4. Continuous Delivery](#144-continuous-delivery)
-  - [1.5. Wikis and Presentations](#15-wikis-and-presentations)
+  - [1.5. Wikis and Poster](#15-wikis-and-poster)
     - [1.5.1. Wiki Link](#151-wiki-link)
     - [1.5.2 CS in the city poster](#152-cs-in-the-city-poster)
 
@@ -76,7 +76,7 @@ The following tech stack was used to build the application:
 ### 1.3.2 Set up
 
  Firstly make sure you have installed all the prerequisites.
- 
+
  And then clone the repository: `git clone git@github.com:spe-uob/2021-ARMessaging.git`
 
 ---
@@ -161,7 +161,7 @@ act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMES
 
 ---
 
-## 1.5. Wikis and Presentations
+## 1.5. Wikis and Poster
 
 ### 1.5.1. Wiki Link
 
