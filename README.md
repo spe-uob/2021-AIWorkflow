@@ -5,6 +5,7 @@
 ![Python Formatting](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/black.yml/badge.svg)
 ![Deploy Frontend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_frontend.yml/badge.svg)
 ![Deploy Backend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_backend.yml/badge.svg)
+![Deploy Database to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_database.yml/badge.svg)
 
 URL: 
 
