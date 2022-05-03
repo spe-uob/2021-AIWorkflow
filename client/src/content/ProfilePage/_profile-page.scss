@@ -2,11 +2,11 @@
 .login-container{
   align-items: left;
   padding: 3rem;
-  z-index: 1;
 }
 
 .login-text{
   padding: 0 0 2rem 0;
+  font-size: 3rem;
 }
 
 .button {
@@ -19,6 +19,11 @@
   img{
     overflow: hidden;
   }
+}
+
+.content{
+  position: absolute;
+  z-index: 1;
 }
   
 .buttonText {
@@ -54,4 +59,5 @@
   margin-bottom: 1rem;
 }
 
+   
    
