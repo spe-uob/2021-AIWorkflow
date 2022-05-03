@@ -26,7 +26,7 @@ class Workflow:
         except Exception as e:
             logger.error(e)
             logger.error(format_exc())
-    
+
     async def get_workflow(self, user_id: str) -> dict:
         workflows = await retrieve_by_user_id(user_id, get_collection("workflows"))
         logger.debug(f"get_workflow: {workflows}")
@@ -34,10 +34,7 @@ class Workflow:
 
     async def save_workflow(self, user_id: str, workflow: dict) -> bool:
         try:
-            workflow.update({
-                "user_id": user_id,
-                "created": datetime.now().isoformat()
-            })
+            workflow.update({"user_id": user_id, "created": datetime.now().isoformat()})
             data = await add_to_collection(workflow, get_collection("workflows"))
             logger.debug(data)
             return True

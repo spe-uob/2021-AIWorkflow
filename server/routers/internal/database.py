@@ -59,6 +59,7 @@ async def retrieve_by_id(
     item = await collection.find_one({"_id": in_id})
     return item
 
+
 async def retrieve_by_user_id(
     user_id: str, collection: motor.motor_asyncio.AsyncIOMotorCollection
 ) -> dict:
@@ -67,9 +68,11 @@ async def retrieve_by_user_id(
         item["_id"] = str(item["_id"])
     return items
 
+
 async def test():
     result = await retrieve_all_from_collection(get_collection("tweets"))
     return result
+
 
 if __name__ == "__main__":
     print(asyncio.run(test()))

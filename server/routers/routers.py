@@ -10,7 +10,11 @@ from .tweets_schemas import (
     TweetRequest,
     TweetResponse,
 )
-from .database_schemas import GetWorkflowRequest, GetWorkflowResponse, SaveWorkflowRequest
+from .database_schemas import (
+    GetWorkflowRequest,
+    GetWorkflowResponse,
+    SaveWorkflowRequest,
+)
 from .user_schemas import (
     UserLogInRequest,
     UserLogInResponse,
@@ -31,18 +35,16 @@ load_dotenv(verbose=True)
 google_creds = "./routers/credentials.json"
 
 with open(google_creds, "r") as f:
-    google_creds = json.load(f) 
+    google_creds = json.load(f)
 
-google_secret=os.getenv("GOOGLE_SECRET")
+google_secret = os.getenv("GOOGLE_SECRET")
 
 if google_secret is None:
     raise ValueError("Missing Google Secret")
 
-google_creds["web"]["client_secret"]=google_secret
+google_creds["web"]["client_secret"] = google_secret
 
-WORKFLOW = Workflow(
-    google_creds, os.getenv("IBM_TONE_ANALYZER_KEY")
-)
+WORKFLOW = Workflow(google_creds, os.getenv("IBM_TONE_ANALYZER_KEY"))
 
 token_auth_scheme = HTTPBearer()
 
@@ -187,21 +189,31 @@ async def run_workflow(r: WorkflowRun, token: str = Depends(token_auth_scheme)):
                 status_code=500,
             )
 
+
 @workflow_router.get("/get")
 async def get_workflow(user_id: str, token: str = Depends(token_auth_scheme)):
     if user_authenticated(token.credentials, user_id):
         try:
             workflows = await WORKFLOW.get_workflow(user_id)
             return JSONResponse(
-                {"data": {"workflows": workflows}, "message": "workflow get successful", "success": True},
+                {
+                    "data": {"workflows": workflows},
+                    "message": "workflow get successful",
+                    "success": True,
+                },
                 status_code=200,
             )
         except Exception:
             logger.error(format_exc())
             return JSONResponse(
-                {"data": {"error": str(format_exc())}, "message": "something went wrong", "success": False},
+                {
+                    "data": {"error": str(format_exc())},
+                    "message": "something went wrong",
+                    "success": False,
+                },
                 status_code=500,
             )
+
 
 @workflow_router.post("/save")
 async def get_workflow(r: SaveWorkflowRequest, token: str = Depends(token_auth_scheme)):
@@ -209,15 +221,24 @@ async def get_workflow(r: SaveWorkflowRequest, token: str = Depends(token_auth_s
         try:
             saved_workflow = await WORKFLOW.save_workflow(r.user_id, r.workflow)
             return JSONResponse(
-                {"data": {"saved": saved_workflow}, "message": "workflow save successful", "success": True},
+                {
+                    "data": {"saved": saved_workflow},
+                    "message": "workflow save successful",
+                    "success": True,
+                },
                 status_code=200,
             )
         except Exception:
             logger.error(format_exc())
             return JSONResponse(
-                {"data": {"error": str(format_exc())}, "message": "something went wrong", "success": False},
+                {
+                    "data": {"error": str(format_exc())},
+                    "message": "something went wrong",
+                    "success": False,
+                },
                 status_code=500,
             )
+
 
 database_router = APIRouter(prefix="/database")
 
@@ -233,6 +254,7 @@ async def database_workflow_get(
             {"data": workflow, "message": "workflow get successful", "success": True},
             status_code=200,
         )
+
 
 @database_router.get("/tweets", response_model=TweetResponse)
 async def database_tweet_get(
