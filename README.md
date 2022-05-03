@@ -191,7 +191,7 @@ Our [Wikis][12] contains our developments progress and the achievements and goal
 
 ### 1.5.2. CS in the city poster
 
-Our [poster](/presentation.odp) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
+Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
 
 ---
 
