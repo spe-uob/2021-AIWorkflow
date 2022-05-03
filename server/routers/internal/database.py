@@ -1,10 +1,16 @@
 from typing import List
-
 import motor.motor_asyncio
-import json
+import asyncio
+import os
 
-MONGO_DETAILS = "mongodb://localhost:27017"
+environment = os.getenv("ENVIRONMENT", "development")
+if environment == "development":
+    MONGO_DETAILS = "mongodb://dongo:27017"
+else:
+    MONGO_DETAILS = "mongodb://172.21.208.59:27017"
+print(MONGO_DETAILS)
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
+client.get_io_loop = asyncio.get_running_loop
 database = client.ibm
 tweet_collection = database.get_collection("tweets")
 workflow_collection = database.get_collection("workflows")
@@ -34,9 +40,7 @@ def tweet_helper(tweet) -> dict:
 async def retrieve_all_from_collection(
     collection: motor.motor_asyncio.AsyncIOMotorCollection,
 ) -> List[dict]:
-    items = []
-    async for item in collection.find():
-        items.append(item)
+    items = [item async for item in collection.find()]
     return items
 
 
@@ -54,3 +58,18 @@ async def retrieve_by_id(
 ) -> dict:
     item = await collection.find_one({"_id": in_id})
     return item
+
+async def retrieve_by_user_id(
+    user_id: str, collection: motor.motor_asyncio.AsyncIOMotorCollection
+) -> dict:
+    items = [item async for item in collection.find({"user_id": user_id})]
+    for item in items:
+        item["_id"] = str(item["_id"])
+    return items
+
+async def test():
+    result = await retrieve_all_from_collection(get_collection("tweets"))
+    return result
+
+if __name__ == "__main__":
+    print(asyncio.run(test()))
