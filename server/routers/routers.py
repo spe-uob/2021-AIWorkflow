@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBearer
 from dotenv import load_dotenv
@@ -11,15 +10,15 @@ from .tweets_schemas import (
     TweetRequest,
     TweetResponse,
 )
-from .database_schemas import GetWorkflowRequest, GetWorkflowResponse
+from .database_schemas import GetWorkflowRequest, GetWorkflowResponse, SaveWorkflowRequest
 from .user_schemas import (
     UserLogInRequest,
     UserLogInResponse,
     UserLogOutRequest,
     UserLogOutResponse,
 )
-from typing import Optional
-from .database import get_collection, retrieve_by_id
+
+from .internal.database import get_collection, retrieve_by_id
 from .workflow_schemas import WorkflowRun
 
 from loguru import logger
@@ -188,11 +187,42 @@ async def run_workflow(r: WorkflowRun, token: str = Depends(token_auth_scheme)):
                 status_code=500,
             )
 
+@workflow_router.get("/get")
+async def get_workflow(user_id: str, token: str = Depends(token_auth_scheme)):
+    if user_authenticated(token.credentials, user_id):
+        try:
+            workflows = await WORKFLOW.get_workflow(user_id)
+            return JSONResponse(
+                {"data": {"workflows": workflows}, "message": "workflow get successful", "success": True},
+                status_code=200,
+            )
+        except Exception:
+            logger.error(format_exc())
+            return JSONResponse(
+                {"data": {"error": str(format_exc())}, "message": "something went wrong", "success": False},
+                status_code=500,
+            )
+
+@workflow_router.post("/save")
+async def get_workflow(r: SaveWorkflowRequest, token: str = Depends(token_auth_scheme)):
+    if user_authenticated(token.credentials, r.user_id):
+        try:
+            saved_workflow = await WORKFLOW.save_workflow(r.user_id, r.workflow)
+            return JSONResponse(
+                {"data": {"saved": saved_workflow}, "message": "workflow save successful", "success": True},
+                status_code=200,
+            )
+        except Exception:
+            logger.error(format_exc())
+            return JSONResponse(
+                {"data": {"error": str(format_exc())}, "message": "something went wrong", "success": False},
+                status_code=500,
+            )
 
 database_router = APIRouter(prefix="/database")
 
 
-@database_router.get("/", response_model=GetWorkflowResponse)
+@database_router.get("/workflows", response_model=GetWorkflowResponse)
 async def database_workflow_get(
     request: GetWorkflowRequest, token: str = Depends(token_auth_scheme)
 ):
@@ -204,8 +234,7 @@ async def database_workflow_get(
             status_code=200,
         )
 
-
-@database_router.get("/", response_model=TweetResponse)
+@database_router.get("/tweets", response_model=TweetResponse)
 async def database_tweet_get(
     request: TweetRequest, token: str = Depends(token_auth_scheme)
 ):
