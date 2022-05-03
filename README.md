@@ -22,8 +22,8 @@ URL:
     - [1.2.2. End user 2: IBM Marketing Team](#122-end-user-2-ibm-marketing-team)
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
   - [1.3. Tech Stack](#13-tech-stack)
-    - [1.3.1. 1.3.1 Prerequisites](#131-131-prerequisites)
-    - [1.3.2. 1.3.2 Set up](#132-132-set-up)
+    - [1.3.1. Prerequisites](#131-prerequisites)
+    - [1.3.2. Set up](#132-set-up)
   - [1.4. Deployment Instructions](#14-deployment-instructions)
     - [1.4.1. Requirements](#141-requirements)
     - [1.4.2. Environment and Credentials](#142-environment-and-credentials)
@@ -67,7 +67,7 @@ As a software developer, the team would like to create a bot that replies to use
 
 ## 1.3. Tech Stack
 
-### 1.3.1. 1.3.1 Prerequisites
+### 1.3.1. Prerequisites
 
 The following tech stack was used to build the application:
 
@@ -75,11 +75,10 @@ The following tech stack was used to build the application:
 - Backend: Python, using [FastAPI][8]
 - Database: [mongoDB][11]
 
-### 1.3.2. 1.3.2 Set up
+### 1.3.2. Set up
 
- Firstly make sure you have installed all the prerequisites.
-
- And then clone the repository: `git clone git@github.com:spe-uob/2021-AIWorkflow.git`
+- Clone the repository: `git clone git@github.com:spe-uob/2021-AIWorkflow.git`
+- Follow the guide below to setup for development or deployment, depending on your usage.
 
 ---
 
