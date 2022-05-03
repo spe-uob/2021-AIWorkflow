@@ -21,6 +21,24 @@ const ProfilePage = () => {
       </div>
       </>
     )}
+    else {
+      var picture = cookie.get("googleObj").picture;
+      var email = cookie.get("googleObj").email;
+      var name = cookie.get("googleObj").name;
+      return (
+        <div className="profile-container">
+          <div className={"background"}>
+            <img src={"./login-background.png"} alt={"lol"}/>
+          </div>
+          <div>
+            <img className={"profile-pic"} src={picture} alt="logo" />
+            <p><span className={"bold"}>Name: </span>{name}</p>
+            <p><span className={"bold"}>Email: </span> {email}</p>
+            <Logout/>
+          </div>
+        </div>
+      )
+    }
 };
 
 export default ProfilePage;
