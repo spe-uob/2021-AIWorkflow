@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
 import { CLIENT_ID, CORS, API_DOMAIN } from '../../settings';
+import { Button } from "carbon-components-react";
 import cookie from 'json-cookie';
 
 const clientId = CLIENT_ID;
@@ -49,11 +50,10 @@ function Login() {
   });
 
   return (
-    <button onClick={signIn} className="button">
+    <Button onClick={signIn} className="button">
       <img src="icons/google.svg" alt="google login" className="icon"></img>
-
       <span className="buttonText">Sign in with Google</span>
-    </button>
+    </Button>
   );
 }
 
