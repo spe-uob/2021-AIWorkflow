@@ -1,0 +1,44 @@
+.login-container{
+  
+  z-index: 1;
+}
+.login-text{
+  padding: 0 0 2rem 0;
+}
+.background{
+  float: right;
+  img{
+    overflow: hidden;
+  }
+}
+  
+.buttonText {
+  padding-left: 5rem;
+}
+
+.bold{
+  font-weight: 700;
+}
+  
+.icon {
+  height: 25px;
+  width: 25px;
+  left: 30px;
+  align-items: center;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.profile-container{
+  align-items: left;
+  padding: 3rem;
+  z-index: 1;
+
+  p{
+    padding-bottom: 0.5rem;
+  }
+
+}
+
+
+   
