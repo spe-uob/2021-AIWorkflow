@@ -91,12 +91,6 @@ class Workflow:
         )
         thread1.start()
 
-    def automation(self, workflow_request: Dict[str, str]) -> None:
-        thread1 = threading.Timer(
-            interval=3600, function=self.run, args=(workflow_request)
-        )
-        thread1.start()
-
     def main(
         self,
         user_id: str,
