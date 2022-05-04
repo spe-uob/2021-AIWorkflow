@@ -8,7 +8,7 @@
 
 URL: 
 
-> https://ai-workflow.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud/profile
+> https://ai-workflow.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud
 
 ![beta_app](readme_assets/beta_website.png)
 
@@ -22,19 +22,22 @@ URL:
     - [1.2.2. End user 2: IBM Marketing Team](#122-end-user-2-ibm-marketing-team)
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
   - [1.3. Tech Stack](#13-tech-stack)
+    - [1.3.1. Prerequisites](#131-prerequisites)
+    - [1.3.2. Set up](#132-set-up)
   - [1.4. Deployment Instructions](#14-deployment-instructions)
     - [1.4.1. Requirements](#141-requirements)
-      - [1.4.1.1. Environment and Credentials](#1411-environment-and-credentials)
-      - [1.4.1.2. Development](#1412-development)
-      - [1.4.1.3. Deployment](#1413-deployment)
-    - [1.4.2. To Deploy](#142-to-deploy)
-      - [1.4.2.1. With Docker Compose](#1421-with-docker-compose)
-    - [1.4.3. Continuous Integration](#143-continuous-integration)
-    - [1.4.4. Continuous Delivery](#144-continuous-delivery)
-  - [1.5. Wikis and Presentations](#15-wikis-and-presentations)
+    - [1.4.2. Environment and Credentials](#142-environment-and-credentials)
+      - [1.4.2.1. Frontend](#1421-frontend)
+      - [1.4.2.2. Backend](#1422-backend)
+      - [1.4.2.3. Development](#1423-development)
+      - [1.4.2.4. Deployment](#1424-deployment)
+    - [1.4.3. To Deploy](#143-to-deploy)
+      - [1.4.3.1. With Docker Compose](#1431-with-docker-compose)
+    - [1.4.4. Continuous Integration](#144-continuous-integration)
+    - [1.4.5. Continuous Delivery](#145-continuous-delivery)
+  - [1.5. Wikis and Poster](#15-wikis-and-poster)
     - [1.5.1. Wiki Link](#151-wiki-link)
-    - [1.5.2 CS in the city poster](#152-cs-in-the-city-poster)
-  - [Our poster is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.](#our-poster-is-an-overview-of-our-project-containing-client-userstories-problems-we-encountered-approaches-to-solve-them-and-some-screenshots-about-our-program)
+    - [1.5.2. CS in the city poster](#152-cs-in-the-city-poster)
 
 ---
 
@@ -50,7 +53,7 @@ In this section we document the 3 main users of such an application.
 
 ### 1.2.1. End user 1: John McNamara
 
-As an individual in IBM, John wants to find out what people are saying about the company on Twitter and present his findings. He would like a tool where he can configure actions on a website, where he asks the website to go on Twitter and grab tweets relating to IBM and sends it to the Tone analyser and sort them into different slides. For example, when an IBM customer posts a tweet compaining that the IBM Cloud does not work well sometimes, the application automatically recoginze its tone and put it into the pile of slides where the user is sad.
+As an individual in IBM, John wants to find out what people are saying about the company on Twitter and present his findings. He would like a tool where he can configure actions on a website, where he asks the website to go on Twitter and grab tweets relating to IBM and sends it to the Tone analyser and sort them into different slides. For example, when an IBM customer posts a tweet complaining that the IBM Cloud does not work well sometimes, the application automatically recoginze its tone and put it into the pile of slides where the user is sad.
 
 ### 1.2.2. End user 2: IBM Marketing Team
 
@@ -64,11 +67,18 @@ As a software developer, the team would like to create a bot that replies to use
 
 ## 1.3. Tech Stack
 
+### 1.3.1. Prerequisites
+
 The following tech stack was used to build the application:
 
 - Frontend: React, using [IBM's Carbon Design System][7]
 - Backend: Python, using [FastAPI][8]
 - Database: [mongoDB][11]
+
+### 1.3.2. Set up
+
+- Clone the repository: `git clone git@github.com:spe-uob/2021-AIWorkflow.git`
+- Follow the guide below to setup for development or deployment, depending on your usage.
 
 ---
 
@@ -76,13 +86,33 @@ The following tech stack was used to build the application:
 
 ### 1.4.1. Requirements
 
-#### 1.4.1.1. Environment and Credentials
+### 1.4.2. Environment and Credentials
 
-A `.env` file is needed. A .env.sample file can be found in `server/routers`. To get a twitter bearer token, go to [Twitter's Developer Portal][14] and create an app. Once you have created an app, go to the "Keys and Access Tokens" tab and click "Create my access token". Copy the "Bearer Token" and paste it into the `.env` file. The IBM Tone Analyser API key can be found by going to the IBM Cloud website and activating the service.
+#### 1.4.2.1. Frontend
 
-A `credentials.json` file is also needed in `server/routers/internal/`, you can also follow this [guide][13], rename the file and put it in the aforementioned directory.
+The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][link]. 
 
-#### 1.4.1.2. Development
+The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintainning the repository.
+
+#### 1.4.2.2. Backend
+
+A `.env` file is needed. A `.env.sample` file can be found in `server/`, it should look like this:
+
+```txt
+TWITTER_BEARER_TOKEN=""
+IBM_TONE_ANALZER_KEY=""
+GOOGLE_SECRET=""
+```
+
+To get a twitter bearer token, go to [Twitter's Developer Portal][14] and create an app. Once you have created an app, go to the "Keys and Access Tokens" tab and click "Create my access token". Copy the "Bearer Token" and paste it into the `.env` file. 
+
+The IBM Tone Analyser API key can be generated by going to the IBM Cloud website and activating the service.
+
+To get a Google Secret, a `credentials.json` file is also needed in `server/routers/internal/`, you can also follow this [guide][13], rename the file and put it in the aforementioned directory. Change the value in `.web.client_secret` to null and put the value in `GOOGLE_SECRET` in the `.env` file. 
+
+This is to ensure that the secret is not available to the public. 
+
+#### 1.4.2.3. Development
 
 If you are developing this project, you will need to install the following: 
 
@@ -102,11 +132,11 @@ cd ..
 ```
 
 
-#### 1.4.1.3. Deployment
+#### 1.4.2.4. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
 
-### 1.4.2. To Deploy
+### 1.4.3. To Deploy
 
 The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a React website that will use IBM's NODE-RED library (as requested by the client) in the future. 
 
@@ -118,15 +148,15 @@ There is also a `dongo` container that is the mongoDB database used to store use
 
 For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
 
-#### 1.4.2.1. With Docker Compose
+#### 1.4.3.1. With Docker Compose
 
 Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
-### 1.4.3. Continuous Integration
+### 1.4.4. Continuous Integration
 
 We decided to use GitHub actions that triggers whenever we start a pull request. 
 
-### 1.4.4. Continuous Delivery
+### 1.4.5. Continuous Delivery
 
 We decided to use a GitHub action that triggers whenever we push to main. 
 
@@ -150,15 +180,18 @@ To test locally, use [act][10]:
 act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
 ```
 
-## 1.5. Wikis and Presentations
+---
+
+## 1.5. Wikis and Poster
 
 ### 1.5.1. Wiki Link
 
 Our [Wikis][12] contains our developments progress and the achievements and goals for every release version.
 
-### 1.5.2 CS in the city poster
+### 1.5.2. CS in the city poster
 
-Our [poster](/presentation.odp) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
+Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
+
 ---
 
 [2]:https://reactjs.org

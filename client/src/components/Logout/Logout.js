@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGoogleLogout } from 'react-google-login';
 import { CLIENT_ID, CORS, API_DOMAIN } from '../../settings';
+import { Button } from "carbon-components-react";
 import cookie from "json-cookie";
 
 const clientId = CLIENT_ID;
@@ -38,11 +39,9 @@ function LogoutHooks() {
   });
 
   return (
-    <button onClick={signOut} className="button">
-      <img src="icons/google.svg" alt="google login" className="icon"></img>
-
-      <span className="buttonText">Sign out</span>
-    </button>
+    <Button onClick={signOut} className="button">
+      Sign out
+    </Button>
   );
 }
 
