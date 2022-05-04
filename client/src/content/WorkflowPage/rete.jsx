@@ -23,13 +23,21 @@ class CheckboxControl extends Rete.Control{
     </div>
   );
 
-  constructor(emitter, key, node, readonly = false) {
+  constructor(emitter, key, node, data, readonly = false) {
     super(key);
     this.emitter = emitter;
     this.key = key;
     this.component = CheckboxControl.component;
 
-    const initial = node.data[key] || false;
+    console.log(data[key.toLowerCase()]);
+
+    var initial;
+
+    if (data[key.toLowerCase()] === undefined || data[key.toLowerCase()] === false) {
+      initial = false;
+    } else {
+      initial = true;
+    };
 
     node.data[key] = initial;
     this.props = {
@@ -66,13 +74,13 @@ class TextControl extends Rete.Control{
     />
   );
 
-  constructor(emitter, key, node, readonly = false) {
+  constructor(emitter, key, node, data, readonly = false) {
     super(key);
     this.emitter = emitter;
     this.key = key;
     this.component = TextControl.component;
 
-    const initial = node.data[key] || "";
+    const initial = data[key] || "";
 
     node.data[key] = initial;
     this.props = {
@@ -99,7 +107,8 @@ class SearchTwitterComponent extends Rete.Component {
   }
     
   builder(node) {
-    var ctrl = new TextControl(this.editor, "keywords", strSocket);
+    //console.log(node);
+    var ctrl = new TextControl(this.editor, "keywords", strSocket, node.data);
     var out = new Rete.Output("tweets", "Tweets", strSocket);
 
     return node
@@ -126,7 +135,6 @@ class GoogleSheets extends Rete.Component {
       .addOutput(out);
   }
   worker(node, inputs, outputs) {
-   
     outputs["tweets"] = node.data;
   }
 }
@@ -138,8 +146,8 @@ class ToneAnalyzerComponent extends Rete.Component {
     
   builder(node) {
     var inp = new Rete.Input("tweets","Tweets",strSocket)
-    var positiveCtrl = new CheckboxControl(this.editor, "Positive", boolSocket);
-    var negativeCtrl = new CheckboxControl(this.editor, "Negative", boolSocket);
+    var positiveCtrl = new CheckboxControl(this.editor, "Positive", boolSocket, node.data);
+    var negativeCtrl = new CheckboxControl(this.editor, "Negative", boolSocket, node.data);
     var out = new Rete.Output("tweets", "Analyzed Tweets", strSocket);
 
     return node
@@ -186,30 +194,36 @@ export async function createEditor(container) {
     engine.register(c);
   });
 
+  if (sessionStorage.getItem("workflowObj") !== null) {
+    console.log("Found workflowObj in sessionStorage");
+    console.log(sessionStorage.getItem("workflowObj"));
+    await editor.fromJSON(JSON.parse(sessionStorage.getItem("workflowObj")));
+  } else {
+    console.log("loading default template");
+    var twitter = await components[0].createNode();
+    var googleSheets = await components[1].createNode();
+    var toneAnalyzer= await components[2].createNode();
+    var googleSlides =await components[3].createNode();
   
-  var twitter = await components[0].createNode();
-  var googleSheets = await components[1].createNode();
-  var toneAnalyzer= await components[2].createNode();
-  var googleSlides =await components[3].createNode();
-
+    
+    twitter.position = [0, 800];
+    googleSheets.position=[300,800];
+    toneAnalyzer.position=[600,800];
+    googleSlides.position=[900,800];
+    
+    editor.addNode(twitter);
+    editor.addNode(googleSheets);
+    editor.addNode(toneAnalyzer);
+    editor.addNode(googleSlides);
   
-  twitter.position = [0, 800];
-  googleSheets.position=[300,800];
-  toneAnalyzer.position=[600,800];
-  googleSlides.position=[900,800];
-  
-  editor.addNode(twitter);
-  editor.addNode(googleSheets);
-  editor.addNode(toneAnalyzer);
-  editor.addNode(googleSlides);
-
-  editor.connect(twitter.outputs.get("tweets"), googleSheets.inputs.get("tweets"));
-  editor.connect(googleSheets.outputs.get("tweets"), toneAnalyzer.inputs.get("tweets"));
-  editor.connect(toneAnalyzer.outputs.get("tweets"), googleSlides.inputs.get("tweets"));
-
+    editor.connect(twitter.outputs.get("tweets"), googleSheets.inputs.get("tweets"));
+    editor.connect(googleSheets.outputs.get("tweets"), toneAnalyzer.inputs.get("tweets"));
+    editor.connect(toneAnalyzer.outputs.get("tweets"), googleSlides.inputs.get("tweets"));
+    sessionStorage.setItem("workflowObj", JSON.stringify(editor.toJSON()));  
+  }
   
   editor.on(
-    "process",
+    "process connectioncreate connectioncreated connectionremove connectionremoved nodetranslated nodedraged",
     async () => {
       console.log("process");
       sessionStorage.setItem("workflowObj", JSON.stringify(editor.toJSON()));

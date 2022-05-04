@@ -10,3 +10,12 @@ class GetWorkflowRequest(BaseModel):
 
 class GetWorkflowResponse(BaseModel):
     workflow: str
+
+
+class SaveWorkflowRequest(BaseModel):
+    user_id: str
+    workflow: dict
+
+
+class SaveWorkflowResponse(BaseModel):
+    pass
