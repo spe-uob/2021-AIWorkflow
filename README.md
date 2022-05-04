@@ -147,7 +147,7 @@ The `backend` container is a python [FastAPI][8] REST application that will be u
 
 There is also a `dongo` container that is the mongoDB database used to store user data. The reason it is called dongo is due to Mitch was thinking docker and mongo together, therefore misspeaking and said the word 'dongo' instead of 'mongo'.
 
-For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
+For documentation regarding the `frontend`, `backend` and `database`, please consult the [`docs`][9] folder.
 
 #### 1.4.3.1. With Docker Compose
 
