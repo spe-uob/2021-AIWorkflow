@@ -1,3 +1,5 @@
+from multiprocessing.sharedctypes import Value
+from turtle import back
 from typing import List
 import motor.motor_asyncio
 import asyncio
@@ -7,7 +9,10 @@ environment = os.getenv("ENVIRONMENT", "development")
 if environment == "development":
     MONGO_DETAILS = "mongodb://dongo:27017"
 else:
-    MONGO_DETAILS = "mongodb://172.21.208.59:27017"
+    backend_ip = os.getenv("DATABASE_IP")
+    if backend_ip is None:
+        raise ValueError("DATABASE_IP environment variable not set")
+    MONGO_DETAILS = f"mongodb://{backend_ip}:27017"
 print(MONGO_DETAILS)
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 client.get_io_loop = asyncio.get_running_loop
@@ -67,12 +72,3 @@ async def retrieve_by_user_id(
     for item in items:
         item["_id"] = str(item["_id"])
     return items
-
-
-async def test():
-    result = await retrieve_all_from_collection(get_collection("tweets"))
-    return result
-
-
-if __name__ == "__main__":
-    print(asyncio.run(test()))
