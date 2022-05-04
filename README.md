@@ -5,6 +5,7 @@
 ![Python Formatting](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/black.yml/badge.svg)
 ![Deploy Frontend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_frontend.yml/badge.svg)
 ![Deploy Backend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_backend.yml/badge.svg)
+![Deploy Database to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_database.yml/badge.svg)
 
 URL: 
 
@@ -146,7 +147,7 @@ The `backend` container is a python [FastAPI][8] REST application that will be u
 
 There is also a `dongo` container that is the mongoDB database used to store user data. The reason it is called dongo is due to Mitch was thinking docker and mongo together, therefore misspeaking and said the word 'dongo' instead of 'mongo'.
 
-For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
+For documentation regarding the `frontend`, `backend` and `database`, please consult the [`docs`][9] folder.
 
 #### 1.4.3.1. With Docker Compose
 
