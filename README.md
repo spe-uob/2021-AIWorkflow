@@ -68,7 +68,7 @@ As a software developer, the team would like to create a bot that replies to use
 
 ## 1.3. Ethics
 
-Since our project need people's tweet theoretically (we are not collect actual tweets and only only we and the client can access the functionality), it is still essential for the ethics approval. You can check the [Ethics.md](./docs/ETHICS.md).
+Since our project need people's tweet theoretically (we are not collect actual tweets), it is still essential for the ethics approval. You can check the [Ethics.md](./docs/ETHICS.md). Our route is route B specifically because only we and the client can access the functionality.
 
 ---
 
