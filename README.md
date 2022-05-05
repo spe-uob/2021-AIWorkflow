@@ -54,11 +54,7 @@ In this section, we document the 3 main users of such an application.
 
 ### 1.2.1. End user 1: John McNamara
 
-<<<<<<< HEAD
-As an individual in IBM, John wants to find out what people are saying about the company on Twitter and present his findings. He would like a tool where he can configure actions on a website, where he asks the website to go on Twitter and grab tweets relating to IBM and sends it to the Tone analyser and sort them into different slides. For example, when an IBM customer posts a tweet compaining that the IBM Cloud does not work well sometimes, the application automatically recoginize its tone and put it into the pile of slides where the user is sad.
-=======
 As an individual in IBM, John wants to find out what people are saying about the company on Twitter and present his findings. He would like a tool where he can configure actions on a website, where he asks the website to go on Twitter and grab tweets relating to IBM and sends it to the Tone analyser and sort them into different slides. For example, when an IBM customer posts a tweet complaining that the IBM Cloud does not work well sometimes, the application automatically recoginze its tone and put it into the pile of slides where the user is sad.
->>>>>>> stable
 
 ### 1.2.2. End user 2: IBM Marketing Team
 
@@ -97,7 +93,7 @@ The following tech stack was used to build the application:
 
 The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console] https://support.google.com/cloud/answer/6158849?hl=en. 
 
-The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintainning the repository.
+The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintaining the repository.
 
 #### 1.4.2.2. Backend
 
@@ -169,7 +165,7 @@ The repository should have two secrets:
 1. ICR_NAMESPACE (The namespace of your cluster)
 2. IBM_CLOUD_API_KEY (An API key to access IBM Cloud)
 
-Detailed instructions can found in [the actual action file](/.github/workflows/ibm.yml)
+Detailed instructions can be found in [the actual action file](/.github/workflows/ibm.yml)
 
 **IMPORTANT**: Please run the ibm_cloud_setup.sh shell script prior to running the action.
 
