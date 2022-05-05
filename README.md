@@ -11,8 +11,6 @@ URL:
 
 > https://ai-workflow.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud
 
-TODO Create image with all of the screens in one image
-
 ![final_app](readme_assets/final_website.png)
 
 
