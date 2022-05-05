@@ -114,6 +114,8 @@ The Database IP secret is the IP of the database used in production.
 
 This is to ensure that the secret is not available to the public. 
 
+---
+
 ## 1.5. Development Instructions
 
 If you are developing this project, you will need to install the following: 
@@ -156,6 +158,8 @@ There is also a `dongo` container that is the mongoDB database used to store use
 
 For documentation regarding the `frontend`, `backend` and `database`, please consult the [`docs`][9] folder.
 
+---
+
 ## 1.6. Continuous Integration
 
 We decided to use GitHub actions that triggers whenever we start a pull request into `main` and `stable`. 
@@ -163,6 +167,8 @@ We decided to use GitHub actions that triggers whenever we start a pull request 
 There are two tests, one for the frontend and one for the backend.
 
 Tests can be found in `client/App.test.js` and `server/test_application.py`.
+
+---
 
 ## 1.7. Continuous Delivery
 
