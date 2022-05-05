@@ -66,7 +66,7 @@ As a software developer, the team would like to create a bot that replies to use
 
 The following tech stack was used to build the application:
 
-#TODO ADD DIAGRAM HERE
+![stack_diagram](readme_assets/system_diagram.png)
 
 - Frontend: React, using [IBM's Carbon Design System][7]
 - Backend: Python, using [FastAPI][8]
