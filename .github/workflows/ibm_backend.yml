@@ -91,9 +91,9 @@ jobs:
           .spec.template.spec.containers[0].env[0].name="IBM_TONE_ANALYZER_KEY" |
           .spec.template.spec.containers[0].env[0].value=strenv(IBM_TONE_ANALYZER_KEY) |
           .spec.template.spec.containers[0].env[1].name="GOOGLE_SECRET" |  
-          .spec.template.spec.containers[0].env[1].value=strenv(GOOGLE_SECRET)
+          .spec.template.spec.containers[0].env[1].value=strenv(GOOGLE_SECRET) |
           .spec.template.spec.containers[0].env[2].name="DATABASE_IP" |
-          .spec.template.spec.containers[0].env[2].value=strenv(DATABASE_IP)
+          .spec.template.spec.containers[0].env[2].value=strenv(DATABASE_IP) |
           .spec.template.spec.containers[0].env[3].name="ENVIRONMENT" |
           .spec.template.spec.containers[0].env[3].value="production"
         ' deployment.yaml
