@@ -21,23 +21,24 @@ URL:
     - [1.2.1. End user 1: John McNamara](#121-end-user-1-john-mcnamara)
     - [1.2.2. End user 2: IBM Marketing Team](#122-end-user-2-ibm-marketing-team)
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
-  - [1.3. Tech Stack](#13-tech-stack)
-    - [1.3.1. Prerequisites](#131-prerequisites)
-    - [1.3.2. Set up](#132-set-up)
-  - [1.4. Deployment Instructions](#14-deployment-instructions)
-    - [1.4.1. Requirements](#141-requirements)
-    - [1.4.2. Environment and Credentials](#142-environment-and-credentials)
-      - [1.4.2.1. Frontend](#1421-frontend)
-      - [1.4.2.2. Backend](#1422-backend)
-      - [1.4.2.3. Development](#1423-development)
-      - [1.4.2.4. Deployment](#1424-deployment)
-    - [1.4.3. To Deploy](#143-to-deploy)
-      - [1.4.3.1. With Docker Compose](#1431-with-docker-compose)
-    - [1.4.4. Continuous Integration](#144-continuous-integration)
-    - [1.4.5. Continuous Delivery](#145-continuous-delivery)
-  - [1.5. Wikis and Poster](#15-wikis-and-poster)
-    - [1.5.1. Wiki Link](#151-wiki-link)
-    - [1.5.2. CS in the city poster](#152-cs-in-the-city-poster)
+  - [1.3. Ethics](#13-ethics)
+  - [1.4. Tech Stack](#14-tech-stack)
+    - [1.4.1. Prerequisites](#141-prerequisites)
+    - [1.4.2. Set up](#142-set-up)
+  - [1.5. Deployment Instructions](#15-deployment-instructions)
+    - [1.5.1. Requirements](#151-requirements)
+    - [1.5.2. Environment and Credentials](#152-environment-and-credentials)
+      - [1.5.2.1. Frontend](#1521-frontend)
+      - [1.5.2.2. Backend](#1522-backend)
+      - [1.5.2.3. Development](#1523-development)
+      - [1.5.2.4. Deployment](#1524-deployment)
+    - [1.5.3. To Deploy](#153-to-deploy)
+      - [1.5.3.1. With Docker Compose](#1531-with-docker-compose)
+    - [1.5.4. Continuous Integration](#154-continuous-integration)
+    - [1.5.5. Continuous Delivery](#155-continuous-delivery)
+  - [1.6. Wikis and Poster](#16-wikis-and-poster)
+    - [1.6.1. Wiki Link](#161-wiki-link)
+    - [1.6.2. CS in the city poster](#162-cs-in-the-city-poster)
 
 ---
 
@@ -65,9 +66,13 @@ As a software developer, the team would like to create a bot that replies to use
 
 ---
 
-## 1.3. Tech Stack
+## 1.3. Ethics
 
-### 1.3.1. Prerequisites
+---
+
+## 1.4. Tech Stack
+
+### 1.4.1. Prerequisites
 
 The following tech stack was used to build the application:
 
@@ -75,26 +80,26 @@ The following tech stack was used to build the application:
 - Backend: Python, using [FastAPI][8]
 - Database: [mongoDB][11]
 
-### 1.3.2. Set up
+### 1.4.2. Set up
 
 - Clone the repository: `git clone git@github.com:spe-uob/2021-AIWorkflow.git`
 - Follow the guide below to setup for development or deployment, depending on your usage.
 
 ---
 
-## 1.4. Deployment Instructions
+## 1.5. Deployment Instructions
 
-### 1.4.1. Requirements
+### 1.5.1. Requirements
 
-### 1.4.2. Environment and Credentials
+### 1.5.2. Environment and Credentials
 
-#### 1.4.2.1. Frontend
+#### 1.5.2.1. Frontend
 
 The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][link]. 
 
 The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintainning the repository.
 
-#### 1.4.2.2. Backend
+#### 1.5.2.2. Backend
 
 A `.env` file is needed. A `.env.sample` file can be found in `server/`, it should look like this:
 
@@ -112,7 +117,7 @@ To get a Google Secret, a `credentials.json` file is also needed in `server/rout
 
 This is to ensure that the secret is not available to the public. 
 
-#### 1.4.2.3. Development
+#### 1.5.2.3. Development
 
 If you are developing this project, you will need to install the following: 
 
@@ -132,11 +137,11 @@ cd ..
 ```
 
 
-#### 1.4.2.4. Deployment
+#### 1.5.2.4. Deployment
 
 If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
 
-### 1.4.3. To Deploy
+### 1.5.3. To Deploy
 
 The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a React website that will use IBM's NODE-RED library (as requested by the client) in the future. 
 
@@ -148,15 +153,15 @@ There is also a `dongo` container that is the mongoDB database used to store use
 
 For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
 
-#### 1.4.3.1. With Docker Compose
+#### 1.5.3.1. With Docker Compose
 
 Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
-### 1.4.4. Continuous Integration
+### 1.5.4. Continuous Integration
 
 We decided to use GitHub actions that triggers whenever we start a pull request. 
 
-### 1.4.5. Continuous Delivery
+### 1.5.5. Continuous Delivery
 
 We decided to use a GitHub action that triggers whenever we push to main. 
 
@@ -182,13 +187,13 @@ act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMES
 
 ---
 
-## 1.5. Wikis and Poster
+## 1.6. Wikis and Poster
 
-### 1.5.1. Wiki Link
+### 1.6.1. Wiki Link
 
 Our [Wikis][12] contains our developments progress and the achievements and goals for every release version.
 
-### 1.5.2. CS in the city poster
+### 1.6.2. CS in the city poster
 
 Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
 
