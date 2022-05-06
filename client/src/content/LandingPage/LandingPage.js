@@ -15,7 +15,7 @@ const LandingPage = () => {
      {/* <img src={bgpicture} alt="logo" /> */}
      <div className="caption">
         <h1 style={{fontWeight: "bold",fontSize:"50px"}}>
-          AI WORKFLOW INTEGRATION
+          IBM AI WORKFLOW
         </h1>
         <br/>
         
