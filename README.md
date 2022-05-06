@@ -41,13 +41,13 @@ URL:
 
 ##  1.1. Project Brief
 
-"Create a tool which will allow a user to connect a defined set of 3rd party applications and execute actions when conditions have been met e.g. when a tweet containing 'ibm' is detected place content of tweet onto a Google sheet and use Watson tone analyser to determine of tweet was positive or negative on tone. If a positive tweet then place content of tweet onto Google slide."
+"Create a tool which will allow a user to connect a defined set of 3rd party applications and execute actions when conditions have been met e.g. when a tweet containing 'ibm' is detected place content of tweet onto a Google sheet and use Watson tone analyser to determine of tweet was positive or negative on tone. If it is a positive tweet then place the content of tweet onto Google slide."
 
 ---
 
 ## 1.2. User Stories
 
-In this section we document the 3 main users of such an application.
+In this section, we document the 3 main users of such an application.
 
 ### 1.2.1. End user 1: John McNamara
 
@@ -96,9 +96,9 @@ If you are deploying with Docker Compose, then installing Docker and the relevan
 
 #### 1.5.2.1. Frontend
 
-The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][link]. 
+The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][1]. 
 
-The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintainning the repository.
+The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintaining the repository.
 
 #### 1.5.2.2. Backend
 
@@ -185,7 +185,7 @@ The repository should have two secrets:
 1. ICR_NAMESPACE (The namespace of your cluster)
 2. IBM_CLOUD_API_KEY (An API key to access IBM Cloud)
 
-Detailed instructions can found in [the actual action file](/.github/workflows/ibm.yml)
+Detailed instructions can be found in [the actual action file](/.github/workflows/ibm.yml)
 
 **IMPORTANT**: Please run the ibm_cloud_setup.sh shell script prior to running the action.
 
@@ -219,6 +219,7 @@ Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing 
 
 ---
 
+[1]:https://support.google.com/cloud/answer/6158849?hl=en
 [2]:https://reactjs.org
 [3]:https://www.python.org
 [4]:https://docs.docker.com/get-docker/
