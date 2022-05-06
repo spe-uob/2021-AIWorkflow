@@ -151,7 +151,7 @@ For documentation regarding the `frontend`, `backend` and `database`, please con
 
 #### 1.4.3.1. With Docker Compose
 
-Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run. https://support.google.com/cloud/answer/6158849?hl=en
+Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
 
 ### 1.4.4. Continuous Integration
 
