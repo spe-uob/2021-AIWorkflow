@@ -91,7 +91,7 @@ The following tech stack was used to build the application:
 
 #### 1.4.2.1. Frontend
 
-The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console] https://support.google.com/cloud/answer/6158849?hl=en. 
+The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console]. 
 
 The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintaining the repository.
 
