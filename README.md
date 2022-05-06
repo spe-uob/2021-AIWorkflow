@@ -22,19 +22,20 @@ URL:
     - [1.2.1. End user 1: John McNamara](#121-end-user-1-john-mcnamara)
     - [1.2.2. End user 2: IBM Marketing Team](#122-end-user-2-ibm-marketing-team)
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
-  - [1.3. Tech Stack](#13-tech-stack)
-  - [1.4. Deployment Instructions](#14-deployment-instructions)
-    - [1.4.1. Requirements](#141-requirements)
+  - [1.3. Ethics](#13-ethics)
+  - [1.4. Tech Stack](#14-tech-stack)
+  - [1.5. Deployment Instructions](#15-deployment-instructions)
+    - [1.5.1. Requirements](#151-requirements)
     - [1.4.2. Environment and Credentials](#142-environment-and-credentials)
-      - [1.4.2.1. Frontend](#1421-frontend)
-      - [1.4.2.2. Backend](#1422-backend)
+      - [1.5.2.1. Frontend](#1521-frontend)
+      - [1.5.2.2. Backend](#1522-backend)
   - [1.5. Development Instructions](#15-development-instructions)
     - [1.5.1. To Test Development Build](#151-to-test-development-build)
   - [1.6. Continuous Integration](#16-continuous-integration)
   - [1.7. Continuous Delivery](#17-continuous-delivery)
   - [1.8. Wikis and Poster](#18-wikis-and-poster)
     - [1.8.1. Wiki Link](#181-wiki-link)
-    - [1.8.2. CS in the City Poster](#182-cs-in-the-city-poster)
+    - [1.8.2. CS in the city poster](#182-cs-in-the-city-poster)
 
 ---
 
@@ -62,7 +63,13 @@ As a software developer, the team would like to create a bot that replies to use
 
 ---
 
-## 1.3. Tech Stack
+## 1.3. Ethics
+
+Since the project only needs to work on a conceptual level we didn't need to actually collect real tweets. Therefore we've only set a few dummy tweets to showcase functionality, and it is still essential for the ethics approval. You can check the [Ethics.md](./docs/ETHICS.md). Our route is route B specifically because only we and the client can access the functionality.
+
+---
+
+## 1.4. Tech Stack
 
 The following tech stack was used to build the application:
 
@@ -74,9 +81,9 @@ The following tech stack was used to build the application:
 
 ---
 
-## 1.4. Deployment Instructions
+## 1.5. Deployment Instructions
 
-### 1.4.1. Requirements
+### 1.5.1. Requirements
 
 The requirements differ depending on how you are deploying this website. If you are using the **exact same** deployment method as us (using IBM IKS and Ingresses), then the following requirements are required:
 
@@ -87,13 +94,13 @@ If you are deploying with Docker Compose, then installing Docker and the relevan
 
 ### 1.4.2. Environment and Credentials
 
-#### 1.4.2.1. Frontend
+#### 1.5.2.1. Frontend
 
 The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][link]. 
 
 The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintainning the repository.
 
-#### 1.4.2.2. Backend
+#### 1.5.2.2. Backend
 
 A `.env` file is needed. A `.env.sample` file can be found in `server/`, it should look like this:
 
@@ -204,9 +211,9 @@ Other secrets are needed, you can go to the Settings page and see the secrets.
 
 ### 1.8.1. Wiki Link
 
-Our [Wikis][12] contains our developments progress and the achievements and goals for every release version.
+Our [Wikis][12] contains our development progress and the achievements and goals for every release version.
 
-### 1.8.2. CS in the City Poster
+### 1.8.2. CS in the city poster
 
 Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
 
