@@ -96,7 +96,7 @@ If you are deploying with Docker Compose, then installing Docker and the relevan
 
 #### 1.5.2.1. Frontend
 
-The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][16]. 
+The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][1]. 
 
 The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintaining the repository.
 
@@ -219,6 +219,7 @@ Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing 
 
 ---
 
+[1]:https://support.google.com/cloud/answer/6158849?hl=en
 [2]:https://reactjs.org
 [3]:https://www.python.org
 [4]:https://docs.docker.com/get-docker/
@@ -232,5 +233,4 @@ Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing 
 [12]:https://github.com/spe-uob/2021-AIWorkflow.wiki.git
 [13]:https://developers.google.com/identity/protocols/oauth2/web-server
 [14]:https://developer.twitter.com/en/apps/
-[16]:https://support.google.com/cloud/answer/6158849?hl=en
 [15]:https://kubernetes.io/docs/tasks/tools/
