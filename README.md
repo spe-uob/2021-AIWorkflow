@@ -33,9 +33,9 @@ URL:
     - [1.5.1. To Test Development Build](#151-to-test-development-build)
   - [1.6. Continuous Integration](#16-continuous-integration)
   - [1.7. Continuous Delivery](#17-continuous-delivery)
-  - [1.6. Wikis and Poster](#16-wikis-and-poster)
-    - [1.6.1. Wiki Link](#161-wiki-link)
-    - [1.6.2. CS in the city poster](#162-cs-in-the-city-poster)
+  - [1.8. Wikis and Poster](#18-wikis-and-poster)
+    - [1.8.1. Wiki Link](#181-wiki-link)
+    - [1.8.2. CS in the city poster](#182-cs-in-the-city-poster)
 
 ---
 
@@ -207,13 +207,13 @@ Other secrets are needed, you can go to the Settings page and see the secrets.
 
 ---
 
-## 1.6. Wikis and Poster
+## 1.8. Wikis and Poster
 
-### 1.6.1. Wiki Link
+### 1.8.1. Wiki Link
 
 Our [Wikis][12] contains our development progress and the achievements and goals for every release version.
 
-### 1.6.2. CS in the city poster
+### 1.8.2. CS in the city poster
 
 Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing client userstories, problems we encountered, approaches to solve them and some screenshots about our program.
 
