@@ -91,7 +91,7 @@ The following tech stack was used to build the application:
 
 #### 1.4.2.1. Frontend
 
-The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console]. 
+The `const CLIENT_ID`  in `client/src/settings.js` has to be changed to your own OAuth Client ID, which you can learn more about [Google's Cloud Console][15]. 
 
 The return value for `function API_DOMAIN()` must also be changed to your desired host for the backend. The default one is for testing only and is not available to anyone to use except those maintaining the repository.
 
@@ -208,3 +208,4 @@ Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing 
 [12]:https://github.com/spe-uob/2021-AIWorkflow.wiki.git
 [13]:https://developers.google.com/identity/protocols/oauth2/web-server
 [14]:https://developer.twitter.com/en/apps/
+[15]:https://support.google.com/cloud/answer/6158849?hl=en
