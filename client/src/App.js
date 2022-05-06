@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import LandingPage from './content/LandingPage';
 
-import LoginPage from './content/LoginPage';
+import ProfilePage from './content/ProfilePage';
 import WorkflowPage from './content/WorkflowPage';
 import CookieConsent from "react-cookie-consent";
 
@@ -21,7 +21,7 @@ class App extends Component {
           <Routes basename="/">
             <Route exact path="/" element={<LandingPage/>}/>
            
-            <Route path="/profile" element={<LoginPage/>}/>
+            <Route path="/profile" element={<ProfilePage/>}/>
             <Route path="/workflow" element={<WorkflowPage/>}/>
           </Routes>
         </Content>

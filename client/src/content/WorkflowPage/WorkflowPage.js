@@ -1,4 +1,4 @@
-import { React, useState} from "react";
+import { React, useEffect, useState} from "react";
 import { Navigate } from 'react-router-dom';
 import { useRete } from "./rete";
 import {Button}  from 'carbon-components-react';
@@ -6,6 +6,40 @@ import { CORS, API_DOMAIN } from '../../settings';
 import "./_workflow-page.scss";
 
 import cookie from "json-cookie";
+
+function onLoad(){
+  console.log("fetching workflow from backend");
+  const userId = cookie.get("googleObj").id
+  const params = {
+      user_id: userId,
+  },
+  url = new URL(API_DOMAIN()+'/workflow/get');
+  url.search = new URLSearchParams(params).toString();
+  fetch(url, {
+      method: 'GET',
+      mode: CORS,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cookie.get('googleObj').code
+      }
+    }).then((async (response) => {
+      const data = await response.json();
+      if (data.success){
+        if (data.data.workflows.length !== 0){
+          const workflow = data.data.workflows[data.data.workflows.length-1];
+          delete workflow._id;
+          delete workflow.user_id;
+          delete workflow.created;
+          console.log("workflows loaded");
+          sessionStorage.setItem("workflowObj", JSON.stringify(workflow));
+        } else {
+          console.log("no workflows found");
+          console.log(sessionStorage.getItem("workflowObj"));
+        }
+      }
+    }))
+}
 
 function Editor() {
   const [setContainer] = useRete();
@@ -22,7 +56,13 @@ function WorkflowPage() {
   const [runEnabled, setRunEnabled] = useState(false);
   const [saveEnabled, setSaveEnabled] = useState(false);
 
-  function runWorkflow(obj){
+  useEffect (()=>{
+    onLoad();
+  }, []);
+    
+  
+
+  function runWorkflow(){
     setRunEnabled(true);
     alert("the workflow is running, you will get a notification when it is complete.");
     console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
@@ -49,15 +89,26 @@ function WorkflowPage() {
     )
   }
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   async function saveWorkflow(){
     setSaveEnabled(true);
-    //TODO Add request, using sleep to imitate workflow
-    await sleep(2000);
-    setSaveEnabled(false);
+    console.log(JSON.parse(sessionStorage.getItem("workflowObj")));
+    const workflowObj = JSON.parse(sessionStorage.getItem("workflowObj"))
+    const userId = cookie.get("googleObj").id
+    fetch(API_DOMAIN()+'/workflow/save', {
+      method: 'POST',
+      mode: CORS,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cookie.get('googleObj').code
+      },
+      body: JSON.stringify({'user_id': userId, 'workflow': workflowObj})
+    }).then((async (response) => {
+      const data = await response.json();
+      console.log(data);
+      setSaveEnabled(false);
+    })
+    )
   } 
  
   if (cookie.get("googleObj") === "") {

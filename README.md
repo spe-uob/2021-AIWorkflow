@@ -1,21 +1,22 @@
-# 1. AI Workflow Integration
+# 1. AI Workflow
 
 ![Backend Tests](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/backend_ci_test.yml/badge.svg)
 ![Frontend Tests](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/frontend_ci_test.yml/badge.svg)
 ![Python Formatting](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/black.yml/badge.svg)
 ![Deploy Frontend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_frontend.yml/badge.svg)
 ![Deploy Backend to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_backend.yml/badge.svg)
+![Deploy Database to IBM Cloud](https://github.com/spe-uob/2021-AIWorkflow/actions/workflows/ibm_database.yml/badge.svg)
 
 URL: 
 
 > https://ai-workflow.classroom-eu-gb-1-bx2-4x1-d4ceb080620f0ec34cd169ad110144ef-0000.eu-gb.containers.appdomain.cloud
 
-![beta_app](readme_assets/beta_website.png)
+![final_app](readme_assets/final_website.png)
 
 
 ---
 
-- [1. AI Workflow Integration](#1-ai-workflow-integration)
+- [1. AI Workflow](#1-ai-workflow)
   - [1.1. Project Brief](#11-project-brief)
   - [1.2. User Stories](#12-user-stories)
     - [1.2.1. End user 1: John McNamara](#121-end-user-1-john-mcnamara)
@@ -23,19 +24,15 @@ URL:
     - [1.2.3. End user 3: IBM Software Developers](#123-end-user-3-ibm-software-developers)
   - [1.3. Ethics](#13-ethics)
   - [1.4. Tech Stack](#14-tech-stack)
-    - [1.4.1. Prerequisites](#141-prerequisites)
-    - [1.4.2. Set up](#142-set-up)
   - [1.5. Deployment Instructions](#15-deployment-instructions)
     - [1.5.1. Requirements](#151-requirements)
-    - [1.5.2. Environment and Credentials](#152-environment-and-credentials)
+    - [1.4.2. Environment and Credentials](#142-environment-and-credentials)
       - [1.5.2.1. Frontend](#1521-frontend)
       - [1.5.2.2. Backend](#1522-backend)
-      - [1.5.2.3. Development](#1523-development)
-      - [1.5.2.4. Deployment](#1524-deployment)
-    - [1.5.3. To Deploy](#153-to-deploy)
-      - [1.5.3.1. With Docker Compose](#1531-with-docker-compose)
-    - [1.5.4. Continuous Integration](#154-continuous-integration)
-    - [1.5.5. Continuous Delivery](#155-continuous-delivery)
+  - [1.5. Development Instructions](#15-development-instructions)
+    - [1.5.1. To Test Development Build](#151-to-test-development-build)
+  - [1.6. Continuous Integration](#16-continuous-integration)
+  - [1.7. Continuous Delivery](#17-continuous-delivery)
   - [1.6. Wikis and Poster](#16-wikis-and-poster)
     - [1.6.1. Wiki Link](#161-wiki-link)
     - [1.6.2. CS in the city poster](#162-cs-in-the-city-poster)
@@ -54,7 +51,7 @@ In this section we document the 3 main users of such an application.
 
 ### 1.2.1. End user 1: John McNamara
 
-As an individual in IBM, John wants to find out what people are saying about the company on Twitter and present his findings. He would like a tool where he can configure actions on a website, where he asks the website to go on Twitter and grab tweets relating to IBM and sends it to the Tone analyser and sort them into different slides. For example, when an IBM customer posts a tweet compaining that the IBM Cloud does not work well sometimes, the application automatically recoginze its tone and put it into the pile of slides where the user is sad.
+As an individual in IBM, John wants to find out what people are saying about the company on Twitter and present his findings. He would like a tool where he can configure actions on a website, where he asks the website to go on Twitter and grab tweets relating to IBM and sends it to the Tone analyser and sort them into different slides. For example, when an IBM customer posts a tweet complaining that the IBM Cloud does not work well sometimes, the application automatically recoginze its tone and put it into the pile of slides where the user is sad.
 
 ### 1.2.2. End user 2: IBM Marketing Team
 
@@ -74,18 +71,13 @@ Since the project only needs to work on a conceptual level we didn't need to act
 
 ## 1.4. Tech Stack
 
-### 1.4.1. Prerequisites
-
 The following tech stack was used to build the application:
+
+![stack_diagram](readme_assets/system_diagram.png)
 
 - Frontend: React, using [IBM's Carbon Design System][7]
 - Backend: Python, using [FastAPI][8]
 - Database: [mongoDB][11]
-
-### 1.4.2. Set up
-
-- Clone the repository: `git clone git@github.com:spe-uob/2021-AIWorkflow.git`
-- Follow the guide below to setup for development or deployment, depending on your usage.
 
 ---
 
@@ -93,7 +85,14 @@ The following tech stack was used to build the application:
 
 ### 1.5.1. Requirements
 
-### 1.5.2. Environment and Credentials
+The requirements differ depending on how you are deploying this website. If you are using the **exact same** deployment method as us (using IBM IKS and Ingresses), then the following requirements are required:
+
+- Install [kubectl][15]
+- Clone the repository: `git clone git@github.com:spe-uob/2021-AIWorkflow.git`
+
+If you are deploying with Docker Compose, then installing Docker and the relevant Compose libraries will be sufficient.
+
+### 1.4.2. Environment and Credentials
 
 #### 1.5.2.1. Frontend
 
@@ -109,6 +108,7 @@ A `.env` file is needed. A `.env.sample` file can be found in `server/`, it shou
 TWITTER_BEARER_TOKEN=""
 IBM_TONE_ANALZER_KEY=""
 GOOGLE_SECRET=""
+DATABASE_IP=""
 ```
 
 To get a twitter bearer token, go to [Twitter's Developer Portal][14] and create an app. Once you have created an app, go to the "Keys and Access Tokens" tab and click "Create my access token". Copy the "Bearer Token" and paste it into the `.env` file. 
@@ -117,9 +117,13 @@ The IBM Tone Analyser API key can be generated by going to the IBM Cloud website
 
 To get a Google Secret, a `credentials.json` file is also needed in `server/routers/internal/`, you can also follow this [guide][13], rename the file and put it in the aforementioned directory. Change the value in `.web.client_secret` to null and put the value in `GOOGLE_SECRET` in the `.env` file. 
 
+The Database IP secret is the IP of the database used in production.
+
 This is to ensure that the secret is not available to the public. 
 
-#### 1.5.2.3. Development
+---
+
+## 1.5. Development Instructions
 
 If you are developing this project, you will need to install the following: 
 
@@ -138,14 +142,20 @@ cd server && pip3 install -r requirements.txt
 cd ..
 ```
 
+### 1.5.1. To Test Development Build
 
-#### 1.5.2.4. Deployment
+Running the `./make_compose.sh` script will create a Docker Compose network and build the needed containers to run the app, along with any dependency that is needed.
 
-If you simply want to run the application, you can just download Docker Desktop and/or Docker + Docker Compose.
+```sh
+./make_compose.sh
+```
 
-### 1.5.3. To Deploy
+The script creates a Compose network that has three containers -- `frontend`, `backend` and `database`. The `frontend` container is a React website with Sign in with Google services + a flow-based programming tool called Rete.js. 
 
-The script creates a Compose network that has two containers -- frontend and backend. The `frontend` container is a React website that will use IBM's NODE-RED library (as requested by the client) in the future. 
+By default the containers run on the following port:
+- `frontend`: 8080
+- `backend`: 5001
+- `database`: 27017
 
 For the Beta it displays a website that is created using React, built on [IBM's Carbon Design System][7]. The forms allows you to run a default workflow.
 
@@ -153,17 +163,21 @@ The `backend` container is a python [FastAPI][8] REST application that will be u
 
 There is also a `dongo` container that is the mongoDB database used to store user data. The reason it is called dongo is due to Mitch was thinking docker and mongo together, therefore misspeaking and said the word 'dongo' instead of 'mongo'.
 
-For documentation regarding the `frontend` and `backend`, please consult the [`docs`][9] folder.
+For documentation regarding the `frontend`, `backend` and `database`, please consult the [`docs`][9] folder.
 
-#### 1.5.3.1. With Docker Compose
+---
 
-Simply run `./make_compose.sh` in a bash shell and go to http://localost:8080, the application should run.
+## 1.6. Continuous Integration
 
-### 1.5.4. Continuous Integration
+We decided to use GitHub actions that triggers whenever we start a pull request into `main` and `stable`. 
 
-We decided to use GitHub actions that triggers whenever we start a pull request. 
+There are two tests, one for the frontend and one for the backend.
 
-### 1.5.5. Continuous Delivery
+Tests can be found in `client/App.test.js` and `server/test_application.py`.
+
+---
+
+## 1.7. Continuous Delivery
 
 We decided to use a GitHub action that triggers whenever we push to main. 
 
@@ -179,13 +193,17 @@ Detailed instructions can found in [the actual action file](/.github/workflows/i
 ./ibm_cloud_setup.sh <REGISTRY_HOSTNAME> <IBM_CLOUD_API_KEY> <ICR_NAMESPACE>
 ```
 
-The action builds three images and containers (one for each service detailed above) and pushes it to IBM's IKS where our client can access the platform.
+The action builds three images (one for each service detailed above) and pushes it to IBM's IKS where our client can access the platform.
 
 To test locally, use [act][10]:
 
 ```sh
-act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx"
+act -j <job> --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMESPACE="xxx" 
 ```
+
+To find out available jobs, type `act -l`.
+
+Other secrets are needed, you can go to the Settings page and see the secrets. 
 
 ---
 
@@ -193,7 +211,7 @@ act --container-architecture linux/amd64 -s IBM_CLOUD_API_KEY="xxx" -s ICR_NAMES
 
 ### 1.6.1. Wiki Link
 
-Our [Wikis][12] contains our developments progress and the achievements and goals for every release version.
+Our [Wikis][12] contains our development progress and the achievements and goals for every release version.
 
 ### 1.6.2. CS in the city poster
 
@@ -214,3 +232,4 @@ Our [poster](/ai-workflow-poster.pdf) is an overview of our project, containing 
 [12]:https://github.com/spe-uob/2021-AIWorkflow.wiki.git
 [13]:https://developers.google.com/identity/protocols/oauth2/web-server
 [14]:https://developer.twitter.com/en/apps/
+[15]:https://kubernetes.io/docs/tasks/tools/
